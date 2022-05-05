@@ -26,3 +26,13 @@
 .content {
     min-height: calc( 100vh - 64px);
 }
+
+.sub-title {
+
+    font-size: 30px;
+    font-weight: 700;
+    color: white;
+
+    padding-top: 10px;
+    padding-left: 10%;
+}

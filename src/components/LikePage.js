@@ -1,5 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { Row, Col, Space } from "antd";
+import { Typography } from 'antd';
+
+const { Title } = Typography;
+
 
 function LikePage(props) {
     // att: why useRef?
@@ -49,11 +53,11 @@ function LikePage(props) {
                         </div>
 
                         <div className="like-content-default">
-                            Directors: {d["directors"]}
+                            Directors: {d["directors"].join(' ')}
                         </div>
 
                         <div className="like-content-default">
-                            Actors: {d["actors"]}
+                            Actors: {d["actors"].join(' ')}
                         </div>
                     </div>
                 </Col>
@@ -95,6 +99,7 @@ function LikePage(props) {
 
     return (
         <div className="bg-2">
+            <div className="sub-title"> Your Likes </div>
             <div className="like-list">{renderLikes}</div>
         </div>
     );
