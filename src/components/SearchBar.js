@@ -69,7 +69,7 @@ function SearchBar(props) {
             // note: change color and style
             console.log(svg.style)
             // svg.style.color = "red";
-            svg.classList.add('fa-beat')
+            svg.classList.add('fa-beat-fade')
 
         } else {
             console.log('listening is off.')
@@ -77,7 +77,7 @@ function SearchBar(props) {
             // note: change color and style
             console.log(svg.style)
             svg.style.color = "black";
-            svg.classList.remove('fa-beat')
+            svg.classList.remove('fa-beat-fade')
 
             // note: set voice text
             $('#search-bar').val(transcript)
@@ -104,8 +104,8 @@ function SearchBar(props) {
 
     return (
             <Search id="search-bar"
-                    placeholder="input search text"
-                    enterButton="Search"
+                    placeholder="Enter Input"
+                    enterButton
                     size="large"
                     suffix={suffix}
                     onSearch={onSearch}

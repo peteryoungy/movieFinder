@@ -15,7 +15,7 @@ function App() {
           <Main/>
       </Content>
 
-      <Footer>Footer</Footer>
+      {/* <Footer>Footer</Footer> */}
     </Layout>
   );
 }

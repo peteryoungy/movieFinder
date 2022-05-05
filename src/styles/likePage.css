@@ -1,0 +1,42 @@
+.like-img {
+
+    height: 85px;
+    width: 60px;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 3px;
+}
+
+.like-list {
+
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.like-card {
+    margin-top: 10px;
+
+    background-color: #121212;
+    color: white;
+}
+
+.like-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.like-content-title {
+
+    color: #238EDC;
+    font-weight: 600;
+    font-size: 20px;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.like-content-default {
+
+    font-size: 14px;
+}

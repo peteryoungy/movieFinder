@@ -1,33 +1,32 @@
 import React, { useEffect } from "react";
 import { Layout, Input, Row, Col, Button, Menu, Dropdown, Space } from "antd";
-import { SearchOutlined, AudioOutlined, DownOutlined } from "@ant-design/icons";
+import { SearchOutlined, AudioOutlined, DownOutlined, WindowsFilled } from "@ant-design/icons";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import SearchBar from "./SearchBar";
 
 
 const { Header, Footer, Sider, Content } = Layout;
-const { Search } = Input;
 
-const suffix = (
-    <AudioOutlined
-        style={{
-            fontSize: 16,
-            color: "#000000",
-        }}
-    />
-);
+// const suffix = (
+//     <AudioOutlined
+//         style={{
+//             fontSize: 16,
+//             color: "#000000",
+//         }}
+//     />
+// );
 
 function TopBar(props) {
-    const isLoggedIn = false;
+    const isLoggedIn = true;
 
     const items = [
         {
-            label: "Option 1",
-            key: "setting:1",
+            label: "Likes",
+            key: "1",
         },
         {
-            label: "Option 2",
-            key: "setting:2",
+            label: "Logout",
+            key: "2",
         },
     ];
     
@@ -35,6 +34,14 @@ function TopBar(props) {
 
     function handleMenuClick(e) {
         console.log("click", e);
+
+        if(e.key === '1'){
+            window.location.href = '/likes'
+        }
+
+        if(e.key === '2'){
+            // todo: set logout
+        }
     }
 
     useEffect(()=> {
@@ -74,7 +81,7 @@ function TopBar(props) {
                     {isLoggedIn ? 
                     (
                         <Dropdown overlay={menu}>
-                            <Button>
+                            <Button type="primary">
                                 <Space>
                                     Account
                                     <DownOutlined />

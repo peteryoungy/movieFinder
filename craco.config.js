@@ -11,7 +11,8 @@ module.exports = {
                             '@primary-color': '#f5c518',
                             '@layout-header-background': '#000000',
                             '@layout-header-color': '#f5c518',
-                            // '@layout-header-height': '80px'
+                            // '@layout-header-height': '80px',
+                            // '@dropdown-menu-bg': '#000000'
                         },
                         javascriptEnabled: true,
                     },
