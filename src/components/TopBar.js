@@ -49,7 +49,7 @@ function TopBar(props) {
         const title = document.getElementById('title')
 
         title.addEventListener('pointerenter', () => {
-            title.classList.add('title-hover')
+            title.classList.add('pointer')
         })
 
         title.addEventListener('click', () => {
@@ -57,6 +57,7 @@ function TopBar(props) {
         })
 
         return ()=>{
+            // todo: give name
             title.removeEventListener('pointerenter')
             title.removeEventListener('click')
         }

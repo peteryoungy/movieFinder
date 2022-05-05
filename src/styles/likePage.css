@@ -12,13 +12,16 @@
 
     margin-left: 10%;
     margin-right: 10%;
+
+    padding-top: 10px;
 }
 
 .like-card {
-    margin-top: 10px;
 
     background-color: #121212;
     color: white;
+
+    margin-bottom: 10px;
 }
 
 .like-content {

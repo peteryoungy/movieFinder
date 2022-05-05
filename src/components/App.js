@@ -11,7 +11,7 @@ function App() {
       
           <TopBar/>
       
-      <Content>
+      <Content className='content'>
           <Main/>
       </Content>
 

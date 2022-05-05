@@ -62,32 +62,33 @@ function LikePage(props) {
             </Row>
         </div>
     ));
+    
+    const addEventClick = (item) => {
+        // console.log("navigate to", item.getAttribute("data-id"));
+        // todo: build url
+        // window.location.href = '/movie/' + item.getAttribute('data-id')
 
+    }
     useEffect(() => {
         const titles = document.getElementsByClassName("like-content-title");
-        console.log(titles);
+        // console.log(titles);
 
         for (let i = 0; i < titles.length; i++) {
             // console.log('item', titles[i])
             let item = titles[i]
 
             item.classList.add("pointer");
-            item.addEventListener("click", () => {
-                console.log("navigate to", item.getAttribute("data-id"));
-                // todo: build url
-                // window.location.href = '/movie/' + item.getAttribute('data-id')
-            });
+            item.addEventListener("click", addEventClick(item));
         }
 
         return () => {
             const titles = document.getElementsByClassName("like-content-title");
 
-            
             for (let i = 0; i < titles.length; i++) {
                 let item = titles[i]
-                
+
                 item.classList.remove("pointer");
-                item.removeEventListener("click");
+                item.removeEventListener("click", addEventClick(item));
             }
         };
     }, []);

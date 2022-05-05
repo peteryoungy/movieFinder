@@ -1,0 +1,28 @@
+.App {
+  text-align: center;
+}
+
+.bg-2 {
+    /* background-color: aquamarine; */
+
+    background-image: url("../assets/images/bg_purple.jpg");
+
+    z-index: -999;
+    /* position: absolute; */
+    top: 0px;
+    left: 0px;
+    right: 0;
+    bottom: 0;
+    background-size: 100% 100%;
+
+    min-height: calc( 100vh - 64px);
+}
+
+.pointer {
+
+    cursor: pointer;
+}
+
+.content {
+    min-height: calc( 100vh - 64px);
+}
