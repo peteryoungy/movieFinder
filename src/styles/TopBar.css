@@ -1,0 +1,18 @@
+
+.midd {
+
+    display: flex !important;
+    align-items: center;
+
+    /* display: inline-block !important;
+    vertical-align: middle; */
+}
+
+.title{
+
+    margin-right: 10px;
+    
+    font-size: 20px;
+    font-weight: 600;
+
+}
