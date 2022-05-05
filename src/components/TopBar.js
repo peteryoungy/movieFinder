@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import { Layout, Input, Row, Col, Button, Menu, Dropdown, Space } from "antd";
 import { SearchOutlined, AudioOutlined, DownOutlined, WindowsFilled } from "@ant-design/icons";
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import SearchBar from "./SearchBar";
 
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header} = Layout;
 
 // const suffix = (
 //     <AudioOutlined

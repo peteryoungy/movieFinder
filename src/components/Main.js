@@ -17,8 +17,8 @@ function Main(props) {
             <Route path="/login" component = {Login}/>
             <Route path="/register" component = {Register}/>
             <Route path="/likes" component = {LikePage}/>
-            <Route path="/movie" component = {MovieDetail}/>
-            <Route path="/cinema" component = {CinemeDetail}/>
+            <Route path="/movie/:movie_id" component = {MovieDetail}/>
+            <Route path="/cinema/:cinema_id" component = {CinemeDetail}/>
 
         </Switch>
     );

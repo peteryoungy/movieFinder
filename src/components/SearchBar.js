@@ -3,8 +3,7 @@ import {Col, Row, Input, Button} from "antd";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { solid, regular, brands } from '@fortawesome/fontawesome-svg-core/import.macro'
-import { faCoffee,faMicrophoneLines } from '@fortawesome/free-solid-svg-icons'
+import { faMicrophoneLines } from '@fortawesome/free-solid-svg-icons'
 
 import $ from 'jquery'
 

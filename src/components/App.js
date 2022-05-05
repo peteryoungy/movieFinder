@@ -3,7 +3,7 @@ import TopBar from './TopBar';
 import Main from './Main';
 
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Footer, Content } = Layout;
 
 function App() {
   return (

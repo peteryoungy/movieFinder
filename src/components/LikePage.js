@@ -67,10 +67,13 @@ function LikePage(props) {
         </div>
     ));
     
-    const addEventClick = (item) => {
-        // console.log("navigate to", item.getAttribute("data-id"));
-        // todo: build url
-        // window.location.href = '/movie/' + item.getAttribute('data-id')
+    const responseTitleClick = (e) => {
+
+        // att: what is e?
+        // console.log('e', e)
+        console.log("navigate to", e.target.getAttribute("data-id")); 
+
+        window.location.href = '/movie/' + e.target.getAttribute('data-id')
 
     }
     useEffect(() => {
@@ -82,7 +85,7 @@ function LikePage(props) {
             let item = titles[i]
 
             item.classList.add("pointer");
-            item.addEventListener("click", addEventClick(item));
+            item.addEventListener("click", responseTitleClick);
         }
 
         return () => {
@@ -92,7 +95,7 @@ function LikePage(props) {
                 let item = titles[i]
 
                 item.classList.remove("pointer");
-                item.removeEventListener("click", addEventClick(item));
+                item.removeEventListener("click", responseTitleClick);
             }
         };
     }, []);
