@@ -102,6 +102,7 @@ function LikePage(props) {
 
     return (
         <div className="bg-2">
+            <br/>
             <div className="sub-title"> Your Likes </div>
             <div className="like-list">{renderLikes}</div>
         </div>
