@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Image, Rate } from "antd";
+import { Row, Col, Image, Rate, Tag} from "antd";
 import { useParams } from "react-router-dom";
 import { EnvironmentOutlined } from "@ant-design/icons";
 
@@ -62,7 +62,7 @@ function MovieDetail(props) {
             alert("Sorry Not available!");
         }
 
-        // note: 2. 
+        // note: 2. Register Card Events
 
         const cards = document.getElementsByClassName('detail-list-card')
 
@@ -74,24 +74,37 @@ function MovieDetail(props) {
             cards[i].addEventListener('mouseup', responseCardUp, true)
             cards[i].addEventListener('click', responseCardClick, true)
         }
+
+        return () => {
+            const cards = document.getElementsByClassName('detail-list-card')
+
+            for(let i = 0; i < cards.length; i++){
+    
+                cards[i].removeEventListener('mouseenter', responseCardEnter)
+                cards[i].removeEventListener('mouseleave', responseCardLeave)
+                cards[i].removeEventListener('mousedown', responseCardDown, true)
+                cards[i].removeEventListener('mouseup', responseCardUp, true)
+                cards[i].removeEventListener('click', responseCardClick, true)
+            }
+        }
     }, []);
 
     const responseCardEnter = (e) => {
 
-        // console.log('target', e.target)
+        console.log('target', e.target)
         e.target.classList.add('primary-hover')
     }
 
     const responseCardLeave = (e) => {
 
-        // console.log('target', e.target)
+        console.log('target', e.target)
         e.target.classList.remove('primary-hover')
         e.target.classList.remove('primary-active')
     }
 
     const responseCardDown = (e) => {
         const parent = e.target.closest('.detail-list-card');
-        // console.log('parent', parent)
+        console.log('parent', parent)
 
         parent.classList.add('primary-active')
         e.stopPropagation()
@@ -100,7 +113,7 @@ function MovieDetail(props) {
     const responseCardUp = (e) => {
 
         const parent = e.target.closest('.detail-list-card');
-        // console.log('parent', parent)
+        console.log('parent', parent)
 
         parent.classList.remove('primary-active')
         e.stopPropagation()
@@ -108,7 +121,7 @@ function MovieDetail(props) {
 
     const responseCardClick = (e) => {
 
-        // console.log('event', e)
+        console.log('event', e)
         // console.log('target', e.target)
 
         const parent = e.target.closest('.detail-list-card');
@@ -156,7 +169,7 @@ function MovieDetail(props) {
     };
 
     const displayCinemaList = response.body.cinemas.map((cinema) => (
-        <div className="detail-list-card" key={cinema["inemaId"]} data-id={cinema.inemaId}>
+        <div className="pointer detail-list-card" key={cinema["inemaId"]} data-id={cinema.inemaId}>
             <Row className="padding-left">
                 <Col span={20}>
                     <span className="bold-600"> {cinema.cinemaName}</span>
@@ -172,7 +185,7 @@ function MovieDetail(props) {
             </Row>
             <Row className="padding-left">
                 <Col>
-                    <span className="detail-sub-title"> {cinema.address} </span>
+                    <span className="detail-small detail-sub-title"> {cinema.address} </span>
                 </Col>
             </Row>
         </div>
@@ -180,7 +193,7 @@ function MovieDetail(props) {
     return (
         <div className="bg-1">
             <br />
-            <div className="movie-detail-div">
+            <div className="detail-div">
                 <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                     <Col span={8}>
                         <img
@@ -191,8 +204,10 @@ function MovieDetail(props) {
 
                     <Col span={14}>
                         <div>
+
                             <div className="detail detail-title">
-                                {response.body.movieName}
+                                <span className="span-padding-right-10"> {response.body.movieName}</span>
+                                <Tag color={"lime"} className='detail'> Movie </Tag>
                             </div>
 
                             <div className="detail detail-sub-title">
