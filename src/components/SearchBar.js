@@ -43,6 +43,10 @@ function SearchBar(props) {
 
 
     useEffect(() => {
+
+        // console.log('aws api key', process.env['REACT_APP_AWS_API_KEY'])
+        // console.log('google api key', process.env["REACT_APP_GOOGLE_API_KEY"])
+
         let svg = document.getElementById('svg')
         svg.addEventListener('click', voice_icon_onclick)
         svg.addEventListener('mouseover', voice_icon_mouseover)
