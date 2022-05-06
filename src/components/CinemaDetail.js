@@ -669,5 +669,4 @@ function CinemaDetail(props) {
     );
 }
 
-// AIzaSyAaKkb2pIZIXeWttxa1L_yLsJzXudprD3o
 export default CinemaDetail;
