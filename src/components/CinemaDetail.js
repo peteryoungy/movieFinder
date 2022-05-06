@@ -359,11 +359,14 @@ function CinemaDetail(props) {
 
         let dateObj = new Date();
         dateObj.setDate(dateObj.getDate() + offset);
+        console.log('dateObj', dateObj)
 
         let date_str = `${dateObj.getFullYear()}-${formatTwoDigitCode(
             dateObj.getMonth() + 1
-        )}-${formatTwoDigitCode(dateObj.getDay() + 1)}`;
-        console.log("date_str", date_str);
+        )}-${formatTwoDigitCode(dateObj.getDate())}`;
+
+        // console.log('day', dateObj.getDate())
+        // console.log("date_str", date_str);
 
         return date_str;
         // console.log('today_iso', today.toISOString()) // att: only UTC supported
@@ -373,11 +376,86 @@ function CinemaDetail(props) {
         // console.log('day', today.getDay())
     };
 
+    useEffect(() => {
+
+        // getDateByOffset(2)
+
+        console.log('day after tomorrow', getDateByOffset(2))
+        // note: 2. Register Card Events
+
+        const cards = document.getElementsByClassName('detail-list-card')
+
+        for(let i = 0; i < cards.length; i++){
+
+            cards[i].addEventListener('mouseenter', responseCardEnter)
+            cards[i].addEventListener('mouseleave', responseCardLeave)
+            cards[i].addEventListener('mousedown', responseCardDown, true)
+            cards[i].addEventListener('mouseup', responseCardUp, true)
+            cards[i].addEventListener('click', responseCardClick, true)
+        }
+
+        return () => {
+            const cards = document.getElementsByClassName('detail-list-card')
+
+            for(let i = 0; i < cards.length; i++){
+    
+                cards[i].removeEventListener('mouseenter', responseCardEnter)
+                cards[i].removeEventListener('mouseleave', responseCardLeave)
+                cards[i].removeEventListener('mousedown', responseCardDown, true)
+                cards[i].removeEventListener('mouseup', responseCardUp, true)
+                cards[i].removeEventListener('click', responseCardClick, true)
+            }
+        }
+    }, []);
+
+    const responseCardEnter = (e) => {
+
+        console.log('target', e.target)
+        e.target.classList.add('primary-hover')
+    }
+
+    const responseCardLeave = (e) => {
+
+        console.log('target', e.target)
+        e.target.classList.remove('primary-hover')
+        e.target.classList.remove('primary-active')
+    }
+
+    const responseCardDown = (e) => {
+        const parent = e.target.closest('.detail-list-card');
+        console.log('parent', parent)
+
+        parent.classList.add('primary-active')
+        e.stopPropagation()
+    }
+
+    const responseCardUp = (e) => {
+
+        const parent = e.target.closest('.detail-list-card');
+        console.log('parent', parent)
+
+        parent.classList.remove('primary-active')
+        e.stopPropagation()
+    }
+
+    const responseCardClick = (e) => {
+
+        console.log('event', e)
+        // console.log('target', e.target)
+
+        const parent = e.target.closest('.detail-list-card');
+        console.log('parent', parent)
+
+        let movie_id = parent.getAttribute('data-id')
+        console.log('cinema_id', movie_id)
+        window.location.href = '/movie/' + movie_id
+    }
+
     const displayContent = (order) => {
         console.log("order", order);
 
         return response["showtime"][order].map((movie) => (
-            <div className="detail-list-card">
+            <div className="pointer detail-list-card" key={movie["id"]} data-id={movie.id}>
                 <Row className="padding-left">
                     <Col>
                         <span className="bold-600 span-padding-right-20"> {movie.title}</span>
@@ -389,8 +467,8 @@ function CinemaDetail(props) {
                 <Row className="padding-left">
                     <Col>
                         <div className="detail-sub-title">
-                            {movie.times.map((slot) => (
-                                <span className="span-padding-right-10">{slot.start_time}</span>
+                            {movie.times.map((slot, index) => (
+                                <span className="span-padding-right-10" key={index}>{slot.start_time}</span>
                             ))}
                         </div>
                     </Col>
@@ -446,10 +524,16 @@ function CinemaDetail(props) {
                                         
                                     </TabPane>
                                     <TabPane tab={getDateByOffset(1)} key="2">
-                                        {displayContent(1)}
+                                        {/* {displayContent(1)} */}
+                                        <div className="detail-movie-list">
+                                            {displayContent(1)}
+                                        </div>
                                     </TabPane>
                                     <TabPane tab={getDateByOffset(2)} key="3">
-                                        {displayContent(2)}
+                                        {/* {displayContent(2)} */}
+                                        <div className="detail-movie-list">
+                                            {displayContent(2)}
+                                        </div>
                                     </TabPane>
                                 </Tabs>
                             </div>
