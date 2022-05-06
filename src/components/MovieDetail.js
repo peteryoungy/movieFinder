@@ -68,10 +68,10 @@ function MovieDetail(props) {
 
         for(let i = 0; i < cards.length; i++){
 
-            cards[i].addEventListener('mouseenter', responseCardEnter)
-            cards[i].addEventListener('mouseleave', responseCardLeave)
-            cards[i].addEventListener('mousedown', responseCardDown, true)
-            cards[i].addEventListener('mouseup', responseCardUp, true)
+            // cards[i].addEventListener('mouseenter', responseCardEnter)
+            // cards[i].addEventListener('mouseleave', responseCardLeave)
+            // cards[i].addEventListener('mousedown', responseCardDown, true)
+            // cards[i].addEventListener('mouseup', responseCardUp, true)
             cards[i].addEventListener('click', responseCardClick, true)
         }
 
@@ -79,45 +79,10 @@ function MovieDetail(props) {
             const cards = document.getElementsByClassName('detail-list-card')
 
             for(let i = 0; i < cards.length; i++){
-    
-                cards[i].removeEventListener('mouseenter', responseCardEnter)
-                cards[i].removeEventListener('mouseleave', responseCardLeave)
-                cards[i].removeEventListener('mousedown', responseCardDown, true)
-                cards[i].removeEventListener('mouseup', responseCardUp, true)
                 cards[i].removeEventListener('click', responseCardClick, true)
             }
         }
     }, []);
-
-    const responseCardEnter = (e) => {
-
-        console.log('target', e.target)
-        e.target.classList.add('primary-hover')
-    }
-
-    const responseCardLeave = (e) => {
-
-        console.log('target', e.target)
-        e.target.classList.remove('primary-hover')
-        e.target.classList.remove('primary-active')
-    }
-
-    const responseCardDown = (e) => {
-        const parent = e.target.closest('.detail-list-card');
-        console.log('parent', parent)
-
-        parent.classList.add('primary-active')
-        e.stopPropagation()
-    }
-
-    const responseCardUp = (e) => {
-
-        const parent = e.target.closest('.detail-list-card');
-        console.log('parent', parent)
-
-        parent.classList.remove('primary-active')
-        e.stopPropagation()
-    }
 
     const responseCardClick = (e) => {
 
@@ -218,7 +183,7 @@ function MovieDetail(props) {
                                 </div>
 
                                 <div className="rate">
-                                    <Rate disabled defaultValue={2} />
+                                    <Rate disabled defaultValue={2} value={response.body.rating} allowHalf/>
                                 </div>
                             </div>
 
@@ -242,6 +207,9 @@ function MovieDetail(props) {
                             </div>
 
                             <div className="detail-cinema-list">
+                                {/* <div className="detail-default primary">
+                                    Filmed In
+                                </div> */}
                                 {displayCinemaList}
                             </div>
                         </div>

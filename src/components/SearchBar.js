@@ -7,6 +7,8 @@ import { faMicrophoneLines } from '@fortawesome/free-solid-svg-icons'
 
 import $ from 'jquery'
 
+import { SearchOutlined } from '@ant-design/icons';
+
 const { Search } = Input;
 
 function SearchBar(props) {
@@ -102,12 +104,13 @@ function SearchBar(props) {
     }
 
     return (
-            <Search id="search-bar"
-                    placeholder="Enter Input"
-                    enterButton
+            <Input id="search-bar"
+                    placeholder="Enter To Search Movies"
+                    // enterButton
                     size="large"
                     suffix={suffix}
-                    onSearch={onSearch}
+                    prefix={<SearchOutlined/>}
+                    onPressEnter={onSearch}
                     // value={transcript}
             />
     );

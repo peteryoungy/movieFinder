@@ -56,6 +56,30 @@
 
 }
 
+.detail-list-card:hover {
+    transform: scale(1.02);
+    transition-duration: 200ms;
+    background-color: @primary-color-hover;
+}
+
+.detail-list-card:active {
+    transform: scale(0.98);
+    transition-duration: 200ms;
+    // background-color: rgb(234, 234, 234)
+    background-color: @primary-color-active;
+    // opacity: 0.9;
+}
+
+.detail-list-card-static {
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+
+    // color: white;
+    margin-bottom: 10px;
+
+}
 
 .detail {
     margin-top: 10px;
@@ -68,5 +92,16 @@
 
 .detail-cinema-list {
     margin-top: 20px;
+}
+
+.movie-name {
+    // color: @blue-6;
+}
+.movie-name:hover {
+    color: @blue-5;
+}
+
+.movie-name:active {
+    color: @blue-7;
 }
 

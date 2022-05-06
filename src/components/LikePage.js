@@ -48,7 +48,7 @@ function LikePage(props) {
 
                 <Col span={16}>
                     <div className="like-content">
-                        <div className="like-content-title" data-id={d["id"]}>
+                        <div className="like-content-title movie-name" data-id={d["id"]}>
                             {d["title"]}
                         </div>
 
