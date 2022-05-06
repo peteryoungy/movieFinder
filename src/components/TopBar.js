@@ -44,7 +44,7 @@ function TopBar(props) {
     }
 
     useEffect(()=> {
-        console.log("Did Mount.")
+        // console.log("Did Mount.")
         const title = document.getElementById('title')
 
         title.addEventListener('pointerenter', () => {

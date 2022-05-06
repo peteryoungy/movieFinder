@@ -1,31 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Image, Rate, Tag} from "antd";
+import { Row, Col, Image, Rate, Tag } from "antd";
 import { useParams } from "react-router-dom";
 import { EnvironmentOutlined } from "@ant-design/icons";
+import { useSelector, useDispatch } from "react-redux";
+import { setUserPos } from "../state/reducers/UserPosReducer";
 
 function MovieDetail(props) {
     const { movie_id } = useParams();
     // console.log('movie_id', movie_id)
 
-    // const locationPermissionState = useState(null)
-
-    // todo: defaut state
-    let latitude = 40.7938512;
-    let longitude = -73.9729093;
+    const user_pos = useSelector((state) => state.user_pos);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        // if ("geolocation" in navigator) {
-        //     console.log("Available");
-        //     const permissionStatus = await navigator?.permissions?.query({name: 'geolocation'})
-        //     navigator.geolocation.getCurrentPosition(function (position) {
-        //         latitude = position.coords.latitude;
-        //         longitude = position.coords.longitude;
-        //         console.log("Latitude is :", position.coords.latitude);
-        //         console.log("Longitude is :", position.coords.longitude);
-        //     });
-        // } else {
-        //     console.log("Not Available");
-        // }
+        console.log('2')
+        // console.log("geolocation before update", user_pos);
 
         // note: 1. get geolocation
         if (navigator.geolocation) {
@@ -38,16 +27,23 @@ function MovieDetail(props) {
                         navigator.geolocation.getCurrentPosition(function (
                             position
                         ) {
-                            latitude = position.coords.latitude;
-                            longitude = position.coords.longitude;
-                            console.log(
-                                "Latitude is :",
-                                position.coords.latitude
-                            );
-                            console.log(
-                                "Longitude is :",
-                                position.coords.longitude
-                            );
+                            // latitude = position.coords.latitude;
+                            // longitude = position.coords.longitude;
+                            dispatch(
+                                setUserPos({
+                                    lat: position.coords.latitude,
+                                    lng: position.coords.longitude,
+                                })
+                            ); // att: trigger update 
+                            // console.log(
+                            //     "Latitude is :",
+                            //     position.coords.latitude
+                            // );
+                            // console.log(
+                            //     "Longitude is :",
+                            //     position.coords.longitude
+                            // );
+                            console.log("user_pos after grant", user_pos);
                         });
                     } else if (result.state === "prompt") {
                         console.log(result.state);
@@ -64,38 +60,40 @@ function MovieDetail(props) {
 
         // note: 2. Register Card Events
 
-        const cards = document.getElementsByClassName('detail-list-card')
+        const cards = document.getElementsByClassName("detail-list-card");
 
-        for(let i = 0; i < cards.length; i++){
-
+        for (let i = 0; i < cards.length; i++) {
             // cards[i].addEventListener('mouseenter', responseCardEnter)
             // cards[i].addEventListener('mouseleave', responseCardLeave)
             // cards[i].addEventListener('mousedown', responseCardDown, true)
             // cards[i].addEventListener('mouseup', responseCardUp, true)
-            cards[i].addEventListener('click', responseCardClick, true)
+            cards[i].addEventListener("click", responseCardClick, true);
         }
 
         return () => {
-            const cards = document.getElementsByClassName('detail-list-card')
+            const cards = document.getElementsByClassName("detail-list-card");
 
-            for(let i = 0; i < cards.length; i++){
-                cards[i].removeEventListener('click', responseCardClick, true)
+            for (let i = 0; i < cards.length; i++) {
+                cards[i].removeEventListener("click", responseCardClick, true);
             }
-        }
-    }, []);
+        };
+    }, [dispatch]);
+
+    useEffect( () => {
+        console.log('update user_pos', user_pos);
+    }, [user_pos])
 
     const responseCardClick = (e) => {
-
-        console.log('event', e)
+        console.log("event", e);
         // console.log('target', e.target)
 
-        const parent = e.target.closest('.detail-list-card');
-        console.log('parent', parent)
+        const parent = e.target.closest(".detail-list-card");
+        console.log("parent", parent);
 
-        let cinema_id = parent.getAttribute('data-id')
-        console.log('cinema_id', cinema_id)
-        window.location.href = '/cinema/' + cinema_id
-    }
+        let cinema_id = parent.getAttribute("data-id");
+        console.log("cinema_id", cinema_id);
+        window.location.href = "/cinema/" + cinema_id;
+    };
 
     const response = {
         body: {
@@ -134,7 +132,11 @@ function MovieDetail(props) {
     };
 
     const displayCinemaList = response.body.cinemas.map((cinema) => (
-        <div className="pointer detail-list-card" key={cinema["inemaId"]} data-id={cinema.inemaId}>
+        <div
+            className="pointer detail-list-card"
+            key={cinema["inemaId"]}
+            data-id={cinema.inemaId}
+        >
             <Row className="padding-left">
                 <Col span={20}>
                     <span className="bold-600"> {cinema.cinemaName}</span>
@@ -150,11 +152,16 @@ function MovieDetail(props) {
             </Row>
             <Row className="padding-left">
                 <Col>
-                    <span className="detail-small detail-sub-title"> {cinema.address} </span>
+                    <span className="detail-small detail-sub-title">
+                        {" "}
+                        {cinema.address}{" "}
+                    </span>
                 </Col>
             </Row>
         </div>
     ));
+
+    console.log('1')
     return (
         <div className="bg-1">
             <br />
@@ -169,10 +176,15 @@ function MovieDetail(props) {
 
                     <Col span={14}>
                         <div>
-
                             <div className="detail detail-title">
-                                <span className="span-padding-right-10"> {response.body.movieName}</span>
-                                <Tag color={"lime"} className='detail'> Movie </Tag>
+                                <span className="span-padding-right-10">
+                                    {" "}
+                                    {response.body.movieName}
+                                </span>
+                                <Tag color={"lime"} className="detail">
+                                    {" "}
+                                    Movie{" "}
+                                </Tag>
                             </div>
 
                             <div className="detail detail-sub-title">
@@ -183,7 +195,12 @@ function MovieDetail(props) {
                                 </div>
 
                                 <div className="rate">
-                                    <Rate disabled defaultValue={2} value={response.body.rating} allowHalf/>
+                                    <Rate
+                                        disabled
+                                        defaultValue={2}
+                                        value={response.body.rating}
+                                        allowHalf
+                                    />
                                 </div>
                             </div>
 

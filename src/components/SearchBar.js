@@ -72,7 +72,7 @@ function SearchBar(props) {
             console.log('listening is on.')
 
             // note: change color and style
-            console.log(svg.style)
+            // console.log(svg.style)
             // svg.style.color = "red";
             svg.classList.add('fa-beat-fade')
 
@@ -80,7 +80,7 @@ function SearchBar(props) {
             console.log('listening is off.')
 
             // note: change color and style
-            console.log(svg.style)
+            // console.log(svg.style)
             svg.style.color = "black";
             svg.classList.remove('fa-beat-fade')
 
@@ -100,6 +100,7 @@ function SearchBar(props) {
     const onSearch = (labels) =>{
         console.log(labels);
         // todo: handle Search
+
 
     }
 
