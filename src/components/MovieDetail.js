@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Image, Rate } from "antd";
 import { useParams } from "react-router-dom";
-import {EnvironmentOutlined} from '@ant-design/icons';
+import { EnvironmentOutlined } from "@ant-design/icons";
 
 function MovieDetail(props) {
     const { movie_id } = useParams();
@@ -27,6 +27,7 @@ function MovieDetail(props) {
         //     console.log("Not Available");
         // }
 
+        // note: 1. get geolocation
         if (navigator.geolocation) {
             navigator.permissions
                 .query({ name: "geolocation" })
@@ -60,7 +61,63 @@ function MovieDetail(props) {
         } else {
             alert("Sorry Not available!");
         }
+
+        // note: 2. 
+
+        const cards = document.getElementsByClassName('detail-list-card')
+
+        for(let i = 0; i < cards.length; i++){
+
+            cards[i].addEventListener('mouseenter', responseCardEnter)
+            cards[i].addEventListener('mouseleave', responseCardLeave)
+            cards[i].addEventListener('mousedown', responseCardDown, true)
+            cards[i].addEventListener('mouseup', responseCardUp, true)
+            cards[i].addEventListener('click', responseCardClick, true)
+        }
     }, []);
+
+    const responseCardEnter = (e) => {
+
+        // console.log('target', e.target)
+        e.target.classList.add('primary-hover')
+    }
+
+    const responseCardLeave = (e) => {
+
+        // console.log('target', e.target)
+        e.target.classList.remove('primary-hover')
+        e.target.classList.remove('primary-active')
+    }
+
+    const responseCardDown = (e) => {
+        const parent = e.target.closest('.detail-list-card');
+        // console.log('parent', parent)
+
+        parent.classList.add('primary-active')
+        e.stopPropagation()
+    }
+
+    const responseCardUp = (e) => {
+
+        const parent = e.target.closest('.detail-list-card');
+        // console.log('parent', parent)
+
+        parent.classList.remove('primary-active')
+        e.stopPropagation()
+    }
+
+    const responseCardClick = (e) => {
+
+        // console.log('event', e)
+        // console.log('target', e.target)
+
+        const parent = e.target.closest('.detail-list-card');
+        console.log('parent', parent)
+
+        let cinema_id = parent.getAttribute('data-id')
+        console.log('cinema_id', cinema_id)
+        window.location.href = '/cinema/' + cinema_id
+    }
 
     const response = {
         body: {
@@ -99,7 +156,7 @@ function MovieDetail(props) {
     };
 
     const displayCinemaList = response.body.cinemas.map((cinema) => (
-        <div className="detail-list-card">
+        <div className="detail-list-card" key={cinema["inemaId"]} data-id={cinema.inemaId}>
             <Row className="padding-left">
                 <Col span={20}>
                     <span className="bold-600"> {cinema.cinemaName}</span>
@@ -107,7 +164,10 @@ function MovieDetail(props) {
 
                 <Col>
                     <EnvironmentOutlined />
-                    <span className="detail-default"> {cinema.distance} miles</span>
+                    <span className="detail-default">
+                        {" "}
+                        {cinema.distance} miles
+                    </span>
                 </Col>
             </Row>
             <Row className="padding-left">

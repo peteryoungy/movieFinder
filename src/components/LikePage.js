@@ -70,7 +70,7 @@ function LikePage(props) {
     const responseTitleClick = (e) => {
 
         // att: what is e?
-        // console.log('e', e)
+        console.log('target', e.target)
         console.log("navigate to", e.target.getAttribute("data-id")); 
 
         window.location.href = '/movie/' + e.target.getAttribute('data-id')

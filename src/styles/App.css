@@ -31,10 +31,6 @@
     min-height: calc( 100vh - 64px);
 }
 
-.pointer {
-
-    cursor: pointer;
-}
 
 .content {
     min-height: calc( 100vh - 64px);
@@ -51,14 +47,3 @@
 }
 
 
-.blue {
-    color: #238EDC;
-}
-
-.bold-600 {
-    font-weight: 600;
-}
-
-.padding-left {
-    padding-left: 5px;
-}
