@@ -1,14 +1,60 @@
-import React, { useEffect } from "react";
-import { Row, Col, Space, Tabs, Button, Tag, Tooltip } from "antd";
-import { EnvironmentOutlined, RightCircleOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from "react";
+import { Row, Col, Space, Tabs, Button, Tag, Tooltip, Drawer } from "antd";
+import {
+    EnvironmentOutlined,
+    RightCircleOutlined,
+    CloseOutlined,
+    CloseCircleFilled,
+    CloseCircleOutlined,
+} from "@ant-design/icons";
 import { useParams } from "react-router-dom";
+import {
+    useLoadScript,
+    GoogleMap,
+    Marker,
+    DirectionsService,
+    DirectionsRenderer,
+} from "@react-google-maps/api";
 
 const { TabPane } = Tabs;
 
-function CinemaDetail(props) {
-    const { cinema_id } = useParams();
+const libraries = ["places", "drawing", "geometry"];
+const travelMode = "DRIVING";
 
+function CinemaDetail(props) {
+    const [visible, setVisible] = useState(false);
+    const { cinema_id } = useParams();
     console.log("cinema_id", cinema_id);
+
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: process.env["REACT_APP_GOOGLE_API_KEY"],
+        libraries: libraries,
+    });
+
+    // todo: state
+    const src_pos = {
+        lat: 40.7938512,
+        lng: -73.9729093,
+    };
+
+    const des_pos = {
+        lat: 40.7578289503393,
+        lng: -73.98917204824191,
+    };
+
+    const [diResponse, setdiResponse] = useState(null);
+
+    const directionsCallback = (response) => {
+        console.log(response);
+
+        if (response !== null) {
+            if (response.status === "OK") {
+                setdiResponse(response);
+            } else {
+                console.log("response: ", response);
+            }
+        }
+    };
 
     const response = {
         id: "2",
@@ -342,8 +388,7 @@ function CinemaDetail(props) {
         },
     };
 
-    // todo:
-    //  1.like function
+    // todo: like function
 
     const onTabChange = (key) => {
         console.log("tab key", key);
@@ -378,9 +423,7 @@ function CinemaDetail(props) {
     };
 
     useEffect(() => {
-        // getDateByOffset(2)
-
-        console.log("day after tomorrow", getDateByOffset(2));
+        console.log("api key", process.env["REACT_APP_GOOGLE_API_KEY"]);
         // note: 2. Register Card Events
 
         let movie_name = document.getElementsByClassName("movie-name");
@@ -388,6 +431,9 @@ function CinemaDetail(props) {
         for (let i = 0; i < movie_name.length; i++) {
             movie_name[i].addEventListener("click", responseNameClick);
         }
+
+        // let spot = document.getElementsByClassName("spot");
+        // spot[0].addEventListener("click", showDrawer);
 
         return () => {
             let movie_name = document.getElementsByClassName("movie-name");
@@ -406,6 +452,60 @@ function CinemaDetail(props) {
         window.location.href = "/movie/" + movie_id;
     };
 
+    const showDrawer = () => {
+        setVisible(true);
+    };
+
+    const onClose = () => {
+        setVisible(false);
+    };
+
+    const displayMap = () => {
+        if (!isLoaded) {
+            return <div>Loading....</div>;
+        } else {
+            return (
+                <div>
+                    <GoogleMap
+                        // mapContainerStyle={containerStyle}
+                        mapContainerClassName={"map-container"}
+                        center={src_pos}
+                        zoom={12}
+                    >
+                        <Marker
+                            // icon={station === 0 ? robotHIcon : robotIcon}
+                            position={src_pos}
+                        />
+                        <Marker
+                            // icon={station === 1 ? robotHIcon : robotIcon}
+                            position={des_pos}
+                        />
+
+                        {
+                            <DirectionsService
+                                // required
+                                options={{
+                                    destination: des_pos,
+                                    origin: src_pos,
+                                    travelMode: travelMode,
+                                }}
+                                // required
+                                callback={directionsCallback}
+                            />
+                        }
+                        {diResponse !== null && (
+                            <DirectionsRenderer
+                                // required
+                                options={{
+                                    directions: diResponse,
+                                }}
+                            />
+                        )}
+                    </GoogleMap>
+                </div>
+            );
+        }
+    };
     const displayContent = (order) => {
         console.log("order", order);
 
@@ -483,14 +583,16 @@ function CinemaDetail(props) {
                                         title="View In Google Map"
                                         placement="right"
                                         color={"#f5c518"}
-                                        className="pointer"
+                                        className="pointer spot"
                                     >
-                                        <Tag
+                                        <Button
                                             icon={<EnvironmentOutlined />}
                                             className="detail-default"
+                                            size="small"
+                                            onClick={showDrawer}
                                         >
                                             {response.distance} miles
-                                        </Tag>
+                                        </Button>
                                     </Tooltip>
                                 </Space>
                             </div>
@@ -522,12 +624,19 @@ function CinemaDetail(props) {
                                 </Tabs>
                             </div>
 
-                            <br/>
-                            <br/>
-                            <br/>
-                            <br/>
+                            <br />
+                            <br />
+                            <br />
+                            <br />
                             <div className="btn-nav-div">
-                                <Button type="primary" size="large" className="btn-nav" onClick={() => window.location.href=response.link}>
+                                <Button
+                                    type="primary"
+                                    size="large"
+                                    className="btn-nav"
+                                    onClick={() =>
+                                        (window.location.href = response.link)
+                                    }
+                                >
                                     Buy Tickets Here!
                                     <RightCircleOutlined />
                                 </Button>
@@ -536,8 +645,29 @@ function CinemaDetail(props) {
                     </Col>
                 </Row>
             </div>
+
+            <Drawer
+                title={"Position Of Cinema"}
+                placement="right"
+                // size={"large"}
+                width={550}
+                onClose={onClose}
+                visible={visible}
+                closeIcon={<CloseOutlined style={{ color: "#f5c518", fontSize: "15px"}} />}
+                className={'primary'}
+            >
+                {displayMap()}
+            </Drawer>
+
+            {/* {!visible
+                ? null
+                : (
+                    displayMap()
+                )
+            } */}
         </div>
     );
 }
 
+// AIzaSyAaKkb2pIZIXeWttxa1L_yLsJzXudprD3o
 export default CinemaDetail;

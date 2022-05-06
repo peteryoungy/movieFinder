@@ -13,6 +13,7 @@ module.exports = {
                             '@layout-header-color': '#f5c518',
                             // '@layout-header-height': '80px',
                             // '@dropdown-menu-bg': '#000000'
+                            '@drawer-bg': '#202020'
                         },
                         javascriptEnabled: true,
                     },
