@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Image, Rate, Tag, Empty } from "antd";
+import { Row, Col, Image, Rate, Tag, Empty, notification, message } from "antd";
 import { useParams } from "react-router-dom";
-import { EnvironmentOutlined, HeartFilled } from "@ant-design/icons";
+import {
+    EnvironmentOutlined,
+    HeartFilled,
+    SmileOutlined,
+    SmileTwoTone,
+    LikeTwoTone
+} from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserPos } from "../state/reducers/UserPosSlice";
 
@@ -162,6 +168,8 @@ function MovieDetail(props) {
     const onClickLike = () => {
         console.log("like clicked.");
         if (response.body.isliked === 1) {
+            //
+            renderMessageOnUnlike()
             // set to 0
             setResponse({
                 body: {
@@ -169,8 +177,10 @@ function MovieDetail(props) {
                     isliked: 0,
                 },
             });
-            // send unlike request
+            // todo: send unlike request
         } else {
+            // pop message
+            renderMessageOnLike();
             // set to 1
             setResponse({
                 body: {
@@ -178,11 +188,42 @@ function MovieDetail(props) {
                     isliked: 1,
                 },
             });
-            // send like request
+            // todo: send like request
         }
     };
 
+    const renderMessageOnLike = () => {
+        const config = {
+            content:
+                "Mark the movie as liked! You can view your favorite in Account->Likes",
+            icon: <LikeTwoTone twoToneColor="#80f519" />,
+            duration: 10,
+            key: "like",
+            onClick: () => message.destroy("like"),
+            className: "pointer",
+        };
+
+        message.open(config);
+    };
+
+    const renderMessageOnUnlike = () => {
+        const config = {
+            content:
+                "You have deleted the movie from your favorite list.",
+            // icon: <SmileTwoTone twoToneColor="#80f519" />,
+            duration: 10,
+            key: "unlike",
+            onClick: () => message.destroy("unlike"),
+            className: "pointer",
+        };
+
+        message.open(config);
+    };
+
+
+    // todo: apiPostLike
     const apiPostLike = (islike) => {};
+
 
     const renderMovieDetail = () => {
         // todo: if condition
@@ -201,23 +242,32 @@ function MovieDetail(props) {
 
                 <Col span={14}>
                     <div>
-                        <div className="detail detail-title">
-                            <span className="span-padding-right-10">
-                                {" "}
-                                {response.body.movieName}
-                            </span>
-                            <Tag color={"lime"} className="detail">
-                                {" "}
-                                Movie{" "}
-                            </Tag>
-                            <Rate
-                                value={response.body.isliked}
-                                count={1}
-                                character={({ index }) => <HeartFilled />}
-                                onChange={onClickLike}
-                            />
-                        </div>
 
+                        <Row className="detail detail-title">
+                            <Col span={23} className="flex-row">
+                                <span className="span-padding-right-10">
+                                    {response.body.movieName}
+                                </span>
+                                <Tag color={"lime"}> Movie </Tag>
+                            </Col>
+
+                            <Col span={1}>
+                                <Rate
+                                    value={response.body.isliked}
+                                    count={1}
+                                    character={({ index }) => (
+                                        <HeartFilled
+                                            style={{ fontSize: "28px" }}
+                                        />
+                                    )}
+                                    onChange={onClickLike}
+                                    style={{
+                                        color: "#f52019",
+                                        paddingBottom: "10px"
+                                    }}
+                                />
+                            </Col>
+                        </Row>
                         <div className="detail detail-sub-title">
                             <div>
                                 {response.body.releaseDate} ·{" "}
