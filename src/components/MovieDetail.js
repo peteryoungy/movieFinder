@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Image, Rate, Tag } from "antd";
+import { Row, Col, Image, Rate, Tag, Empty } from "antd";
 import { useParams } from "react-router-dom";
-import { EnvironmentOutlined } from "@ant-design/icons";
+import { EnvironmentOutlined, HeartFilled } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
-import { setUserPos } from "../state/reducers/UserPosReducer";
+import { setUserPos } from "../state/reducers/UserPosSlice";
 
 function MovieDetail(props) {
     const { movie_id } = useParams();
@@ -12,8 +12,46 @@ function MovieDetail(props) {
     const user_pos = useSelector((state) => state.user_pos);
     const dispatch = useDispatch();
 
+    // todo: initial state is null
+    const [response, setResponse] = useState({
+        body: {
+            movieId: "1",
+            movieName: "movie_name_1",
+            movieImage: "https://picsum.photos/200/300",
+            releaseDate: "2022-04-13",
+            rating: "4.5",
+            synopsis:
+                "Set in Middle-earth, the story tells of the Dark Lord Sauron, who seeks the One Ring, which contains part of his soul, in order to return to power. The Ring has found its way to the young hobbit Frodo Baggins. The fate of Middle-earth hangs in the balance as Frodo and eight companions begin their journey to Mount Doom in the land of Mordor, the only place where the Ring can be destroyed.",
+            duration: "90",
+            genres: ["genres1", "genres2", "genres3"],
+            directors: ["director1", "director2", "director3"],
+            cast: ["cast1", "cast2", "cast3"],
+            isliked: 1,
+            cinemas: [
+                {
+                    inemaId: "1",
+                    cinemaName: "AMC 84th Street 6",
+                    distance: "0.7",
+                    address: "2310 Broadway, New York, NY 10024",
+                },
+                {
+                    inemaId: "2",
+                    cinemaName: "Regal E-Walk 4DX & RPX",
+                    distance: "0.8",
+                    address: "247 W 42nd St, New York, NY 10036",
+                },
+                {
+                    inemaId: "3",
+                    cinemaName: "AMC Lincoln Square 13",
+                    distance: "0.8",
+                    address: "1998 Broadway, New York, NY 10023",
+                },
+            ],
+        },
+    });
+
     useEffect(() => {
-        console.log('2')
+        // console.log("2");
         // console.log("geolocation before update", user_pos);
 
         // note: 1. get geolocation
@@ -34,7 +72,7 @@ function MovieDetail(props) {
                                     lat: position.coords.latitude,
                                     lng: position.coords.longitude,
                                 })
-                            ); // att: trigger update 
+                            ); // att: trigger update
                             // console.log(
                             //     "Latitude is :",
                             //     position.coords.latitude
@@ -58,84 +96,182 @@ function MovieDetail(props) {
             alert("Sorry Not available!");
         }
 
-        // note: 2. Register Card Events
+        // note: 3. send api request
+        apiGetMovie();
+    }, []);
 
-        const cards = document.getElementsByClassName("detail-list-card");
+    useEffect(() => {
+        console.log("update user_pos", user_pos);
+    }, [user_pos]);
 
-        for (let i = 0; i < cards.length; i++) {
-            // cards[i].addEventListener('mouseenter', responseCardEnter)
-            // cards[i].addEventListener('mouseleave', responseCardLeave)
-            // cards[i].addEventListener('mousedown', responseCardDown, true)
-            // cards[i].addEventListener('mouseup', responseCardUp, true)
-            cards[i].addEventListener("click", responseCardClick, true);
-        }
+    const apiGetMovie = () => {
+        // todo: send request through Axios
 
-        return () => {
-            const cards = document.getElementsByClassName("detail-list-card");
-
-            for (let i = 0; i < cards.length; i++) {
-                cards[i].removeEventListener("click", responseCardClick, true);
-            }
+        const result = {
+            body: {
+                movieId: "1",
+                movieName: "movie_name_1",
+                movieImage: "https://picsum.photos/200/300",
+                releaseDate: "2022-04-13",
+                rating: "4.5",
+                synopsis:
+                    "Set in Middle-earth, the story tells of the Dark Lord Sauron, who seeks the One Ring, which contains part of his soul, in order to return to power. The Ring has found its way to the young hobbit Frodo Baggins. The fate of Middle-earth hangs in the balance as Frodo and eight companions begin their journey to Mount Doom in the land of Mordor, the only place where the Ring can be destroyed.",
+                duration: "90",
+                genres: ["genres1", "genres2", "genres3"],
+                directors: ["director1", "director2", "director3"],
+                cast: ["cast1", "cast2", "cast3"],
+                isliked: 1,
+                cinemas: [
+                    {
+                        inemaId: "1",
+                        cinemaName: "AMC 84th Street 6",
+                        distance: "0.7",
+                        address: "2310 Broadway, New York, NY 10024",
+                    },
+                    {
+                        inemaId: "2",
+                        cinemaName: "Regal E-Walk 4DX & RPX",
+                        distance: "0.8",
+                        address: "247 W 42nd St, New York, NY 10036",
+                    },
+                    {
+                        inemaId: "3",
+                        cinemaName: "AMC Lincoln Square 13",
+                        distance: "0.8",
+                        address: "1998 Broadway, New York, NY 10023",
+                    },
+                ],
+            },
         };
-    }, [dispatch]);
 
-    useEffect( () => {
-        console.log('update user_pos', user_pos);
-    }, [user_pos])
+        setResponse(result);
+    };
 
-    const responseCardClick = (e) => {
-        console.log("event", e);
+    const onClickCard = (e) => {
+        // console.log("event", e);
         // console.log('target', e.target)
 
         const parent = e.target.closest(".detail-list-card");
-        console.log("parent", parent);
+        // console.log("parent", parent);
 
         let cinema_id = parent.getAttribute("data-id");
-        console.log("cinema_id", cinema_id);
+        // console.log("cinema_id", cinema_id);
         window.location.href = "/cinema/" + cinema_id;
     };
 
-    const response = {
-        body: {
-            movieId: "1",
-            movieName: "movie_name_1",
-            movieImage: "https://picsum.photos/200/300",
-            releaseDate: "2022-04-13",
-            rating: "4.5",
-            synopsis:
-                "Set in Middle-earth, the story tells of the Dark Lord Sauron, who seeks the One Ring, which contains part of his soul, in order to return to power. The Ring has found its way to the young hobbit Frodo Baggins. The fate of Middle-earth hangs in the balance as Frodo and eight companions begin their journey to Mount Doom in the land of Mordor, the only place where the Ring can be destroyed.",
-            duration: "90",
-            genres: ["genres1", "genres2", "genres3"],
-            directors: ["director1", "director2", "director3"],
-            cast: ["cast1", "cast2", "cast3"],
-            cinemas: [
-                {
-                    inemaId: "1",
-                    cinemaName: "AMC 84th Street 6",
-                    distance: "0.7",
-                    address: "2310 Broadway, New York, NY 10024",
+    const onClickLike = () => {
+        console.log("like clicked.");
+        if (response.body.isliked === 1) {
+            // set to 0
+            setResponse({
+                body: {
+                    ...response.body,
+                    isliked: 0,
                 },
-                {
-                    inemaId: "2",
-                    cinemaName: "Regal E-Walk 4DX & RPX",
-                    distance: "0.8",
-                    address: "247 W 42nd St, New York, NY 10036",
+            });
+            // send unlike request
+        } else {
+            // set to 1
+            setResponse({
+                body: {
+                    ...response.body,
+                    isliked: 1,
                 },
-                {
-                    inemaId: "3",
-                    cinemaName: "AMC Lincoln Square 13",
-                    distance: "0.8",
-                    address: "1998 Broadway, New York, NY 10023",
-                },
-            ],
-        },
+            });
+            // send like request
+        }
     };
 
-    const displayCinemaList = response.body.cinemas.map((cinema) => (
+    const apiPostLike = (islike) => {};
+
+    const renderMovieDetail = () => {
+        // todo: if condition
+        // if(response === null){
+        //     return <Empty/>
+        // }
+
+        return (
+            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                <Col span={8}>
+                    <img
+                        src={response.body.movieImage}
+                        className="detail detail-img"
+                    />
+                </Col>
+
+                <Col span={14}>
+                    <div>
+                        <div className="detail detail-title">
+                            <span className="span-padding-right-10">
+                                {" "}
+                                {response.body.movieName}
+                            </span>
+                            <Tag color={"lime"} className="detail">
+                                {" "}
+                                Movie{" "}
+                            </Tag>
+                            <Rate
+                                value={response.body.isliked}
+                                count={1}
+                                character={({ index }) => <HeartFilled />}
+                                onChange={onClickLike}
+                            />
+                        </div>
+
+                        <div className="detail detail-sub-title">
+                            <div>
+                                {response.body.releaseDate} ·{" "}
+                                {response.body.genres.join("/")} ·{" "}
+                                {response.body.duration} mins
+                            </div>
+
+                            <div className="rate">
+                                <Rate
+                                    disabled
+                                    defaultValue={2}
+                                    value={response.body.rating}
+                                    allowHalf
+                                />
+                            </div>
+                        </div>
+
+                        <div className="detail detail-default">
+                            {response.body.synopsis}
+                        </div>
+
+                        <div className="detail detail-default">
+                            <div>
+                                <span>Directors </span>
+                                <span className="blue">
+                                    {response.body.directors.join(" ")}
+                                </span>
+                            </div>
+                            <div>
+                                <span>Cast </span>
+                                <span className="blue">
+                                    {response.body.cast.join(" ")}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="detail-cinema-list">
+                            {/* <div className="detail-default primary">
+                                    Filmed In
+                                </div> */}
+                            {renderCinemaList}
+                        </div>
+                    </div>
+                </Col>
+            </Row>
+        );
+    };
+
+    const renderCinemaList = response.body.cinemas.map((cinema) => (
         <div
             className="pointer detail-list-card"
             key={cinema["inemaId"]}
             data-id={cinema.inemaId}
+            onClick={onClickCard}
         >
             <Row className="padding-left">
                 <Col span={20}>
@@ -161,78 +297,10 @@ function MovieDetail(props) {
         </div>
     ));
 
-    console.log('1')
     return (
         <div className="bg-1">
             <br />
-            <div className="detail-div">
-                <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                    <Col span={8}>
-                        <img
-                            src={response.body.movieImage}
-                            className="detail detail-img"
-                        />
-                    </Col>
-
-                    <Col span={14}>
-                        <div>
-                            <div className="detail detail-title">
-                                <span className="span-padding-right-10">
-                                    {" "}
-                                    {response.body.movieName}
-                                </span>
-                                <Tag color={"lime"} className="detail">
-                                    {" "}
-                                    Movie{" "}
-                                </Tag>
-                            </div>
-
-                            <div className="detail detail-sub-title">
-                                <div>
-                                    {response.body.releaseDate} ·{" "}
-                                    {response.body.genres.join("/")} ·{" "}
-                                    {response.body.duration} mins
-                                </div>
-
-                                <div className="rate">
-                                    <Rate
-                                        disabled
-                                        defaultValue={2}
-                                        value={response.body.rating}
-                                        allowHalf
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="detail detail-default">
-                                {response.body.synopsis}
-                            </div>
-
-                            <div className="detail detail-default">
-                                <div>
-                                    <span>Directors </span>
-                                    <span className="blue">
-                                        {response.body.directors.join(" ")}
-                                    </span>
-                                </div>
-                                <div>
-                                    <span>Cast </span>
-                                    <span className="blue">
-                                        {response.body.cast.join(" ")}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="detail-cinema-list">
-                                {/* <div className="detail-default primary">
-                                    Filmed In
-                                </div> */}
-                                {displayCinemaList}
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-            </div>
+            <div className="detail-div">{renderMovieDetail()}</div>
         </div>
     );
 }
