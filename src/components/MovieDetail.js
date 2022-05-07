@@ -10,6 +10,8 @@ import {
 } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserPos } from "../state/reducers/UserPosSlice";
+import { getGeoLocation } from "../utils/getGeoLocation";
+
 
 function MovieDetail(props) {
     const { movie_id } = useParams();
@@ -101,6 +103,9 @@ function MovieDetail(props) {
         } else {
             alert("Sorry Not available!");
         }
+
+        // const geolocation = getGeoLocation()
+        // dispatch(setUserPos(geolocation))
 
         // note: 3. send api request
         apiGetMovie();
