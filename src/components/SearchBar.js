@@ -98,7 +98,7 @@ function SearchBar(props) {
         search_bar.value = ""
 
         // todo: uncomment this when SearchLambda is READY
-        // apiGetSearch(keyword);
+        apiGetSearch(keyword);
     };
 
 

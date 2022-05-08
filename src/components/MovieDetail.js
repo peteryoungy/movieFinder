@@ -107,7 +107,7 @@ function MovieDetail(props) {
 
         // note: 3. send api request
         // todo: uncomment this when the backend lambda is ready
-        // apiPostMovie();
+        apiPostMovie();
         
     }, []);
 
