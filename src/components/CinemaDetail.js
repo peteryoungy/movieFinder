@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Space, Tabs, Button, Tag, Tooltip, Drawer } from "antd";
+import { Row, Col, Space, Tabs, Button, Tag, Tooltip, Drawer, message} from "antd";
 import {
     EnvironmentOutlined,
     RightCircleOutlined,
@@ -17,6 +17,8 @@ import {
 } from "@react-google-maps/api";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserPos } from "../state/reducers/UserPosSlice";
+import axios from "axios";
+import { ENDPOINT } from "../constants";
 
 const { TabPane } = Tabs;
 
@@ -361,7 +363,7 @@ function CinemaDetail(props) {
 
     const user_pos = useSelector((state) => state.user_pos);
 
-    // todo: get des_pos
+    // todo: get des_pos or not
     const des_pos = {
         lat: 40.7578289503393,
         lng: -73.98917204824191,
@@ -386,341 +388,35 @@ function CinemaDetail(props) {
     }, []);
 
     const apiGetCinema = () => {
-        // todo: get response from /movie/{movie_id}
 
-        const result = {
-            id: "2",
-            cinemaName: "Regal E-Walk 4DX & RPX",
-            image: "https://picsum.photos/200/300",
-            distance: "0.8",
-            address: "247 W 42nd St, New York, NY 10036",
-            link: "https://www.google.com",
-            showtime: {
-                0: [
-                    {
-                        id: "1",
-                        title: "Movie Name 1",
-                        duration: "90",
-                        times: [
-                            {
-                                start_time: "14:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "15:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "16:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "18:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "20:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "21:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "23:30",
-                                end_time: "20:45",
-                            },
-                        ],
-                    },
-                    {
-                        id: "2",
-                        title: "Movie Name 2",
-                        duration: "90",
-                        times: [
-                            {
-                                start_time: "14:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "15:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "16:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "18:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "20:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "21:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "23:30",
-                                end_time: "20:45",
-                            },
-                        ],
-                    },
-                    {
-                        id: "3",
-                        title: "Movie Name 3",
-                        duration: "90",
-                        times: [
-                            {
-                                start_time: "14:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "15:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "16:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "18:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "20:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "21:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "23:30",
-                                end_time: "20:45",
-                            },
-                        ],
-                    },
-                ],
-                1: [
-                    {
-                        id: "4",
-                        title: "Movie Name 4",
-                        duration: "90",
-                        times: [
-                            {
-                                start_time: "14:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "15:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "16:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "18:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "20:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "21:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "23:30",
-                                end_time: "20:45",
-                            },
-                        ],
-                    },
-                    {
-                        id: "5",
-                        title: "Movie Name 5",
-                        duration: "90",
-                        times: [
-                            {
-                                start_time: "14:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "15:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "16:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "18:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "20:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "21:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "23:30",
-                                end_time: "20:45",
-                            },
-                        ],
-                    },
-                    {
-                        id: "6",
-                        title: "Movie Name 6",
-                        duration: "90",
-                        times: [
-                            {
-                                start_time: "14:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "15:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "16:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "18:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "20:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "21:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "23:30",
-                                end_time: "20:45",
-                            },
-                        ],
-                    },
-                ],
-                2: [
-                    {
-                        id: "7",
-                        title: "Movie Name 7",
-                        duration: "90",
-                        times: [
-                            {
-                                start_time: "14:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "15:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "16:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "18:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "20:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "21:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "23:30",
-                                end_time: "20:45",
-                            },
-                        ],
-                    },
-                    {
-                        id: "8",
-                        title: "Movie Name 8",
-                        duration: "90",
-                        times: [
-                            {
-                                start_time: "14:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "15:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "16:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "18:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "20:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "21:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "23:30",
-                                end_time: "20:45",
-                            },
-                        ],
-                    },
-                    {
-                        id: "9",
-                        title: "Movie Name 9",
-                        duration: "90",
-                        times: [
-                            {
-                                start_time: "14:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "15:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "16:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "18:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "20:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "21:30",
-                                end_time: "20:45",
-                            },
-                            {
-                                start_time: "23:30",
-                                end_time: "20:45",
-                            },
-                        ],
-                    },
-                ],
+        console.log('cinema_id', cinema_id)
+        let url = `${ENDPOINT}/cinema/${cinema_id}`;
+
+        const API_KEY = process.env["REACT_APP_AWS_API_KEY"]
+
+        const opt = {
+            method: "GET",
+            url: url,
+            headers: {
+                "x-api-key": API_KEY,
             },
         };
 
-        setResponse(result);
+        axios(opt)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("Cinema request sent.");
+
+                    console.log(res.data);
+
+                    // todo: uncomment this when CinemaLambda is ready
+                    // setResponse(res.data)
+                }
+            })
+            .catch((err) => {
+                message.error("Fetch cinema info failed!");
+                console.log("Fetch cinema info failed: ", err.message);
+            });
     };
 
     const onTabChange = (key) => {
@@ -761,6 +457,7 @@ function CinemaDetail(props) {
     };
 
     const onClickDistanceButton = () => {
+        // todo: When user_pos is empty, try to open the permission again
         setVisible(true);
     };
 

@@ -1,15 +1,17 @@
-import React, { useEffect, useRef } from "react";
-import { Row, Col, Space } from "antd";
-import { Typography } from 'antd';
+import React, { useEffect, useRef, useState } from "react";
+import { Row, Col, Space, Empty, message } from "antd";
+import { Typography } from "antd";
+import axios from "axios";
+import { ENDPOINT } from "../constants";
 
 const { Title } = Typography;
-
 
 function LikePage(props) {
     // att: why useRef?
     // const title = useRef(null)
 
-    const response = {
+    // todo: make initial state null
+    const [response, setResponse] = useState({
         likes: [
             {
                 id: "1",
@@ -36,75 +38,103 @@ function LikePage(props) {
                 rating: 4.5,
             },
         ],
+    });
+
+    useEffect(() => {
+
+        // todo: uncomment this when HistoryLambda is ready
+        // apiGetLikes()
+    }, []);
+
+
+    const apiGetLikes = () => {
+
+        let url = `${ENDPOINT}/history`;
+
+        const API_KEY = process.env["REACT_APP_AWS_API_KEY"]
+        // console.log('API KEY', API_KEY)
+
+        const opt = {
+            method: "GET",
+            url: url,
+            headers: {
+                "x-api-key": API_KEY,
+            },
+        };
+
+        axios(opt)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("History request sent.");
+
+                    console.log(res.data);
+
+                    // todo: uncomment this when HistoryLambda is ready
+                    // setResponse(res.data)
+                }
+            })
+            .catch((err) => {
+                message.error("Fetch favorite failed!");
+                console.log("Fetch Favorite failed: ", err.message);
+            });
+    }
+
+
+    const renderLikes = () => {
+
+        // todo: uncomment this
+        // if (response === null) {
+        //     return <Empty/>;
+        // }
+
+        return response.likes.map((d) => (
+            <div className="like-card" key={d["id"]}>
+                <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                    <Col>
+                        <img src={d["image"]} className="like-img" />
+                    </Col>
+
+                    <Col span={16}>
+                        <div className="like-content">
+                            <div
+                                className="pointer like-content-title movie-name"
+                                data-id={d["id"]}
+                                onClick={onClickMovieName}
+                            >
+                                {d["title"]}
+                            </div>
+
+                            <div className="like-content-default">
+                                Directors: {d["directors"].join(" ")}
+                            </div>
+
+                            <div className="like-content-default">
+                                Actors: {d["actors"].join(" ")}
+                            </div>
+                        </div>
+                    </Col>
+
+                    {/* <Col>love</Col> */}
+                </Row>
+            </div>
+        ));
     };
 
-    const likes = response.likes;
-    const renderLikes = likes.map((d) => (
-        <div className="like-card" key={d["id"]}>
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                <Col>
-                    <img src={d["image"]} className="like-img" />
-                </Col>
 
-                <Col span={16}>
-                    <div className="like-content">
-                        <div className="like-content-title movie-name" data-id={d["id"]}>
-                            {d["title"]}
-                        </div>
+    const onClickMovieName = (e) => {
+        console.log("event", e);
 
-                        <div className="like-content-default">
-                            Directors: {d["directors"].join(' ')}
-                        </div>
+        let movie_id = e.target.getAttribute("data-id");
+        console.log("movie_id", movie_id);
+        window.location.href = "/movie/" + movie_id;
+    };
 
-                        <div className="like-content-default">
-                            Actors: {d["actors"].join(' ')}
-                        </div>
-                    </div>
-                </Col>
-
-                {/* <Col>love</Col> */}
-            </Row>
-        </div>
-    ));
-    
-    const responseTitleClick = (e) => {
-
-        // att: what is e?
-        console.log('target', e.target)
-        console.log("navigate to", e.target.getAttribute("data-id")); 
-
-        window.location.href = '/movie/' + e.target.getAttribute('data-id')
-
-    }
-    useEffect(() => {
-        const titles = document.getElementsByClassName("like-content-title");
-        // console.log(titles);
-
-        for (let i = 0; i < titles.length; i++) {
-            // console.log('item', titles[i])
-            let item = titles[i]
-
-            item.classList.add("pointer");
-            item.addEventListener("click", responseTitleClick);
-        }
-
-        return () => {
-            const titles = document.getElementsByClassName("like-content-title");
-
-            for (let i = 0; i < titles.length; i++) {
-                let item = titles[i]
-
-                item.classList.remove("pointer");
-                item.removeEventListener("click", responseTitleClick);
-            }
-        };
-    }, []);
 
     return (
         <div className="bg-2">
-            <br/>
+            <br />
             <div className="sub-title"> Your Likes </div>
-            <div className="like-list">{renderLikes}</div>
+            <div className="like-list">{renderLikes()}</div>
         </div>
     );
 }

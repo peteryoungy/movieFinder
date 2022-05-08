@@ -97,7 +97,8 @@ function SearchBar(props) {
         let search_bar = document.getElementById('search-bar')
         search_bar.value = ""
 
-        apiGetSearch(keyword);
+        // todo: uncomment this when SearchLambda is READY
+        // apiGetSearch(keyword);
     };
 
 
@@ -120,17 +121,18 @@ function SearchBar(props) {
         axios(opt)
             .then((res) => {
                 if (res.status === 200) {
-                    console.log("search request sent.");
+                    console.log("Search request sent.");
 
                     console.log(res.data);
 
                     // setPhotoList(res.data);
-
+                    // todo: set search result as state
+                    // todo：redirect to /search_result page
                 }
             })
             .catch((err) => {
-                message.error("Fetch photos failed!");
-                console.log("fetch photos failed: ", err.message);
+                message.error("Search movies failed!");
+                console.log("Search movies failed: ", err.message);
             });
     };
 

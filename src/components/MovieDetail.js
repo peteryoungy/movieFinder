@@ -6,11 +6,12 @@ import {
     HeartFilled,
     SmileOutlined,
     SmileTwoTone,
-    LikeTwoTone
+    LikeTwoTone,
 } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserPos } from "../state/reducers/UserPosSlice";
-import { getGeoLocation } from "../utils/getGeoLocation";
+import axios from "axios";
+import { ENDPOINT } from "../constants";
 
 
 function MovieDetail(props) {
@@ -58,6 +59,7 @@ function MovieDetail(props) {
         },
     });
 
+    console.log('render')
     useEffect(() => {
         // console.log("2");
         // console.log("geolocation before update", user_pos);
@@ -73,8 +75,7 @@ function MovieDetail(props) {
                         navigator.geolocation.getCurrentPosition(function (
                             position
                         ) {
-                            // latitude = position.coords.latitude;
-                            // longitude = position.coords.longitude;
+
                             dispatch(
                                 setUserPos({
                                     lat: position.coords.latitude,
@@ -104,58 +105,89 @@ function MovieDetail(props) {
             alert("Sorry Not available!");
         }
 
-        // const geolocation = getGeoLocation()
-        // dispatch(setUserPos(geolocation))
-
         // note: 3. send api request
-        apiGetMovie();
+        // todo: uncomment this when the backend lambda is ready
+        // apiPostMovie();
+        
     }, []);
+
 
     useEffect(() => {
         console.log("update user_pos", user_pos);
     }, [user_pos]);
 
-    const apiGetMovie = () => {
-        // todo: send request through Axios
 
-        const result = {
-            body: {
-                movieId: "1",
-                movieName: "movie_name_1",
-                movieImage: "https://picsum.photos/200/300",
-                releaseDate: "2022-04-13",
-                rating: "4.5",
-                synopsis:
-                    "Set in Middle-earth, the story tells of the Dark Lord Sauron, who seeks the One Ring, which contains part of his soul, in order to return to power. The Ring has found its way to the young hobbit Frodo Baggins. The fate of Middle-earth hangs in the balance as Frodo and eight companions begin their journey to Mount Doom in the land of Mordor, the only place where the Ring can be destroyed.",
-                duration: "90",
-                genres: ["genres1", "genres2", "genres3"],
-                directors: ["director1", "director2", "director3"],
-                cast: ["cast1", "cast2", "cast3"],
-                isliked: 1,
-                cinemas: [
-                    {
-                        inemaId: "1",
-                        cinemaName: "AMC 84th Street 6",
-                        distance: "0.7",
-                        address: "2310 Broadway, New York, NY 10024",
-                    },
-                    {
-                        inemaId: "2",
-                        cinemaName: "Regal E-Walk 4DX & RPX",
-                        distance: "0.8",
-                        address: "247 W 42nd St, New York, NY 10036",
-                    },
-                    {
-                        inemaId: "3",
-                        cinemaName: "AMC Lincoln Square 13",
-                        distance: "0.8",
-                        address: "1998 Broadway, New York, NY 10023",
-                    },
-                ],
+    const apiPostMovie = () => {
+
+        console.log('movie_id', movie_id);
+        let url = `${ENDPOINT}/movie/${movie_id}`;
+        const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
+
+        let formated_user_pos
+        if(user_pos === null){
+            formated_user_pos = ""
+        } else {
+            formated_user_pos = user_pos.lat + ";" + user_pos.lng
+        }
+        console.log('format user_pos', formated_user_pos)
+
+        const opt = {
+            method: "POST",
+            url: url,
+            headers: {
+                "x-api-key": API_KEY,
+            },
+            data: {
+                user_pos: formated_user_pos
+            }
+        };
+
+        axios(opt)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("Movie request sent.");
+                    console.log(res.data);
+
+                    // todo: set response
+                    // setResponse(res.data)
+                }
+            })
+            .catch((err) => {
+                message.error("Fetch movie info failed!");
+                console.log("Fetch movie info failed: ", err.message);
+            });
+
+    };
+
+    // todo: apiPostLike
+    const apiPostLike = (islike) => {
+        let url = `${ENDPOINT}/like`;
+        const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
+
+        const opt = {
+            method: "POST",
+            url: url,
+            headers: {
+                "x-api-key": API_KEY,
+            },
+            data: {
+                id: response.body.movieId,
+                islike: islike,
             },
         };
 
-        setResponse(result);
+        axios(opt)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("History request sent.");
+
+                    console.log(res.data);
+                }
+            })
+            .catch((err) => {
+                message.error("Set like/unlike failed!");
+                console.log("Set like/unlike failed: ", err.message);
+            });
     };
 
     const onClickCard = (e) => {
@@ -171,10 +203,10 @@ function MovieDetail(props) {
     };
 
     const onClickLike = () => {
-        console.log("like clicked.");
+        console.log("like/Unlike clicked.");
         if (response.body.isliked === 1) {
             //
-            renderMessageOnUnlike()
+            renderMessageOnUnlike();
             // set to 0
             setResponse({
                 body: {
@@ -182,7 +214,10 @@ function MovieDetail(props) {
                     isliked: 0,
                 },
             });
+
             // todo: send unlike request
+            // console.log("Send Unlike Request.");
+            apiPostLike(0)
         } else {
             // pop message
             renderMessageOnLike();
@@ -194,6 +229,8 @@ function MovieDetail(props) {
                 },
             });
             // todo: send like request
+            console.log("Send like Request.");
+            apiPostLike(1)
         }
     };
 
@@ -213,8 +250,7 @@ function MovieDetail(props) {
 
     const renderMessageOnUnlike = () => {
         const config = {
-            content:
-                "You have deleted the movie from your favorite list.",
+            content: "You have deleted the movie from your favorite list.",
             // icon: <SmileTwoTone twoToneColor="#80f519" />,
             duration: 10,
             key: "unlike",
@@ -224,11 +260,6 @@ function MovieDetail(props) {
 
         message.open(config);
     };
-
-
-    // todo: apiPostLike
-    const apiPostLike = (islike) => {};
-
 
     const renderMovieDetail = () => {
         // todo: if condition
@@ -247,7 +278,6 @@ function MovieDetail(props) {
 
                 <Col span={14}>
                     <div>
-
                         <Row className="detail detail-title">
                             <Col span={23} className="flex-row">
                                 <span className="span-padding-right-10">
@@ -268,7 +298,7 @@ function MovieDetail(props) {
                                     onChange={onClickLike}
                                     style={{
                                         color: "#f52019",
-                                        paddingBottom: "10px"
+                                        paddingBottom: "10px",
                                     }}
                                 />
                             </Col>
