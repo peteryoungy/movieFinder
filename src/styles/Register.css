@@ -1,0 +1,56 @@
+.register-bg {
+    background-image: url("../assets/images/bg_purple.jpg");
+
+    z-index: -999;
+    /* position: absolute; */
+    top: 0px;
+    left: 0px;
+    right: 0;
+    bottom: 0;
+    background-size: 100% 100%;
+
+    min-height: calc( 100vh - 64px);
+    /* background: linear-gradient(180deg, #a0d7e7, #6c5dd3); */
+    margin: auto;
+     /* padding: 200px; */
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+  
+  .register_card {
+    width: 520px;
+    height: 500px;
+    background: #f2f3f7;
+    border-radius: 20px;
+    margin: auto;
+    text-align: center;
+    justify-content: center;
+    padding: 51px 60px;
+  }
+  
+  .register-button {
+    width: 400px;
+    height: 56px;
+    background: #6c5dd3;
+    border-radius: 12px;
+  }
+
+  .register-title {
+    font-size: 30px;
+    font-family: Arial;
+    font-weight: bold;
+    color: #151830;
+  }
+  .register-title2 {
+    font-size: 18px;
+    font-family: Arial;
+    color: #151830;
+    padding-top: 1px;
+  }
+
+
+
+  
+  

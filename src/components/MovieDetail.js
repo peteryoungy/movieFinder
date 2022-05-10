@@ -149,7 +149,7 @@ function MovieDetail(props) {
                     console.log(res.data);
 
                     // todo: set response
-                    // setResponse(res.data)
+                    setResponse(res.data)
                 }
             })
             .catch((err) => {
@@ -272,7 +272,7 @@ function MovieDetail(props) {
                 <Col span={8}>
                     <img
                         src={response.body.movieImage}
-                        className="detail detail-img"
+                        className="detail-img"
                     />
                 </Col>
 
