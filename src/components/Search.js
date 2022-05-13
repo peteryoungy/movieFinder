@@ -1,12 +1,9 @@
 import { Card } from 'antd';
 import { Row, Col, Image, Rate, Tag, Empty, notification, message } from "antd";
 import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { ENDPOINT } from "../constants";
-import { StarTwoTone} from '@ant-design/icons';
 
 
-function Home(props) {
+function Search(props) {
 
     const { Meta } = Card;
 
@@ -17,157 +14,131 @@ function Home(props) {
                 title: "film1",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "2",
                 title: "film2",
                 image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "3",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "4",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "5",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "6",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "6",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "1",
                 title: "film1",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "2",
                 title: "film2",
                 image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "3",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "4",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "5",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "6",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "6",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "1",
                 title: "film1",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "2",
                 title: "film2",
                 image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "3",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "4",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "5",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "6",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
             {
                 id: "6",
                 title: "film3",
                 image: "https://picsum.photos/200/300",
                 duration: "90",
-                rating: "5",
             },
+
 
         ],
     });
-
-    useEffect(() => {
-
-        // todo: uncomment this when HistoryLambda is ready
-        apiGetHome()
-    }, []);
 
     const apiGetHome = () => {
 
@@ -225,12 +196,8 @@ function Home(props) {
                                 onClick={onClickMovieName}
                                 >view</a>,
                               ]}
-                            body-style='{padding:0}'
-     
                         >
-                            <div slot="title">
-                                <StarTwoTone twoToneColor="#eb2f96" />{d["rating"]} {d["duration"]}</div>
-                            {d["title"]}
+                            <Meta title="Europe Street beat" description="www.instagram.com" />
                         </Card>
                     </Col>
                 )}
@@ -258,7 +225,7 @@ function Home(props) {
             </div>
             <div className="detail-div">
                 <br />
-                <div className="home-title"> Recommendation for you... </div>
+                <div className="home-title"> Film now showing... </div>
                 <div className="home-div">{renderHome()}</div>
                 <br/>
             </div>
@@ -267,4 +234,4 @@ function Home(props) {
     );
 }
 
-export default Home;
+export default Search;
