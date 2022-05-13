@@ -37,8 +37,7 @@ class App extends Component {
             const user = await Auth.currentAuthenticatedUser();
             // todo: uncomment this
             this.setUser(user);
-            // set localStorage
-            // localStorage.setItem(TOKEN_KEY, user)
+
         } catch (error) {
             if (error !== "No current user") {
                 console.log(error);
