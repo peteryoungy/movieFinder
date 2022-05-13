@@ -10,6 +10,8 @@ function LikePage(props) {
     // att: why useRef?
     // const title = useRef(null)
 
+    console.log('props', props)
+
     // todo: make initial state null
     const [response, setResponse] = useState({
         likes: [
@@ -59,6 +61,7 @@ function LikePage(props) {
             url: url,
             headers: {
                 "x-api-key": API_KEY,
+                // "Authorization": ""
             },
         };
 

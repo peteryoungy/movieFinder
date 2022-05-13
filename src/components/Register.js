@@ -46,9 +46,12 @@ class Register extends Component {
 
             // DynamoDB
             const AWS = require("aws-sdk");
-            AWS.config.accessKeyId = 'AKIAZCZORAOV5RXRIVPR';
-            AWS.config.secretAccessKey = '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';
+            AWS.config.accessKeyId = process.env['REACT_APP_ACCESS_KEY_ID'];
+            AWS.config.secretAccessKey = process.env['REACT_APP_SECRET_ACCESS_KEY'];
             AWS.config.region = 'us-east-1';
+
+            // console.log('access_key_id', process.env['REACT_APP_ACCESS_KEY_ID']);
+            // console.log('secret_key', process.env['REACT_APP_SECRET_ACCESS_KEY']);
 
             const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -115,6 +118,7 @@ class Register extends Component {
                                 onChange={this.onChange}
                             />
                         </Form.Item>
+
                         <Form.Item
                             name="email"
                             rules={[{required: true, message: 'Please enter your email!'}]}
@@ -127,6 +131,7 @@ class Register extends Component {
                                 onChange={this.onChange}
                             />
                         </Form.Item>
+
                         <Form.Item
                             name="password"
                             rules={[{required: true, message: 'Please enter your code!'}]}
@@ -140,6 +145,7 @@ class Register extends Component {
                                 onChange={this.onChange}
                             />
                         </Form.Item>
+
                         <Form.Item
                             name="confirmpassword"
                             rules={[{required: true, message: 'Please confirm your password!'}]}
