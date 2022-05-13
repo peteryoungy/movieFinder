@@ -47,7 +47,7 @@ function LikePage(props) {
     useEffect(() => {
 
         // todo: uncomment this when HistoryLambda is ready
-        apiGetLikes()
+        // apiGetLikes()
     }, []);
 
 
@@ -75,7 +75,7 @@ function LikePage(props) {
                     console.log(res.data);
 
                     // todo: uncomment this when HistoryLambda is ready
-                    // setResponse(res.data.body)
+                    setResponse(res.data)
                 }
             })
             .catch((err) => {

@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Image, Rate, Tag, Empty, notification, message } from "antd";
+import {
+    Row,
+    Col,
+    Image,
+    Rate,
+    Tag,
+    Empty,
+    notification,
+    message,
+    Spin,
+} from "antd";
 import { useParams } from "react-router-dom";
 import {
     EnvironmentOutlined,
@@ -13,13 +23,13 @@ import { setUserPos } from "../state/reducers/UserPosSlice";
 import axios from "axios";
 import { ENDPOINT } from "../constants";
 
-
 function MovieDetail(props) {
-
-    const {auth} = props;
+    const { auth } = props;
 
     const { movie_id } = useParams();
     // console.log('movie_id', movie_id)
+
+    const { isLoading, setIsLoading } = useState(false);
 
     const user_pos = useSelector((state) => state.user_pos);
     const dispatch = useDispatch();
@@ -27,42 +37,42 @@ function MovieDetail(props) {
     // todo: initial state is null
     const [response, setResponse] = useState({
         body: {
-            movieId: "1",
-            movieName: "movie_name_1",
-            movieImage: "https://picsum.photos/200/300",
-            releaseDate: "2022-04-13",
-            rating: "4.5",
+            movieId: "296301",
+            movieName: "Doctor Strange in the Multiverse of Madness",
+            movieImage: "https://image.movieglu.com/296301/296301h1.jpg",
+            releaseDate: "2022-05-06",
+            rating: "2",
             synopsis:
-                "Set in Middle-earth, the story tells of the Dark Lord Sauron, who seeks the One Ring, which contains part of his soul, in order to return to power. The Ring has found its way to the young hobbit Frodo Baggins. The fate of Middle-earth hangs in the balance as Frodo and eight companions begin their journey to Mount Doom in the land of Mordor, the only place where the Ring can be destroyed.",
-            duration: "90",
-            genres: ["genres1", "genres2", "genres3"],
-            directors: ["director1", "director2", "director3"],
-            cast: ["cast1", "cast2", "cast3"],
-            isliked: 1,
+                'In Marvel Studios\' "Doctor Strange in the Multiverse of Madness," the MCU unlocks the Multiverse and pushes its boundaries further than ever before. Journey into the unknown with Doctor Strange, who, with the help of mystical allies both old and new, traverses the mind-bending and dangerous alternate realities of the Multiverse to confront a mysterious new adversary.',
+            duration: "126",
+            genres: ["Action/Adventure", "SciFi/Fantasy"],
+            directors: ["Sam Raimi"],
+            cast: ["Benedict Cumberbatch", "Elizabeth Olsen"],
             cinemas: [
                 {
-                    inemaId: "1",
-                    cinemaName: "AMC 84th Street 6",
-                    distance: "0.7",
+                    cinemaId: "11",
+                    cinemaName: "AMC Loews 84th Street 6",
+                    distance: "0.56",
                     address: "2310 Broadway, New York, NY 10024",
                 },
                 {
-                    inemaId: "2",
-                    cinemaName: "Regal E-Walk 4DX & RPX",
-                    distance: "0.8",
-                    address: "247 W 42nd St, New York, NY 10036",
-                },
-                {
-                    inemaId: "3",
+                    cinemaId: "164",
                     cinemaName: "AMC Lincoln Square 13",
-                    distance: "0.8",
+                    distance: "1.37",
                     address: "1998 Broadway, New York, NY 10023",
                 },
+                {
+                    cinemaId: "13",
+                    cinemaName: "AMC Orpheum 7",
+                    distance: "1.40",
+                    address: "1538 Third Ave. (86th St.), New York, NY 10028",
+                },
             ],
+            isliked: 0,
         },
     });
 
-    console.log('render')
+    console.log("render");
     useEffect(() => {
         // console.log("2");
         // console.log("geolocation before update", user_pos);
@@ -78,7 +88,6 @@ function MovieDetail(props) {
                         navigator.geolocation.getCurrentPosition(function (
                             position
                         ) {
-
                             dispatch(
                                 setUserPos({
                                     lat: position.coords.latitude,
@@ -110,40 +119,39 @@ function MovieDetail(props) {
 
         // note: 3. send api request
         // todo: uncomment this when the backend lambda is ready
-        apiPostMovie();
-        
+        // apiPostMovie();
     }, []);
-
 
     useEffect(() => {
         console.log("update user_pos", user_pos);
     }, [user_pos]);
 
-
     const apiPostMovie = () => {
+        // if loading
+        // setIsLoading(true)
 
-        console.log('movie_id', movie_id);
+        console.log("movie_id", movie_id);
         let url = `${ENDPOINT}/movie/${movie_id}`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
 
-        let formated_user_pos
-        if(user_pos === null){
-            formated_user_pos = ""
+        let formated_user_pos;
+        if (user_pos === null) {
+            formated_user_pos = "";
         } else {
-            formated_user_pos = user_pos.lat + ";" + user_pos.lng
+            formated_user_pos = user_pos.lat + ";" + user_pos.lng;
         }
-        console.log('format user_pos', formated_user_pos)
+        console.log("format user_pos", formated_user_pos);
 
         const opt = {
             method: "POST",
             url: url,
             headers: {
                 "x-api-key": API_KEY,
-                "x-amz-meta-user": auth.user.attributes.sub
+                "x-amz-meta-user": auth.user.attributes.sub,
             },
             data: {
-                user_pos: formated_user_pos
-            }
+                user_pos: formated_user_pos,
+            },
         };
 
         axios(opt)
@@ -153,7 +161,7 @@ function MovieDetail(props) {
                     console.log(res.data);
 
                     // todo: set response
-                    setResponse(res.data)
+                    setResponse(res.data);
                 }
             })
             .catch((err) => {
@@ -161,6 +169,7 @@ function MovieDetail(props) {
                 console.log("Fetch movie info failed: ", err.message);
             });
 
+        // setIsLoading(false)
     };
 
     // todo: apiPostLike
@@ -173,7 +182,7 @@ function MovieDetail(props) {
             url: url,
             headers: {
                 "x-api-key": API_KEY,
-                "x-amz-meta-user": auth.user.attributes.sub
+                "x-amz-meta-user": auth.user.attributes.sub,
             },
             data: {
                 id: response.body.movieId,
@@ -222,7 +231,7 @@ function MovieDetail(props) {
 
             // todo: send unlike request
             // console.log("Send Unlike Request.");
-            apiPostLike(0)
+            apiPostLike(0);
         } else {
             // pop message
             renderMessageOnLike();
@@ -235,7 +244,7 @@ function MovieDetail(props) {
             });
             // todo: send like request
             console.log("Send like Request.");
-            apiPostLike(1)
+            apiPostLike(1);
         }
     };
 
@@ -267,6 +276,10 @@ function MovieDetail(props) {
     };
 
     const renderMovieDetail = () => {
+        if (isLoading === true) {
+            return <Spin size="large" />;
+        }
+
         // todo: if condition
         // if(response === null){
         //     return <Empty/>
@@ -318,9 +331,9 @@ function MovieDetail(props) {
                             <div className="rate">
                                 <Rate
                                     disabled
-                                    defaultValue={2}
+                                    // defaultValue={0}
                                     value={response.body.rating}
-                                    allowHalf
+                                    // allowHalf
                                 />
                             </div>
                         </div>

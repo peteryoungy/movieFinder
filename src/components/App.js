@@ -10,6 +10,7 @@ import Login from "./Login";
 import MovieDetail from "./MovieDetail";
 import CinemeDetail from "./CinemaDetail";
 import { Auth } from "aws-amplify";
+import Search from "./Search";
 
 const { Footer, Content } = Layout;
 
@@ -37,8 +38,6 @@ class App extends Component {
             const user = await Auth.currentAuthenticatedUser();
             // todo: uncomment this
             this.setUser(user);
-
-            
         } catch (error) {
             if (error !== "No current user") {
                 console.log(error);
@@ -114,6 +113,14 @@ class App extends Component {
                                 path="/cinema/:cinema_id"
                                 render={(props) => (
                                     <CinemeDetail {...props} auth={authProps} />
+                                )}
+                            />
+
+                            <Route
+                                exact
+                                path="/search"
+                                render={(props) => (
+                                    <Search {...props} auth={authProps} />
                                 )}
                             />
                         </Switch>

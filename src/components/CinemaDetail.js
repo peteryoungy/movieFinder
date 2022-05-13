@@ -364,6 +364,17 @@ function CinemaDetail(props) {
         },
     });
 
+    const res = {
+        "cinema_id":11,
+        "cinema_name":"AMC Loews 84th Street 6",
+        "address":"2310 Broadway",
+        "address2":"","city":"New York","state":"NY",
+        "postcode":10024,
+        "lat":40.786598,"lng":-73.9776,
+        "distance":null,
+        "logo_url":"https:\/\/assets.movieglu.com\/chain_logos\/us\/UK-124-sq.jpg"
+    }
+
     const user_pos = useSelector((state) => state.user_pos);
 
     // todo: get des_pos or not
@@ -387,7 +398,7 @@ function CinemaDetail(props) {
 
         console.log("user_pos", user_pos);
 
-        apiGetCinema();
+        // apiGetCinema();
     }, []);
 
     const apiGetCinema = () => {
