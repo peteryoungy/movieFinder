@@ -21,7 +21,7 @@
   
   .register_card {
     width: 520px;
-    height: 500px;
+    /* height: 500px; */
     background: #f2f3f7;
     border-radius: 20px;
     margin: auto;

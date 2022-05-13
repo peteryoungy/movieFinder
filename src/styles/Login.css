@@ -21,7 +21,7 @@
   
   .login_card {
     width: 520px;
-    height: 450px;
+    /* height: 450px; */
     background: #f2f3f7;
     border-radius: 20px;
     margin: auto;

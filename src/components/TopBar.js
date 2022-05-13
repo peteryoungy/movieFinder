@@ -62,31 +62,11 @@ class TopBar extends Component {
 
     // const menu = <Menu onClick={handleMenuClick} items={items}/>;
 
-    useEffect = () => {
-        // console.log("Did Mount.")
-        const title = document.getElementById('title')
-
-        title.addEventListener('pointerenter', () => {
-            title.classList.add('pointer')
-        })
-
-        title.addEventListener('click', () => {
-            window.location.href = "/"
-        })
-
-        return () => {
-            // todo: give name
-            title.removeEventListener('pointerenter')
-            title.removeEventListener('click')
-        }
-
-    }
-
     render() {
         return (
             <Header>
                 <Row justify="space-between">
-                    <Col span={10} className="midd">
+                    <Col span={10} className="pointer midd" onClick={() => {window.location.href='/home'}}>
                         <div id="title"> MovieFinder!</div>
                         {/* <Search
                         suffix={suffix}
