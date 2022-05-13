@@ -26,6 +26,9 @@ const libraries = ["places", "drawing", "geometry"];
 const travelMode = "DRIVING";
 
 function CinemaDetail(props) {
+
+    const {auth} = props;
+
     const [visible, setVisible] = useState(false);
     const [diResponse, setdiResponse] = useState(null);
     // todo: set default as null

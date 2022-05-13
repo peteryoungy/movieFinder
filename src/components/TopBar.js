@@ -67,9 +67,7 @@ function TopBar(props) {
         }
     };
 
-
     const renderLoggedInButton = () => {
-
         // todo: to debug, use isLoggedIn
         if (isLoggedIn === false) {
             return (
@@ -110,18 +108,19 @@ function TopBar(props) {
         );
     };
 
-
     return (
         <Header>
             <Row justify="space-between">
-                <Col
-                    span={10}
-                    className="pointer midd"
-                    onClick={() => {
-                        window.location.href = "/home";
-                    }}
-                >
-                    <div id="title"> MovieFinder!</div>
+                <Col span={10} className="pointer midd">
+                    <div
+                        id="title"
+                        onClick={() => {
+                            window.location.href = "/home";
+                        }}
+                    >
+                        {" "}
+                        MovieFinder!
+                    </div>
 
                     <SearchBar />
                 </Col>

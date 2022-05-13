@@ -10,6 +10,8 @@ function LikePage(props) {
     // att: why useRef?
     // const title = useRef(null)
 
+    const {auth} = props;
+
     console.log('props', props)
 
     // todo: make initial state null
@@ -61,7 +63,7 @@ function LikePage(props) {
             url: url,
             headers: {
                 "x-api-key": API_KEY,
-                // "Authorization": ""
+                "x-amz-meta-user": auth.user.attributes.sub
             },
         };
 
@@ -73,7 +75,7 @@ function LikePage(props) {
                     console.log(res.data);
 
                     // todo: uncomment this when HistoryLambda is ready
-                    setResponse(res.data.body)
+                    // setResponse(res.data.body)
                 }
             })
             .catch((err) => {

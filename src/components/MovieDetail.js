@@ -15,6 +15,9 @@ import { ENDPOINT } from "../constants";
 
 
 function MovieDetail(props) {
+
+    const {auth} = props;
+
     const { movie_id } = useParams();
     // console.log('movie_id', movie_id)
 
@@ -136,6 +139,7 @@ function MovieDetail(props) {
             url: url,
             headers: {
                 "x-api-key": API_KEY,
+                "x-amz-meta-user": auth.user.attributes.sub
             },
             data: {
                 user_pos: formated_user_pos
@@ -169,6 +173,7 @@ function MovieDetail(props) {
             url: url,
             headers: {
                 "x-api-key": API_KEY,
+                "x-amz-meta-user": auth.user.attributes.sub
             },
             data: {
                 id: response.body.movieId,

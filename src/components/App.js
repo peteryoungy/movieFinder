@@ -38,6 +38,7 @@ class App extends Component {
             // todo: uncomment this
             this.setUser(user);
 
+            
         } catch (error) {
             if (error !== "No current user") {
                 console.log(error);

@@ -4,11 +4,14 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { ENDPOINT } from "../constants";
 import { StarTwoTone} from '@ant-design/icons';
+import { auth0SignInButton } from 'aws-amplify';
 
 
 function Home(props) {
 
     const { Meta } = Card;
+
+    const {auth} = props;
 
     const [response, setResponse] = useState({
         nowshowing: [
@@ -181,7 +184,7 @@ function Home(props) {
             url: url,
             headers: {
                 "x-api-key": API_KEY,
-                // "Authorization": ""
+                "x-amz-meta-user": auth.user.attributes.sub
             },
         };
 
@@ -193,7 +196,7 @@ function Home(props) {
                     console.log(res.data);
 
                     // todo: uncomment this when HomeLambda is ready
-                    setResponse(res.data.body)
+                    // setResponse(res.data.body)
                 }
             })
             .catch((err) => {
