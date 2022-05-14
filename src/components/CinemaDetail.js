@@ -415,6 +415,10 @@ function CinemaDetail(props) {
     };
 
     const renderMap = () => {
+        if (response === null) {
+            return <Empty />;
+        }
+
         console.log("render Map", isLoaded);
         if (!isLoaded) {
             return <div>Loading....</div>;
@@ -511,11 +515,13 @@ function CinemaDetail(props) {
             return <Empty />;
         }
         return (
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} >
                 {/* <Col span={8}>
                     <img src={response.image} className="detail detail-img" />
                 </Col> */}
+                <Col span={1}>
 
+                </Col>
                 <Col span={14}>
                     <div>
                         <div className="detail detail-title">

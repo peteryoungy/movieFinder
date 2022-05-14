@@ -15,34 +15,39 @@ function LikePage(props) {
     console.log('props', props)
 
     // todo: make initial state null
+    // const [response, setResponse] = useState({
+    //     likes: [
+    //         {
+    //             id: "1",
+    //             title: "film1",
+    //             image: "https://picsum.photos/200/300",
+    //             actors: ["actor1", "actor2", "actor3"],
+    //             directors: ["director1", "director2", "director3"],
+    //             rating: 4.5,
+    //         },
+    //         {
+    //             id: "2",
+    //             title: "film2",
+    //             image: "https://picsum.photos/200/300",
+    //             actors: ["actor1", "actor2", "actor3"],
+    //             directors: ["director1", "director2", "director3"],
+    //             rating: 4.5,
+    //         },
+    //         {
+    //             id: "3",
+    //             title: "film3",
+    //             image: "https://picsum.photos/200/300",
+    //             actors: ["actor1", "actor2", "actor3"],
+    //             directors: ["director1", "director2", "director3"],
+    //             rating: 4.5,
+    //         },
+    //     ],
+    // });
+
     const [response, setResponse] = useState({
-        likes: [
-            {
-                id: "1",
-                title: "film1",
-                image: "https://picsum.photos/200/300",
-                actors: ["actor1", "actor2", "actor3"],
-                directors: ["director1", "director2", "director3"],
-                rating: 4.5,
-            },
-            {
-                id: "2",
-                title: "film2",
-                image: "https://picsum.photos/200/300",
-                actors: ["actor1", "actor2", "actor3"],
-                directors: ["director1", "director2", "director3"],
-                rating: 4.5,
-            },
-            {
-                id: "3",
-                title: "film3",
-                image: "https://picsum.photos/200/300",
-                actors: ["actor1", "actor2", "actor3"],
-                directors: ["director1", "director2", "director3"],
-                rating: 4.5,
-            },
-        ],
-    });
+        likes: null
+    })
+
 
     useEffect(() => {
 
@@ -88,9 +93,9 @@ function LikePage(props) {
     const renderLikes = () => {
 
         // todo: uncomment this
-        // if (response === null) {
-        //     return <Empty/>;
-        // }
+        if (response.likes === null) {
+            return <Empty/>;
+        }
 
         return response.likes.map((d) => (
             <div className="like-card" key={d["id"]}>
