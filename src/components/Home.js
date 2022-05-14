@@ -1,124 +1,151 @@
 import { Card } from "antd";
-import { Row, Col, Image, Rate, Tag, Empty, notification, message } from "antd";
+import {
+    Row,
+    Col,
+    Image,
+    Rate,
+    Tag,
+    Empty,
+    notification,
+    message,
+    Spin,
+} from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { ENDPOINT } from "../constants";
 import { StarTwoTone } from "@ant-design/icons";
-import { auth0SignInButton } from "aws-amplify";
+import { auth0SignInButton, selectInput } from "aws-amplify";
+
+const defaultResponse = {
+    recommendation: [
+        {
+            id: "327020",
+            title: "Everything Everywhere All At Once",
+            image: "https://image.movieglu.com/327020/327020h1.jpg",
+            rating: "3",
+            duration: "140",
+        },
+        {
+            id: "318723",
+            title: "The Northman",
+            image: "https://image.movieglu.com/318723/318723h1.jpg",
+            rating: "3.5",
+            duration: "136",
+        },
+        {
+            id: "296301",
+            title: "Doctor Strange in the Multiverse of Madness",
+            image: "https://image.movieglu.com/296301/296301h1.jpg",
+            rating: "2",
+            duration: "126",
+        },
+    ],
+    nowshowing: [
+        {
+            id: 296301,
+            title: "Doctor Strange in the Multiverse of Madness",
+            image: "https://image.movieglu.com/296301/296301h1.jpg",
+            duration: "126",
+            rating: "2",
+        },
+        {
+            id: 327907,
+            title: "Firestarter",
+            image: "https://image.movieglu.com/327907/327907h1.jpg",
+            duration: "94",
+            rating: "0",
+        },
+        {
+            id: 300783,
+            title: "The Bad Guys",
+            image: "https://image.movieglu.com/300783/300783h1.jpg",
+            duration: "100",
+            rating: "2.5",
+        },
+        {
+            id: 310966,
+            title: "Sonic the Hedgehog 2",
+            image: "https://image.movieglu.com/310966/310966h1.jpg",
+            duration: "122",
+            rating: "0",
+        },
+        {
+            id: 197407,
+            title: "Fantastic Beasts: The Secrets of Dumbledore",
+            image: "https://image.movieglu.com/197407/197407h1.jpg",
+            duration: "142",
+            rating: "2",
+        },
+        {
+            id: 327020,
+            title: "Everything Everywhere All At Once",
+            image: "https://image.movieglu.com/327020/327020h1.jpg",
+            duration: "140",
+            rating: "3",
+        },
+        {
+            id: 316485,
+            title: "The Lost City",
+            image: "https://image.movieglu.com/316485/316485h1.jpg",
+            duration: "112",
+            rating: "2.5",
+        },
+        {
+            id: 318723,
+            title: "The Northman",
+            image: "https://image.movieglu.com/318723/318723h1.jpg",
+            duration: "136",
+            rating: "3.5",
+        },
+        {
+            id: 329462,
+            title: "Family Camp",
+            image: "https://image.movieglu.com/329462/329462h1.jpg",
+            duration: "111",
+            rating: "0",
+        },
+        {
+            id: 307292,
+            title: "The Unbearable Weight of Massive Talent",
+            image: "https://image.movieglu.com/307292/307292h1.jpg",
+            duration: "106",
+            rating: "2.5",
+        },
+    ],
+};
+
+const sleep = (milliseconds) => {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+};
 
 function Home(props) {
     const { Meta } = Card;
 
     const { auth } = props;
 
-    const [response, setResponse] = useState({
-        recommendation: [
-            {
-                id: "327020",
-                title: "Everything Everywhere All At Once",
-                image: "https://image.movieglu.com/327020/327020h1.jpg",
-                rating: "3",
-                duration: "140",
-            },
-            {
-                id: "318723",
-                title: "The Northman",
-                image: "https://image.movieglu.com/318723/318723h1.jpg",
-                rating: "3.5",
-                duration: "136",
-            },
-            {
-                id: "296301",
-                title: "Doctor Strange in the Multiverse of Madness",
-                image: "https://image.movieglu.com/296301/296301h1.jpg",
-                rating: "2",
-                duration: "126",
-            },
-        ],
-        nowshowing: [
-            {
-                id: 296301,
-                title: "Doctor Strange in the Multiverse of Madness",
-                image: "https://image.movieglu.com/296301/296301h1.jpg",
-                duration: "126",
-                rating: "2",
-            },
-            {
-                id: 327907,
-                title: "Firestarter",
-                image: "https://image.movieglu.com/327907/327907h1.jpg",
-                duration: "94",
-                rating: "0",
-            },
-            {
-                id: 300783,
-                title: "The Bad Guys",
-                image: "https://image.movieglu.com/300783/300783h1.jpg",
-                duration: "100",
-                rating: "2.5",
-            },
-            {
-                id: 310966,
-                title: "Sonic the Hedgehog 2",
-                image: "https://image.movieglu.com/310966/310966h1.jpg",
-                duration: "122",
-                rating: "0",
-            },
-            {
-                id: 197407,
-                title: "Fantastic Beasts: The Secrets of Dumbledore",
-                image: "https://image.movieglu.com/197407/197407h1.jpg",
-                duration: "142",
-                rating: "2",
-            },
-            {
-                id: 327020,
-                title: "Everything Everywhere All At Once",
-                image: "https://image.movieglu.com/327020/327020h1.jpg",
-                duration: "140",
-                rating: "3",
-            },
-            {
-                id: 316485,
-                title: "The Lost City",
-                image: "https://image.movieglu.com/316485/316485h1.jpg",
-                duration: "112",
-                rating: "2.5",
-            },
-            {
-                id: 318723,
-                title: "The Northman",
-                image: "https://image.movieglu.com/318723/318723h1.jpg",
-                duration: "136",
-                rating: "3.5",
-            },
-            {
-                id: 329462,
-                title: "Family Camp",
-                image: "https://image.movieglu.com/329462/329462h1.jpg",
-                duration: "111",
-                rating: "0",
-            },
-            {
-                id: 307292,
-                title: "The Unbearable Weight of Massive Talent",
-                image: "https://image.movieglu.com/307292/307292h1.jpg",
-                duration: "106",
-                rating: "2.5",
-            },
-        ],
-    });
+    // const [response, setResponse] = useState(defaultResponse);
 
-    // const [response, setResponse] = useState(null);
+    const [response, setResponse] = useState(null);
+
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         // todo: uncomment this when HomeLambda is ready
-        // apiGetHome();
+        setIsLoading(true);
+        apiGetHome();
     }, []);
 
     const apiGetHome = () => {
-        let url = `${ENDPOINT}/home`;
 
+        // note: test code for isLoading
+        // sleep(10000).then(() => {
+        //     setResponse(defaultResponse);
+        //     setIsLoading(false);
+        // });
+
+        // return;
+
+        let url = `${ENDPOINT}/home`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
         // console.log('API KEY', API_KEY)
 
@@ -141,12 +168,17 @@ function Home(props) {
 
                     // todo: uncomment this when HomeLambda is ready
                     setResponse(res.data);
+                    setIsLoading(false);
                 }
             })
             .catch((err) => {
                 message.error("Fetch Homepage failed!");
                 console.log("Fetch Homepage failed: ", err.message);
+
+                setIsLoading(false)
             });
+
+        
     };
 
     const renderRecommendation = () => {
@@ -218,6 +250,7 @@ function Home(props) {
 
     const renderNowShowing = () => {
         // todo: if condition
+
         if (response === null) {
             return <Empty />;
         }
@@ -271,11 +304,11 @@ function Home(props) {
     const onClickMovieCard = (e) => {
         console.log("event", e);
 
-        console.log('auth.user', auth.user)
+        console.log("auth.user", auth.user);
 
-        if(auth.user === null) {
+        if (auth.user === null) {
             window.location.href = "/login";
-            return 
+            return;
         }
 
         const parent = e.target.closest(".movie-card");
@@ -291,19 +324,27 @@ function Home(props) {
     return (
         <div className="bg-2">
             <br />
-            <div className="detail-div">
-                <br />
-                <div className="home-title"> Film now showing... </div>
-                <div className="home-div">{renderNowShowing()}</div>
-                <br />
-            </div>
-            <div className="detail-div">
-                <br />
-                {renderRecommendation()}
-                {/* <div className="home-title"> Recommendation for you... </div>
-                <div className="home-div">{renderRecommendation()}</div> */}
-                <br />
-            </div>
+
+            {isLoading === true ? (
+                <div>
+                    <Row justify="center">
+                        <Col>
+                            <Spin size="large"/>
+                        </Col>
+                    </Row>
+                </div>
+            ) : (
+                <div>
+                    <div className="detail-div">
+                        <br />
+                        <div className="home-title"> Films Now Showing... </div>
+                        <div className="home-div">{renderNowShowing()}</div>
+                        <br />
+                        {renderRecommendation()}
+                        <br />
+                    </div>
+                </div>
+            )}
             <br />
         </div>
     );
