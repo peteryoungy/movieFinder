@@ -35,41 +35,45 @@ function MovieDetail(props) {
     const dispatch = useDispatch();
 
     // todo: initial state is null
+    // const [response, setResponse] = useState({
+    //     body: {
+    //         movieId: "296301",
+    //         movieName: "Doctor Strange in the Multiverse of Madness",
+    //         movieImage: "https://image.movieglu.com/296301/296301h1.jpg",
+    //         releaseDate: "2022-05-06",
+    //         rating: "2",
+    //         synopsis:
+    //             'In Marvel Studios\' "Doctor Strange in the Multiverse of Madness," the MCU unlocks the Multiverse and pushes its boundaries further than ever before. Journey into the unknown with Doctor Strange, who, with the help of mystical allies both old and new, traverses the mind-bending and dangerous alternate realities of the Multiverse to confront a mysterious new adversary.',
+    //         duration: "126",
+    //         genres: ["Action/Adventure", "SciFi/Fantasy"],
+    //         directors: ["Sam Raimi"],
+    //         cast: ["Benedict Cumberbatch", "Elizabeth Olsen"],
+    //         cinemas: [
+    //             {
+    //                 cinemaId: "11",
+    //                 cinemaName: "AMC Loews 84th Street 6",
+    //                 distance: "0.56",
+    //                 address: "2310 Broadway, New York, NY 10024",
+    //             },
+    //             {
+    //                 cinemaId: "164",
+    //                 cinemaName: "AMC Lincoln Square 13",
+    //                 distance: "1.37",
+    //                 address: "1998 Broadway, New York, NY 10023",
+    //             },
+    //             {
+    //                 cinemaId: "13",
+    //                 cinemaName: "AMC Orpheum 7",
+    //                 distance: "1.40",
+    //                 address: "1538 Third Ave. (86th St.), New York, NY 10028",
+    //             },
+    //         ],
+    //         isliked: 0,
+    //     },
+    // });
+
     const [response, setResponse] = useState({
-        body: {
-            movieId: "296301",
-            movieName: "Doctor Strange in the Multiverse of Madness",
-            movieImage: "https://image.movieglu.com/296301/296301h1.jpg",
-            releaseDate: "2022-05-06",
-            rating: "2",
-            synopsis:
-                'In Marvel Studios\' "Doctor Strange in the Multiverse of Madness," the MCU unlocks the Multiverse and pushes its boundaries further than ever before. Journey into the unknown with Doctor Strange, who, with the help of mystical allies both old and new, traverses the mind-bending and dangerous alternate realities of the Multiverse to confront a mysterious new adversary.',
-            duration: "126",
-            genres: ["Action/Adventure", "SciFi/Fantasy"],
-            directors: ["Sam Raimi"],
-            cast: ["Benedict Cumberbatch", "Elizabeth Olsen"],
-            cinemas: [
-                {
-                    cinemaId: "11",
-                    cinemaName: "AMC Loews 84th Street 6",
-                    distance: "0.56",
-                    address: "2310 Broadway, New York, NY 10024",
-                },
-                {
-                    cinemaId: "164",
-                    cinemaName: "AMC Lincoln Square 13",
-                    distance: "1.37",
-                    address: "1998 Broadway, New York, NY 10023",
-                },
-                {
-                    cinemaId: "13",
-                    cinemaName: "AMC Orpheum 7",
-                    distance: "1.40",
-                    address: "1538 Third Ave. (86th St.), New York, NY 10028",
-                },
-            ],
-            isliked: 0,
-        },
+        body: null,
     });
 
     console.log("render");
@@ -119,7 +123,7 @@ function MovieDetail(props) {
 
         // note: 3. send api request
         // todo: uncomment this when the backend lambda is ready
-        // apiPostMovie();
+        apiPostMovie();
     }, []);
 
     useEffect(() => {
@@ -281,9 +285,9 @@ function MovieDetail(props) {
         }
 
         // todo: if condition
-        // if(response === null){
-        //     return <Empty/>
-        // }
+        if (response.body === null) {
+            return <Empty />;
+        }
 
         return (
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
@@ -361,7 +365,7 @@ function MovieDetail(props) {
                             {/* <div className="detail-default primary">
                                     Filmed In
                                 </div> */}
-                            {renderCinemaList}
+                            {renderCinemaList()}
                         </div>
                     </div>
                 </Col>
@@ -369,36 +373,43 @@ function MovieDetail(props) {
         );
     };
 
-    const renderCinemaList = response.body.cinemas.map((cinema) => (
-        <div
-            className="pointer detail-list-card"
-            key={cinema["inemaId"]}
-            data-id={cinema.inemaId}
-            onClick={onClickCard}
-        >
-            <Row className="padding-left">
-                <Col span={20}>
-                    <span className="bold-600"> {cinema.cinemaName}</span>
-                </Col>
+    const renderCinemaList = () => {
 
-                <Col>
-                    <EnvironmentOutlined />
-                    <span className="detail-default">
-                        {" "}
-                        {cinema.distance} miles
-                    </span>
-                </Col>
-            </Row>
-            <Row className="padding-left">
-                <Col>
-                    <span className="detail-small detail-sub-title">
-                        {" "}
-                        {cinema.address}{" "}
-                    </span>
-                </Col>
-            </Row>
-        </div>
-    ));
+        if(response.body === null){
+            return null
+        }
+        
+        return response.body.cinemas.map((cinema) => (
+            <div
+                className="pointer detail-list-card"
+                key={cinema["inemaId"]}
+                data-id={cinema.cinemaId}
+                onClick={onClickCard}
+            >
+                <Row className="padding-left">
+                    <Col span={20}>
+                        <span className="bold-600"> {cinema.cinemaName}</span>
+                    </Col>
+
+                    <Col>
+                        <EnvironmentOutlined />
+                        <span className="detail-default">
+                            {" "}
+                            {cinema.distance} miles
+                        </span>
+                    </Col>
+                </Row>
+                <Row className="padding-left">
+                    <Col>
+                        <span className="detail-small detail-sub-title">
+                            {" "}
+                            {cinema.address}{" "}
+                        </span>
+                    </Col>
+                </Row>
+            </div>
+        ));
+    };
 
     return (
         <div className="bg-1">

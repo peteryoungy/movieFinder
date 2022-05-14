@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Space, Tabs, Button, Tag, Tooltip, Drawer, message} from "antd";
+import {
+    Row,
+    Col,
+    Space,
+    Tabs,
+    Button,
+    Tag,
+    Tooltip,
+    Drawer,
+    message,
+    Empty,
+} from "antd";
 import {
     EnvironmentOutlined,
     RightCircleOutlined,
@@ -26,362 +37,275 @@ const libraries = ["places", "drawing", "geometry"];
 const travelMode = "DRIVING";
 
 function CinemaDetail(props) {
-
-    const {auth} = props;
+    const { auth } = props;
 
     const [visible, setVisible] = useState(false);
     const [diResponse, setdiResponse] = useState(null);
     // todo: set default as null
-    const [response, setResponse] = useState({
-        id: "2",
-        cinemaName: "Regal E-Walk 4DX & RPX",
-        image: "https://picsum.photos/200/300",
-        distance: "0.8",
-        address: "247 W 42nd St, New York, NY 10036",
-        link: "https://www.google.com",
-        showtime: {
-            0: [
-                {
-                    id: "1",
-                    title: "Movie Name 1",
-                    duration: "90",
-                    times: [
-                        {
-                            start_time: "14:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "15:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "16:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "18:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "20:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "21:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "23:30",
-                            end_time: "20:45",
-                        },
-                    ],
-                },
-                {
-                    id: "2",
-                    title: "Movie Name 2",
-                    duration: "90",
-                    times: [
-                        {
-                            start_time: "14:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "15:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "16:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "18:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "20:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "21:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "23:30",
-                            end_time: "20:45",
-                        },
-                    ],
-                },
-                {
-                    id: "3",
-                    title: "Movie Name 3",
-                    duration: "90",
-                    times: [
-                        {
-                            start_time: "14:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "15:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "16:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "18:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "20:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "21:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "23:30",
-                            end_time: "20:45",
-                        },
-                    ],
-                },
-            ],
-            1: [
-                {
-                    id: "4",
-                    title: "Movie Name 4",
-                    duration: "90",
-                    times: [
-                        {
-                            start_time: "14:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "15:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "16:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "18:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "20:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "21:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "23:30",
-                            end_time: "20:45",
-                        },
-                    ],
-                },
-                {
-                    id: "5",
-                    title: "Movie Name 5",
-                    duration: "90",
-                    times: [
-                        {
-                            start_time: "14:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "15:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "16:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "18:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "20:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "21:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "23:30",
-                            end_time: "20:45",
-                        },
-                    ],
-                },
-                {
-                    id: "6",
-                    title: "Movie Name 6",
-                    duration: "90",
-                    times: [
-                        {
-                            start_time: "14:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "15:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "16:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "18:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "20:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "21:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "23:30",
-                            end_time: "20:45",
-                        },
-                    ],
-                },
-            ],
-            2: [
-                {
-                    id: "7",
-                    title: "Movie Name 7",
-                    duration: "90",
-                    times: [
-                        {
-                            start_time: "14:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "15:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "16:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "18:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "20:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "21:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "23:30",
-                            end_time: "20:45",
-                        },
-                    ],
-                },
-                {
-                    id: "8",
-                    title: "Movie Name 8",
-                    duration: "90",
-                    times: [
-                        {
-                            start_time: "14:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "15:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "16:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "18:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "20:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "21:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "23:30",
-                            end_time: "20:45",
-                        },
-                    ],
-                },
-                {
-                    id: "9",
-                    title: "Movie Name 9",
-                    duration: "90",
-                    times: [
-                        {
-                            start_time: "14:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "15:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "16:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "18:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "20:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "21:30",
-                            end_time: "20:45",
-                        },
-                        {
-                            start_time: "23:30",
-                            end_time: "20:45",
-                        },
-                    ],
-                },
-            ],
-        },
-    });
 
-    const res = {
-        "cinema_id":11,
-        "cinema_name":"AMC Loews 84th Street 6",
-        "address":"2310 Broadway",
-        "address2":"","city":"New York","state":"NY",
-        "postcode":10024,
-        "lat":40.786598,"lng":-73.9776,
-        "distance":null,
-        "logo_url":"https:\/\/assets.movieglu.com\/chain_logos\/us\/UK-124-sq.jpg"
-    }
+    // todo: get distance from address
+    // const [response, setResponse] = useState({
+    //     id: "11",
+    //     cinemaName: "AMC Loews 84th Street 6",
+    //     image: "https://lh5.googleusercontent.com/p/AF1QipMa9KBx4Z3o7sOfZ46a83HDg_0178UhDG8Sx5-w=w203-h152-k-no",
+    //     address: "2310 Broadway,New York,NY 10024",
+    //     link: "",
+    //     Des_pos: {
+    //         lat: 40.786598,
+    //         lng: -73.9776,
+    //     },
+    //     showtime: {
+    //         0: [
+    //             {
+    //                 id: 300783,
+    //                 title: "The Bad Guys",
+    //                 duration: "100",
+    //                 times: [
+    //                     {
+    //                         start_time: "22:45",
+    //                         end_time: "00:50",
+    //                     },
+    //                 ],
+    //             },
+    //         ],
+    //         1: [
+    //             {
+    //                 id: 296301,
+    //                 title: "Doctor Strange in the Multiverse of Madness",
+    //                 duration: "126",
+    //                 times: [
+    //                     {
+    //                         start_time: "10:45",
+    //                         end_time: "13:16",
+    //                     },
+    //                     {
+    //                         start_time: "13:05",
+    //                         end_time: "15:36",
+    //                     },
+    //                     {
+    //                         start_time: "13:40",
+    //                         end_time: "16:11",
+    //                     },
+    //                     {
+    //                         start_time: "16:35",
+    //                         end_time: "19:06",
+    //                     },
+    //                     {
+    //                         start_time: "19:30",
+    //                         end_time: "22:01",
+    //                     },
+    //                     {
+    //                         start_time: "21:20",
+    //                         end_time: "23:51",
+    //                     },
+    //                     {
+    //                         start_time: "22:30",
+    //                         end_time: "01:01",
+    //                     },
+    //                 ],
+    //             },
+    //             {
+    //                 id: 300783,
+    //                 title: "The Bad Guys",
+    //                 duration: "100",
+    //                 times: [
+    //                     {
+    //                         start_time: "11:25",
+    //                         end_time: "13:30",
+    //                     },
+    //                     {
+    //                         start_time: "13:50",
+    //                         end_time: "15:55",
+    //                     },
+    //                     {
+    //                         start_time: "16:20",
+    //                         end_time: "18:25",
+    //                     },
+    //                     {
+    //                         start_time: "18:50",
+    //                         end_time: "20:55",
+    //                     },
+    //                     {
+    //                         start_time: "22:45",
+    //                         end_time: "00:50",
+    //                     },
+    //                 ],
+    //             },
+    //             {
+    //                 id: 310966,
+    //                 title: "Sonic the Hedgehog 2",
+    //                 duration: "122",
+    //                 times: [
+    //                     {
+    //                         start_time: "10:30",
+    //                         end_time: "12:57",
+    //                     },
+    //                     {
+    //                         start_time: "13:20",
+    //                         end_time: "15:47",
+    //                     },
+    //                     {
+    //                         start_time: "16:20",
+    //                         end_time: "18:47",
+    //                     },
+    //                     {
+    //                         start_time: "19:10",
+    //                         end_time: "21:37",
+    //                     },
+    //                     {
+    //                         start_time: "21:15",
+    //                         end_time: "23:42",
+    //                     },
+    //                 ],
+    //             },
+    //             {
+    //                 id: 197407,
+    //                 title: "Fantastic Beasts: The Secrets of Dumbledore",
+    //                 duration: "142",
+    //                 times: [
+    //                     {
+    //                         start_time: "11:30",
+    //                         end_time: "14:17",
+    //                     },
+    //                     {
+    //                         start_time: "14:45",
+    //                         end_time: "17:32",
+    //                     },
+    //                     {
+    //                         start_time: "18:00",
+    //                         end_time: "20:47",
+    //                     },
+    //                     {
+    //                         start_time: "22:00",
+    //                         end_time: "00:47",
+    //                     },
+    //                 ],
+    //             },
+    //         ],
+    //         2: [
+    //             {
+    //                 id: 296301,
+    //                 title: "Doctor Strange in the Multiverse of Madness",
+    //                 duration: "126",
+    //                 times: [
+    //                     {
+    //                         start_time: "10:00",
+    //                         end_time: "12:31",
+    //                     },
+    //                     {
+    //                         start_time: "12:55",
+    //                         end_time: "15:26",
+    //                     },
+    //                     {
+    //                         start_time: "15:50",
+    //                         end_time: "18:21",
+    //                     },
+    //                     {
+    //                         start_time: "18:15",
+    //                         end_time: "20:46",
+    //                     },
+    //                     {
+    //                         start_time: "18:45",
+    //                         end_time: "21:16",
+    //                     },
+    //                     {
+    //                         start_time: "21:10",
+    //                         end_time: "23:41",
+    //                     },
+    //                     {
+    //                         start_time: "21:40",
+    //                         end_time: "00:11",
+    //                     },
+    //                 ],
+    //             },
+    //             {
+    //                 id: 300783,
+    //                 title: "The Bad Guys",
+    //                 duration: "100",
+    //                 times: [
+    //                     {
+    //                         start_time: "10:10",
+    //                         end_time: "12:15",
+    //                     },
+    //                     {
+    //                         start_time: "13:30",
+    //                         end_time: "15:35",
+    //                     },
+    //                     {
+    //                         start_time: "15:55",
+    //                         end_time: "18:00",
+    //                     },
+    //                     {
+    //                         start_time: "19:45",
+    //                         end_time: "21:50",
+    //                     },
+    //                     {
+    //                         start_time: "22:10",
+    //                         end_time: "00:15",
+    //                     },
+    //                 ],
+    //             },
+    //             {
+    //                 id: 310966,
+    //                 title: "Sonic the Hedgehog 2",
+    //                 duration: "122",
+    //                 times: [
+    //                     {
+    //                         start_time: "10:40",
+    //                         end_time: "13:07",
+    //                     },
+    //                     {
+    //                         start_time: "12:35",
+    //                         end_time: "15:02",
+    //                     },
+    //                     {
+    //                         start_time: "16:15",
+    //                         end_time: "18:42",
+    //                     },
+    //                     {
+    //                         start_time: "19:05",
+    //                         end_time: "21:32",
+    //                     },
+    //                     {
+    //                         start_time: "21:45",
+    //                         end_time: "00:12",
+    //                     },
+    //                 ],
+    //             },
+    //             {
+    //                 id: 197407,
+    //                 title: "Fantastic Beasts: The Secrets of Dumbledore",
+    //                 duration: "142",
+    //                 times: [
+    //                     {
+    //                         start_time: "10:00",
+    //                         end_time: "12:47",
+    //                     },
+    //                     {
+    //                         start_time: "13:10",
+    //                         end_time: "15:57",
+    //                     },
+    //                     {
+    //                         start_time: "15:25",
+    //                         end_time: "18:12",
+    //                     },
+    //                     {
+    //                         start_time: "18:35",
+    //                         end_time: "21:22",
+    //                     },
+    //                     {
+    //                         start_time: "21:55",
+    //                         end_time: "00:42",
+    //                     },
+    //                 ],
+    //             },
+    //         ],
+    //     },
+    // });
+
+    const [response, setResponse] = useState(null);
 
     const user_pos = useSelector((state) => state.user_pos);
-
-    // todo: get des_pos or not
-    const des_pos = {
-        lat: 40.7578289503393,
-        lng: -73.98917204824191,
-    };
 
     // Get cinema_id
     const { cinema_id } = useParams();
@@ -398,15 +322,14 @@ function CinemaDetail(props) {
 
         console.log("user_pos", user_pos);
 
-        // apiGetCinema();
+        apiGetCinema();
     }, []);
 
     const apiGetCinema = () => {
-
-        console.log('cinema_id', cinema_id)
+        console.log("cinema_id", cinema_id);
         let url = `${ENDPOINT}/cinema/${cinema_id}`;
 
-        const API_KEY = process.env["REACT_APP_AWS_API_KEY"]
+        const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
 
         const opt = {
             method: "GET",
@@ -424,7 +347,7 @@ function CinemaDetail(props) {
                     console.log(res.data);
 
                     // todo: uncomment this when CinemaLambda is ready
-                    // setResponse(res.data)
+                    setResponse(res.data);
                 }
             })
             .catch((err) => {
@@ -504,20 +427,20 @@ function CinemaDetail(props) {
                         center={user_pos}
                         zoom={12}
                     >
-                        <Marker
+                        {/* <Marker
                             // icon={station === 0 ? robotHIcon : robotIcon}
                             position={user_pos}
                         />
                         <Marker
                             // icon={station === 1 ? robotHIcon : robotIcon}
-                            position={des_pos}
-                        />
+                            position={response.Des_pos}
+                        /> */}
 
                         {
                             <DirectionsService
                                 // required
                                 options={{
-                                    destination: des_pos,
+                                    destination: response.Des_pos,
                                     origin: user_pos,
                                     travelMode: travelMode,
                                 }}
@@ -584,14 +507,14 @@ function CinemaDetail(props) {
     const renderCinemaDetail = () => {
         console.log("render cinema detail");
         // todo: uncomment this
-        // if(response === null){
-        //     return <Empty/>
-        // }
+        if (response === null) {
+            return <Empty />;
+        }
         return (
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                <Col span={8}>
+                {/* <Col span={8}>
                     <img src={response.image} className="detail detail-img" />
-                </Col>
+                </Col> */}
 
                 <Col span={14}>
                     <div>
@@ -624,7 +547,8 @@ function CinemaDetail(props) {
                                         size="small"
                                         onClick={onClickDistanceButton}
                                     >
-                                        {response.distance} miles
+                                        {/* {response.distance} miles */}
+                                        View in Google Map
                                     </Button>
                                 </Tooltip>
                             </Space>
@@ -659,7 +583,7 @@ function CinemaDetail(props) {
                         <br />
                         <br />
                         <br />
-                        <div className="btn-nav-div">
+                        {/* <div className="btn-nav-div">
                             <Button
                                 type="primary"
                                 size="large"
@@ -671,7 +595,7 @@ function CinemaDetail(props) {
                                 Buy Tickets Here!
                                 <RightCircleOutlined />
                             </Button>
-                        </div>
+                        </div> */}
                     </div>
                 </Col>
             </Row>
@@ -682,7 +606,7 @@ function CinemaDetail(props) {
         <div className="bg-1">
             <br />
             <div className="detail-div">{renderCinemaDetail()}</div>
-
+            <br />
             <Drawer
                 title={"Position Of Cinema"}
                 placement="right"

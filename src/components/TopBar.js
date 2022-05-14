@@ -69,7 +69,7 @@ function TopBar(props) {
 
     const renderLoggedInButton = () => {
         // todo: to debug, use isLoggedIn
-        if (isLoggedIn === false) {
+        if (auth.isAuthenticated === false) {
             return (
                 <Space>
                     <Button

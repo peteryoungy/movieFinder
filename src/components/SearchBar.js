@@ -9,10 +9,16 @@ import $ from "jquery";
 import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
 import {ENDPOINT} from '../constants';
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchResult } from "../state/reducers/SearchResultSlice";
 
 const { Search } = Input;
 
 function SearchBar(props) {
+
+    const search_result = useSelector((state) => state.search_result)
+    const dispatch = useDispatch()
+
     const { transcript, listening, browserSupportsSpeechRecognition } =
         useSpeechRecognition();
 
@@ -123,11 +129,15 @@ function SearchBar(props) {
                 if (res.status === 200) {
                     console.log("Search request sent.");
 
-                    console.log(res.data);
+                    console.log('res.data', res.data);
 
-                    // setPhotoList(res.data);
                     // todo: set search result as state
+                    dispatch(
+                        setSearchResult(res.data)
+                    );
+                    
                     // todo：redirect to /search_result page
+                    window.location.href = '/search'
                 }
             })
             .catch((err) => {
