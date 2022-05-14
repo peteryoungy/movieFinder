@@ -11,109 +11,109 @@ function Home(props) {
 
     const { auth } = props;
 
-    // const [response, setResponse] = useState({
-    //     recommendation: [
-    //         {
-    //             id: "327020",
-    //             title: "Everything Everywhere All At Once",
-    //             image: "https://image.movieglu.com/327020/327020h1.jpg",
-    //             rating: "3",
-    //             duration: "140",
-    //         },
-    //         {
-    //             id: "318723",
-    //             title: "The Northman",
-    //             image: "https://image.movieglu.com/318723/318723h1.jpg",
-    //             rating: "3.5",
-    //             duration: "136",
-    //         },
-    //         {
-    //             id: "296301",
-    //             title: "Doctor Strange in the Multiverse of Madness",
-    //             image: "https://image.movieglu.com/296301/296301h1.jpg",
-    //             rating: "2",
-    //             duration: "126",
-    //         },
-    //     ],
-    //     nowshowing: [
-    //         {
-    //             id: 296301,
-    //             title: "Doctor Strange in the Multiverse of Madness",
-    //             image: "https://image.movieglu.com/296301/296301h1.jpg",
-    //             duration: "126",
-    //             rating: "2",
-    //         },
-    //         {
-    //             id: 327907,
-    //             title: "Firestarter",
-    //             image: "https://image.movieglu.com/327907/327907h1.jpg",
-    //             duration: "94",
-    //             rating: "0",
-    //         },
-    //         {
-    //             id: 300783,
-    //             title: "The Bad Guys",
-    //             image: "https://image.movieglu.com/300783/300783h1.jpg",
-    //             duration: "100",
-    //             rating: "2.5",
-    //         },
-    //         {
-    //             id: 310966,
-    //             title: "Sonic the Hedgehog 2",
-    //             image: "https://image.movieglu.com/310966/310966h1.jpg",
-    //             duration: "122",
-    //             rating: "0",
-    //         },
-    //         {
-    //             id: 197407,
-    //             title: "Fantastic Beasts: The Secrets of Dumbledore",
-    //             image: "https://image.movieglu.com/197407/197407h1.jpg",
-    //             duration: "142",
-    //             rating: "2",
-    //         },
-    //         {
-    //             id: 327020,
-    //             title: "Everything Everywhere All At Once",
-    //             image: "https://image.movieglu.com/327020/327020h1.jpg",
-    //             duration: "140",
-    //             rating: "3",
-    //         },
-    //         {
-    //             id: 316485,
-    //             title: "The Lost City",
-    //             image: "https://image.movieglu.com/316485/316485h1.jpg",
-    //             duration: "112",
-    //             rating: "2.5",
-    //         },
-    //         {
-    //             id: 318723,
-    //             title: "The Northman",
-    //             image: "https://image.movieglu.com/318723/318723h1.jpg",
-    //             duration: "136",
-    //             rating: "3.5",
-    //         },
-    //         {
-    //             id: 329462,
-    //             title: "Family Camp",
-    //             image: "https://image.movieglu.com/329462/329462h1.jpg",
-    //             duration: "111",
-    //             rating: "0",
-    //         },
-    //         {
-    //             id: 307292,
-    //             title: "The Unbearable Weight of Massive Talent",
-    //             image: "https://image.movieglu.com/307292/307292h1.jpg",
-    //             duration: "106",
-    //             rating: "2.5",
-    //         },
-    //     ],
-    // });
+    const [response, setResponse] = useState({
+        recommendation: [
+            {
+                id: "327020",
+                title: "Everything Everywhere All At Once",
+                image: "https://image.movieglu.com/327020/327020h1.jpg",
+                rating: "3",
+                duration: "140",
+            },
+            {
+                id: "318723",
+                title: "The Northman",
+                image: "https://image.movieglu.com/318723/318723h1.jpg",
+                rating: "3.5",
+                duration: "136",
+            },
+            {
+                id: "296301",
+                title: "Doctor Strange in the Multiverse of Madness",
+                image: "https://image.movieglu.com/296301/296301h1.jpg",
+                rating: "2",
+                duration: "126",
+            },
+        ],
+        nowshowing: [
+            {
+                id: 296301,
+                title: "Doctor Strange in the Multiverse of Madness",
+                image: "https://image.movieglu.com/296301/296301h1.jpg",
+                duration: "126",
+                rating: "2",
+            },
+            {
+                id: 327907,
+                title: "Firestarter",
+                image: "https://image.movieglu.com/327907/327907h1.jpg",
+                duration: "94",
+                rating: "0",
+            },
+            {
+                id: 300783,
+                title: "The Bad Guys",
+                image: "https://image.movieglu.com/300783/300783h1.jpg",
+                duration: "100",
+                rating: "2.5",
+            },
+            {
+                id: 310966,
+                title: "Sonic the Hedgehog 2",
+                image: "https://image.movieglu.com/310966/310966h1.jpg",
+                duration: "122",
+                rating: "0",
+            },
+            {
+                id: 197407,
+                title: "Fantastic Beasts: The Secrets of Dumbledore",
+                image: "https://image.movieglu.com/197407/197407h1.jpg",
+                duration: "142",
+                rating: "2",
+            },
+            {
+                id: 327020,
+                title: "Everything Everywhere All At Once",
+                image: "https://image.movieglu.com/327020/327020h1.jpg",
+                duration: "140",
+                rating: "3",
+            },
+            {
+                id: 316485,
+                title: "The Lost City",
+                image: "https://image.movieglu.com/316485/316485h1.jpg",
+                duration: "112",
+                rating: "2.5",
+            },
+            {
+                id: 318723,
+                title: "The Northman",
+                image: "https://image.movieglu.com/318723/318723h1.jpg",
+                duration: "136",
+                rating: "3.5",
+            },
+            {
+                id: 329462,
+                title: "Family Camp",
+                image: "https://image.movieglu.com/329462/329462h1.jpg",
+                duration: "111",
+                rating: "0",
+            },
+            {
+                id: 307292,
+                title: "The Unbearable Weight of Massive Talent",
+                image: "https://image.movieglu.com/307292/307292h1.jpg",
+                duration: "106",
+                rating: "2.5",
+            },
+        ],
+    });
 
-    const [response, setResponse] = useState(null)
+    // const [response, setResponse] = useState(null);
 
     useEffect(() => {
-        // todo: uncomment this when HistoryLambda is ready
-        apiGetHome();
+        // todo: uncomment this when HomeLambda is ready
+        // apiGetHome();
     }, []);
 
     const apiGetHome = () => {
@@ -150,11 +150,10 @@ function Home(props) {
     };
 
     const renderRecommendation = () => {
-
-        if(response === null){
-            return null
+        if (response === null) {
+            return null;
         }
-        
+
         let card = null;
 
         return (
@@ -168,7 +167,15 @@ function Home(props) {
                 <div className="home-div">
                     <Row gutter={[24, 24]}>
                         {response.recommendation.map((d) => (
-                            <Col span={4} xs={20} sm={16} md={12} lg={8} xl={4}>
+                            <Col
+                                span={4}
+                                xs={20}
+                                sm={16}
+                                md={12}
+                                lg={8}
+                                xl={4}
+                                key={d["id"]}
+                            >
                                 <Card
                                     hoverable
                                     cover={
@@ -211,15 +218,23 @@ function Home(props) {
 
     const renderNowShowing = () => {
         // todo: if condition
-        if(response === null){
-            return <Empty/>
+        if (response === null) {
+            return <Empty />;
         }
         let card = null;
 
         return (
             <Row gutter={[24, 24]}>
                 {response.nowshowing.map((d) => (
-                    <Col span={4} xs={20} sm={16} md={12} lg={8} xl={4}>
+                    <Col
+                        span={4}
+                        xs={20}
+                        sm={16}
+                        md={12}
+                        lg={8}
+                        xl={4}
+                        key={d["id"]}
+                    >
                         <Card
                             hoverable
                             cover={<img alt="example" src={d["image"]} />}
@@ -255,6 +270,13 @@ function Home(props) {
 
     const onClickMovieCard = (e) => {
         console.log("event", e);
+
+        console.log('auth.user', auth.user)
+
+        if(auth.user === null) {
+            window.location.href = "/login";
+            return 
+        }
 
         const parent = e.target.closest(".movie-card");
         console.log("parent", parent);

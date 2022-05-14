@@ -9,11 +9,11 @@ function Search(props) {
 
     const search_result = useSelector((state) => state.search_result);
 
-    // const [response, setResponse] = useState(null);
+    const {auth} = props;
 
     useEffect(() => {
         console.log("search result", search_result);
-    }, search_result);
+    }, [search_result]);
 
     const renderSearch = () => {
         // todo: if condition
@@ -62,6 +62,13 @@ function Search(props) {
 
     const onClickMovieCard = (e) => {
         console.log("event", e);
+
+        console.log('auth.user', auth.user)
+
+        if(auth.user === null) {
+            window.location.href = "/login";
+            return
+        }
 
         const parent = e.target.closest(".movie-card");
         console.log("parent", parent);

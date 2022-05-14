@@ -51,8 +51,8 @@ class Register extends Component {
                 process.env["REACT_APP_SECRET_ACCESS_KEY"];
             AWS.config.region = "us-east-1";
 
-            console.log('access_key_id', process.env['REACT_APP_ACCESS_KEY_ID']);
-            console.log('secret_key', process.env['REACT_APP_SECRET_ACCESS_KEY']);
+            // console.log('access_key_id', process.env['REACT_APP_ACCESS_KEY_ID']);
+            // console.log('secret_key', process.env['REACT_APP_SECRET_ACCESS_KEY']);
 
             const dynamodb = new AWS.DynamoDB.DocumentClient();
 

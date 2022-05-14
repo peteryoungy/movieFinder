@@ -114,7 +114,7 @@ function SearchBar(props) {
         let url = `${ENDPOINT}/search?q=${keyword}`;
 
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"]
-        console.log('API KEY', API_KEY)
+        // console.log('API KEY', API_KEY)
 
         const opt = {
             method: "GET",
