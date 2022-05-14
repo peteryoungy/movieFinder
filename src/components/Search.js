@@ -1,5 +1,15 @@
 import { Card } from "antd";
-import { Row, Col, Image, Rate, Tag, Empty, notification, message } from "antd";
+import {
+    Row,
+    Col,
+    Image,
+    Rate,
+    Tag,
+    Empty,
+    notification,
+    message,
+    Spin,
+} from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { StarTwoTone } from "@ant-design/icons";
 import { useSelector } from "react-redux";
@@ -9,14 +19,13 @@ function Search(props) {
 
     const search_result = useSelector((state) => state.search_result);
 
-    const {auth} = props;
+    const { auth } = props;
 
     useEffect(() => {
         console.log("search result", search_result);
     }, [search_result]);
 
     const renderSearch = () => {
-        // todo: if condition
 
         if (search_result.films === null) {
             return <Empty />;
@@ -63,11 +72,11 @@ function Search(props) {
     const onClickMovieCard = (e) => {
         console.log("event", e);
 
-        console.log('auth.user', auth.user)
+        console.log("auth.user", auth.user);
 
-        if(auth.user === null) {
+        if (auth.user === null) {
             window.location.href = "/login";
-            return
+            return;
         }
 
         const parent = e.target.closest(".movie-card");

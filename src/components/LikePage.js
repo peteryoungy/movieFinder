@@ -6,61 +6,62 @@ import { ENDPOINT } from "../constants";
 
 const { Title } = Typography;
 
+const defaultResponse = {
+    likes: [
+        {
+            id: "1",
+            title: "film1",
+            image: "https://picsum.photos/200/300",
+            actors: ["actor1", "actor2", "actor3"],
+            directors: ["director1", "director2", "director3"],
+            rating: 4.5,
+        },
+        {
+            id: "2",
+            title: "film2",
+            image: "https://picsum.photos/200/300",
+            actors: ["actor1", "actor2", "actor3"],
+            directors: ["director1", "director2", "director3"],
+            rating: 4.5,
+        },
+        {
+            id: "3",
+            title: "film3",
+            image: "https://picsum.photos/200/300",
+            actors: ["actor1", "actor2", "actor3"],
+            directors: ["director1", "director2", "director3"],
+            rating: 4.5,
+        },
+    ],
+};
+
+const defaultNull = {
+    likes: null,
+}
+
 function LikePage(props) {
-    // att: why useRef?
-    // const title = useRef(null)
 
-    const {auth} = props;
+    const { auth } = props;
 
-    console.log('props', props)
+    console.log("props", props);
 
     // todo: make initial state null
-    // const [response, setResponse] = useState({
-    //     likes: [
-    //         {
-    //             id: "1",
-    //             title: "film1",
-    //             image: "https://picsum.photos/200/300",
-    //             actors: ["actor1", "actor2", "actor3"],
-    //             directors: ["director1", "director2", "director3"],
-    //             rating: 4.5,
-    //         },
-    //         {
-    //             id: "2",
-    //             title: "film2",
-    //             image: "https://picsum.photos/200/300",
-    //             actors: ["actor1", "actor2", "actor3"],
-    //             directors: ["director1", "director2", "director3"],
-    //             rating: 4.5,
-    //         },
-    //         {
-    //             id: "3",
-    //             title: "film3",
-    //             image: "https://picsum.photos/200/300",
-    //             actors: ["actor1", "actor2", "actor3"],
-    //             directors: ["director1", "director2", "director3"],
-    //             rating: 4.5,
-    //         },
-    //     ],
-    // });
+    // const [response, setResponse] = useState(defaultResponse);
 
-    const [response, setResponse] = useState({
-        likes: null
-    })
+    const [response, setResponse] = useState(defaultNull);
 
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-
         // todo: uncomment this when HistoryLambda is ready
-        apiGetLikes()
+        apiGetLikes();
     }, []);
 
-
     const apiGetLikes = () => {
+        setIsLoading(true);
 
         let url = `${ENDPOINT}/history`;
-
-        const API_KEY = process.env["REACT_APP_AWS_API_KEY"]
+        const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
         // console.log('API KEY', API_KEY)
 
         const opt = {
@@ -68,7 +69,7 @@ function LikePage(props) {
             url: url,
             headers: {
                 "x-api-key": API_KEY,
-                "x-amz-meta-user": auth.user.attributes.sub
+                "x-amz-meta-user": auth.user.attributes.sub,
             },
         };
 
@@ -76,25 +77,25 @@ function LikePage(props) {
             .then((res) => {
                 if (res.status === 200) {
                     console.log("History request sent.");
+                    console.log('res.data', res.data);
 
-                    console.log(res.data);
-
-                    // todo: uncomment this when HistoryLambda is ready
-                    setResponse(res.data)
+                    setResponse(res.data);
+                    setIsLoading(false);
                 }
             })
             .catch((err) => {
                 message.error("Fetch favorite failed!");
                 console.log("Fetch Favorite failed: ", err.message);
-            });
-    }
 
+                setResponse(defaultNull);
+                setIsLoading(false);
+            });
+    };
 
     const renderLikes = () => {
 
-        // todo: uncomment this
         if (response.likes === null) {
-            return <Empty/>;
+            return <Empty />;
         }
 
         return response.likes.map((d) => (
@@ -130,7 +131,6 @@ function LikePage(props) {
         ));
     };
 
-
     const onClickMovieName = (e) => {
         console.log("event", e);
 
@@ -139,12 +139,23 @@ function LikePage(props) {
         window.location.href = "/movie/" + movie_id;
     };
 
-
     return (
         <div className="bg-2">
             <br />
-            <div className="sub-title"> Your Likes </div>
-            <div className="like-list">{renderLikes()}</div>
+            {isLoading === true ? (
+                <div>
+                    <Row justify="center">
+                        <Col>
+                            <Spin size="large" />
+                        </Col>
+                    </Row>
+                </div>
+            ) : (
+                <div>
+                    <div className="sub-title"> Your Likes </div>
+                    <div className="like-list">{renderLikes()}</div>
+                </div>
+            )}
         </div>
     );
 }

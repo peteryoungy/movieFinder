@@ -23,6 +23,47 @@ import { setUserPos } from "../state/reducers/UserPosSlice";
 import axios from "axios";
 import { ENDPOINT } from "../constants";
 
+const defaultResponse = {
+    body: {
+        movieId: "296301",
+        movieName: "Doctor Strange in the Multiverse of Madness",
+        movieImage: "https://image.movieglu.com/296301/296301h1.jpg",
+        releaseDate: "2022-05-06",
+        rating: "2",
+        synopsis:
+            'In Marvel Studios\' "Doctor Strange in the Multiverse of Madness," the MCU unlocks the Multiverse and pushes its boundaries further than ever before. Journey into the unknown with Doctor Strange, who, with the help of mystical allies both old and new, traverses the mind-bending and dangerous alternate realities of the Multiverse to confront a mysterious new adversary.',
+        duration: "126",
+        genres: ["Action/Adventure", "SciFi/Fantasy"],
+        directors: ["Sam Raimi"],
+        cast: ["Benedict Cumberbatch", "Elizabeth Olsen"],
+        cinemas: [
+            {
+                cinemaId: "11",
+                cinemaName: "AMC Loews 84th Street 6",
+                distance: "0.56",
+                address: "2310 Broadway, New York, NY 10024",
+            },
+            {
+                cinemaId: "164",
+                cinemaName: "AMC Lincoln Square 13",
+                distance: "1.37",
+                address: "1998 Broadway, New York, NY 10023",
+            },
+            {
+                cinemaId: "13",
+                cinemaName: "AMC Orpheum 7",
+                distance: "1.40",
+                address: "1538 Third Ave. (86th St.), New York, NY 10028",
+            },
+        ],
+        isliked: 0,
+    },
+};
+
+const defaultNull = {
+    body: null,
+};
+
 function MovieDetail(props) {
     const { auth } = props;
 
@@ -35,48 +76,10 @@ function MovieDetail(props) {
     const dispatch = useDispatch();
 
     // todo: initial state is null
-    // const [response, setResponse] = useState({
-    //     body: {
-    //         movieId: "296301",
-    //         movieName: "Doctor Strange in the Multiverse of Madness",
-    //         movieImage: "https://image.movieglu.com/296301/296301h1.jpg",
-    //         releaseDate: "2022-05-06",
-    //         rating: "2",
-    //         synopsis:
-    //             'In Marvel Studios\' "Doctor Strange in the Multiverse of Madness," the MCU unlocks the Multiverse and pushes its boundaries further than ever before. Journey into the unknown with Doctor Strange, who, with the help of mystical allies both old and new, traverses the mind-bending and dangerous alternate realities of the Multiverse to confront a mysterious new adversary.',
-    //         duration: "126",
-    //         genres: ["Action/Adventure", "SciFi/Fantasy"],
-    //         directors: ["Sam Raimi"],
-    //         cast: ["Benedict Cumberbatch", "Elizabeth Olsen"],
-    //         cinemas: [
-    //             {
-    //                 cinemaId: "11",
-    //                 cinemaName: "AMC Loews 84th Street 6",
-    //                 distance: "0.56",
-    //                 address: "2310 Broadway, New York, NY 10024",
-    //             },
-    //             {
-    //                 cinemaId: "164",
-    //                 cinemaName: "AMC Lincoln Square 13",
-    //                 distance: "1.37",
-    //                 address: "1998 Broadway, New York, NY 10023",
-    //             },
-    //             {
-    //                 cinemaId: "13",
-    //                 cinemaName: "AMC Orpheum 7",
-    //                 distance: "1.40",
-    //                 address: "1538 Third Ave. (86th St.), New York, NY 10028",
-    //             },
-    //         ],
-    //         isliked: 0,
-    //     },
-    // });
+    // const [response, setResponse] = useState(defaultResponse);
 
-    const [response, setResponse] = useState({
-        body: null,
-    });
+    const [response, setResponse] = useState(defaultNull);
 
-    console.log("render");
     useEffect(() => {
         // console.log("2");
         // console.log("geolocation before update", user_pos);
@@ -98,14 +101,7 @@ function MovieDetail(props) {
                                     lng: position.coords.longitude,
                                 })
                             ); // att: trigger update
-                            // console.log(
-                            //     "Latitude is :",
-                            //     position.coords.latitude
-                            // );
-                            // console.log(
-                            //     "Longitude is :",
-                            //     position.coords.longitude
-                            // );
+
                             console.log("user_pos after grant", user_pos);
                         });
                     } else if (result.state === "prompt") {
@@ -131,8 +127,7 @@ function MovieDetail(props) {
     }, [user_pos]);
 
     const apiPostMovie = () => {
-        // if loading
-        // setIsLoading(true)
+        setIsLoading(true);
 
         console.log("movie_id", movie_id);
         let url = `${ENDPOINT}/movie/${movie_id}`;
@@ -162,21 +157,21 @@ function MovieDetail(props) {
             .then((res) => {
                 if (res.status === 200) {
                     console.log("Movie request sent.");
-                    console.log(res.data);
+                    console.log("res.data", res.data);
 
-                    // todo: set response
                     setResponse(res.data);
+                    setIsLoading(false);
                 }
             })
             .catch((err) => {
                 message.error("Fetch movie info failed!");
                 console.log("Fetch movie info failed: ", err.message);
+                
+                setResponse(defaultNull);
+                setIsLoading(false);
             });
-
-        // setIsLoading(false)
     };
 
-    // todo: apiPostLike
     const apiPostLike = (islike) => {
         let url = `${ENDPOINT}/like`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
@@ -199,7 +194,7 @@ function MovieDetail(props) {
                 if (res.status === 200) {
                     console.log("History request sent.");
 
-                    console.log(res.data);
+                    console.log("res.data", res.data);
                 }
             })
             .catch((err) => {
@@ -221,7 +216,6 @@ function MovieDetail(props) {
     };
 
     const onClickLike = () => {
-        console.log("like/Unlike clicked.");
         if (response.body.isliked === 1) {
             //
             renderMessageOnUnlike();
@@ -233,8 +227,7 @@ function MovieDetail(props) {
                 },
             });
 
-            // todo: send unlike request
-            // console.log("Send Unlike Request.");
+            console.log("Send Unlike Request.");
             apiPostLike(0);
         } else {
             // pop message
@@ -246,7 +239,7 @@ function MovieDetail(props) {
                     isliked: 1,
                 },
             });
-            // todo: send like request
+
             console.log("Send like Request.");
             apiPostLike(1);
         }
@@ -374,11 +367,10 @@ function MovieDetail(props) {
     };
 
     const renderCinemaList = () => {
-
-        if(response.body === null){
-            return null
+        if (response.body === null) {
+            return null;
         }
-        
+
         return response.body.cinemas.map((cinema) => (
             <div
                 className="pointer detail-list-card"
@@ -414,7 +406,17 @@ function MovieDetail(props) {
     return (
         <div className="bg-1">
             <br />
-            <div className="detail-div">{renderMovieDetail()}</div>
+            {isLoading === true ? (
+                <div>
+                    <Row justify="center">
+                        <Col>
+                            <Spin size="large" />
+                        </Col>
+                    </Row>
+                </div>
+            ) : (
+                <div className="detail-div">{renderMovieDetail()}</div>
+            )}
         </div>
     );
 }

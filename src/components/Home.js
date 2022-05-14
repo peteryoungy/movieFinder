@@ -118,6 +118,8 @@ const sleep = (milliseconds) => {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
+const defaultNull = null;
+
 function Home(props) {
     const { Meta } = Card;
 
@@ -125,13 +127,12 @@ function Home(props) {
 
     // const [response, setResponse] = useState(defaultResponse);
 
-    const [response, setResponse] = useState(null);
+    const [response, setResponse] = useState(defaultNull);
 
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         // todo: uncomment this when HomeLambda is ready
-        setIsLoading(true);
         apiGetHome();
     }, []);
 
@@ -144,6 +145,8 @@ function Home(props) {
         // });
 
         // return;
+
+        setIsLoading(true);
 
         let url = `${ENDPOINT}/home`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
@@ -163,10 +166,8 @@ function Home(props) {
             .then((res) => {
                 if (res.status === 200) {
                     console.log("Homepage request sent.");
+                    console.log('res.data', res.data);
 
-                    console.log(res.data);
-
-                    // todo: uncomment this when HomeLambda is ready
                     setResponse(res.data);
                     setIsLoading(false);
                 }
@@ -175,6 +176,7 @@ function Home(props) {
                 message.error("Fetch Homepage failed!");
                 console.log("Fetch Homepage failed: ", err.message);
 
+                setResponse(defaultNull);
                 setIsLoading(false)
             });
 
