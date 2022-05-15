@@ -376,7 +376,7 @@ function MovieDetail(props) {
         return response.body.cinemas.map((cinema) => (
             <div
                 className="pointer detail-list-card"
-                key={cinema["inemaId"]}
+                key={cinema["cinemaId"]}
                 data-id={cinema.cinemaId}
                 onClick={onClickCard}
             >
