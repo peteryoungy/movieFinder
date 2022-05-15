@@ -125,15 +125,15 @@ function Home(props) {
 
     const { auth } = props;
 
-    // const [response, setResponse] = useState(defaultResponse);
+    const [response, setResponse] = useState(defaultResponse);
 
-    const [response, setResponse] = useState(defaultNull);
+    // const [response, setResponse] = useState(defaultNull);
 
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         // todo: uncomment this when HomeLambda is ready
-        apiGetHome();
+        // apiGetHome();
     }, []);
 
     const apiGetHome = () => {

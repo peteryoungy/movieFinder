@@ -76,9 +76,9 @@ function MovieDetail(props) {
     const dispatch = useDispatch();
 
     // todo: initial state is null
-    // const [response, setResponse] = useState(defaultResponse);
+    const [response, setResponse] = useState(defaultResponse);
 
-    const [response, setResponse] = useState(defaultNull);
+    // const [response, setResponse] = useState(defaultNull);
 
     useEffect(() => {
         // console.log("2");
@@ -119,7 +119,7 @@ function MovieDetail(props) {
 
         // note: 3. send api request
         // todo: uncomment this when the backend lambda is ready
-        apiPostMovie();
+        // apiPostMovie();
     }, []);
 
     useEffect(() => {
@@ -166,7 +166,7 @@ function MovieDetail(props) {
             .catch((err) => {
                 message.error("Fetch movie info failed!");
                 console.log("Fetch movie info failed: ", err.message);
-                
+
                 setResponse(defaultNull);
                 setIsLoading(false);
             });
@@ -227,8 +227,9 @@ function MovieDetail(props) {
                 },
             });
 
-            console.log("Send Unlike Request.");
-            apiPostLike(0);
+            // todo:comment this in demo
+            // console.log("Send Unlike Request.");
+            // apiPostLike(0);
         } else {
             // pop message
             renderMessageOnLike();
@@ -240,8 +241,9 @@ function MovieDetail(props) {
                 },
             });
 
-            console.log("Send like Request.");
-            apiPostLike(1);
+            // todo:comment this in demo
+            // console.log("Send like Request.");
+            // apiPostLike(1);
         }
     };
 

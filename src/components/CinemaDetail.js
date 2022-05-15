@@ -305,9 +305,9 @@ function CinemaDetail(props) {
     const [diResponse, setdiResponse] = useState(null);
 
     // todo: set default as null
-    // const [response, setResponse] = useState(defaultResponse)
+    const [response, setResponse] = useState(defaultResponse)
 
-    const [response, setResponse] = useState(defaultNull);
+    // const [response, setResponse] = useState(defaultNull);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -328,7 +328,7 @@ function CinemaDetail(props) {
 
         console.log("user_pos", user_pos);
 
-        apiGetCinema();
+        // apiGetCinema();
     }, []);
 
     const apiGetCinema = () => {

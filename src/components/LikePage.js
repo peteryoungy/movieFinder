@@ -9,52 +9,49 @@ const { Title } = Typography;
 const defaultResponse = {
     likes: [
         {
-            id: "1",
-            title: "film1",
-            image: "https://picsum.photos/200/300",
-            actors: ["actor1", "actor2", "actor3"],
-            directors: ["director1", "director2", "director3"],
-            rating: 4.5,
+            id: "296301",
+            title: "Doctor Strange in the Multiverse of Madness",
+            image: "https://image.movieglu.com/296301/296301h1.jpg",
+            actors: ["Benedict Cumberbatch", "Elizabeth Olsen"],
+            directors: ["Sam Raimi"],
+            rating: "2",
         },
         {
-            id: "2",
-            title: "film2",
-            image: "https://picsum.photos/200/300",
-            actors: ["actor1", "actor2", "actor3"],
-            directors: ["director1", "director2", "director3"],
-            rating: 4.5,
-        },
-        {
-            id: "3",
-            title: "film3",
-            image: "https://picsum.photos/200/300",
-            actors: ["actor1", "actor2", "actor3"],
-            directors: ["director1", "director2", "director3"],
-            rating: 4.5,
+            id: "300783",
+            title: "The Bad Guys",
+            image: "https://image.movieglu.com/300783/300783h1.jpg",
+            actors: [
+                "Sam Rockwell",
+                "Awkwafina",
+                "Anthony Ramos",
+                "Marc Maron",
+                "Craig Robinson",
+            ],
+            directors: ["Pierre Perifel"],
+            rating: "2.5",
         },
     ],
 };
 
 const defaultNull = {
     likes: null,
-}
+};
 
 function LikePage(props) {
-
     const { auth } = props;
 
     console.log("props", props);
 
     // todo: make initial state null
-    // const [response, setResponse] = useState(defaultResponse);
+    const [response, setResponse] = useState(defaultResponse);
 
-    const [response, setResponse] = useState(defaultNull);
+    // const [response, setResponse] = useState(defaultNull);
 
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         // todo: uncomment this when HistoryLambda is ready
-        apiGetLikes();
+        // apiGetLikes();
     }, []);
 
     const apiGetLikes = () => {
@@ -77,7 +74,7 @@ function LikePage(props) {
             .then((res) => {
                 if (res.status === 200) {
                     console.log("History request sent.");
-                    console.log('res.data', res.data);
+                    console.log("res.data", res.data);
 
                     setResponse(res.data);
                     setIsLoading(false);
@@ -93,7 +90,6 @@ function LikePage(props) {
     };
 
     const renderLikes = () => {
-
         if (response.likes === null) {
             return <Empty />;
         }
