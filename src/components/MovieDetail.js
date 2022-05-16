@@ -108,7 +108,7 @@ function MovieDetail(props) {
                         console.log(result.state);
                     } else if (result.state === "denied") {
                         //todo: If denied then you have to show instructions to enable location
-                    }
+                    } 
                     result.onchange = function () {
                         console.log(result.state);
                     };
@@ -122,6 +122,7 @@ function MovieDetail(props) {
         apiPostMovie();
     }, []);
 
+    
     useEffect(() => {
         console.log("update user_pos", user_pos);
     }, [user_pos]);
