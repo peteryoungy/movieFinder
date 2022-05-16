@@ -120,15 +120,14 @@ function MovieDetail(props) {
         // note: 3. send api request
         // todo: uncomment this when the backend lambda is ready
         apiPostMovie();
-    }, []);
+    }, [setIsLoading]);
 
-    
+
     useEffect(() => {
         console.log("update user_pos", user_pos);
     }, [user_pos]);
 
     const apiPostMovie = () => {
-        setIsLoading(true);
 
         console.log("movie_id", movie_id);
         let url = `${ENDPOINT}/movie/${movie_id}`;
@@ -161,7 +160,7 @@ function MovieDetail(props) {
                     console.log("res.data", res.data);
 
                     setResponse(res.data);
-                    setIsLoading(false);
+                    // setIsLoading(false);
                 }
             })
             .catch((err) => {
@@ -169,7 +168,7 @@ function MovieDetail(props) {
                 console.log("Fetch movie info failed: ", err.message);
                 
                 setResponse(defaultNull);
-                setIsLoading(false);
+                // setIsLoading(false);
             });
     };
 

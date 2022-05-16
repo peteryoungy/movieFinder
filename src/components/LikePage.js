@@ -58,7 +58,7 @@ function LikePage(props) {
     }, []);
 
     const apiGetLikes = () => {
-        setIsLoading(true);
+        // setIsLoading(true);
 
         let url = `${ENDPOINT}/history`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
@@ -80,7 +80,7 @@ function LikePage(props) {
                     console.log('res.data', res.data);
 
                     setResponse(res.data);
-                    setIsLoading(false);
+                    // setIsLoading(false);
                 }
             })
             .catch((err) => {
@@ -88,7 +88,7 @@ function LikePage(props) {
                 console.log("Fetch Favorite failed: ", err.message);
 
                 setResponse(defaultNull);
-                setIsLoading(false);
+                // setIsLoading(false);
             });
     };
 
