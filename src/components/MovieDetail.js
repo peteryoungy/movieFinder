@@ -100,12 +100,24 @@ function MovieDetail(props) {
                                     lat: position.coords.latitude,
                                     lng: position.coords.longitude,
                                 })
-                            ); // att: trigger update
+                            );
 
                             console.log("user_pos after grant", user_pos);
                         });
                     } else if (result.state === "prompt") {
                         console.log(result.state);
+                        navigator.geolocation.getCurrentPosition(function (
+                            position
+                        ) {
+                            dispatch(
+                                setUserPos({
+                                    lat: position.coords.latitude,
+                                    lng: position.coords.longitude,
+                                })
+                            );
+                            console.log("lat", position.coords.latitude);
+                            console.log("lng", position.coords.longitude);
+                        });
                     } else if (result.state === "denied") {
                         //todo: If denied then you have to show instructions to enable location
                     }

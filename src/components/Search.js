@@ -94,7 +94,7 @@ function Search(props) {
             <br />
             <div className="detail-div">
                 <br />
-                <div className="home-title"> Search results</div>
+                <div className="home-title"> Search results for "bad"</div>
                 <div className="home-div">{renderSearch()}</div>
                 <br />
             </div>
