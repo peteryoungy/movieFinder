@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 //     lng: -73.9729092
 // }
 
-const initialState = {}
+const initialState = null
 
 const UserPosSlice = createSlice({
     name: "user_pos",
