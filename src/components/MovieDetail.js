@@ -106,9 +106,21 @@ function MovieDetail(props) {
                         });
                     } else if (result.state === "prompt") {
                         console.log(result.state);
+                        //If granted then you can directly call your function here
+                        navigator.geolocation.getCurrentPosition(function (
+                            position
+                        ) {
+                            dispatch(
+                                setUserPos({
+                                    lat: position.coords.latitude,
+                                    lng: position.coords.longitude,
+                                })
+                            );
+                            console.log("user_pos after prompt", user_pos);
+                        });
                     } else if (result.state === "denied") {
                         //todo: If denied then you have to show instructions to enable location
-                    } 
+                    }
                     result.onchange = function () {
                         console.log(result.state);
                     };
@@ -122,13 +134,11 @@ function MovieDetail(props) {
         apiPostMovie();
     }, [setIsLoading]);
 
-
     useEffect(() => {
         console.log("update user_pos", user_pos);
     }, [user_pos]);
 
     const apiPostMovie = () => {
-
         console.log("movie_id", movie_id);
         let url = `${ENDPOINT}/movie/${movie_id}`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
@@ -166,7 +176,7 @@ function MovieDetail(props) {
             .catch((err) => {
                 message.error("Fetch movie info failed!");
                 console.log("Fetch movie info failed: ", err.message);
-                
+
                 setResponse(defaultNull);
                 // setIsLoading(false);
             });

@@ -10,7 +10,8 @@ import {
     Drawer,
     message,
     Empty,
-    Spin
+    Spin,
+    Alert
 } from "antd";
 import {
     EnvironmentOutlined,
@@ -644,7 +645,17 @@ function CinemaDetail(props) {
                         }
                         className={"primary"}
                     >
-                        {renderMap()}
+                        {user_pos === null ? (
+                            <Alert
+                                message="Cannot get your current location"
+                                description="To get route suggestions, you must authorize
+                                location permissions."
+                                type="warning"
+                                showIcon
+                            />
+                        ) : (
+                            renderMap()
+                        )}
                     </Drawer>
                 </div>
             )}
