@@ -4,7 +4,7 @@ MovieFinder is a seamless web application that enables user to view the movies t
 
 ## 🔨 Usage
 
-Visit our website via this [link](https://master.d23pia6jygdo3l.amplifyapp.com/). **For better experience, we recommend open with Chrome.**
+Visit our website via this [link](https://master.d23pia6jygdo3l.amplifyapp.com/). **For better experience, we recommend to use Chrome.**
 
 You can also watch the demo video on [youtube](https://youtu.be/plJfJyFgQwI).
 
@@ -72,11 +72,11 @@ Users can also click the "View on Google Map" button to get route suggestions.
 
 ## 🎨 Clickable Prototype
 
-View our clickable prototype on [Figma](https://www.figma.com/file/xvSejF8fkLwDiYIA7gtpev/MovieFinder?node-id=0%3A1)
+View our clickable prototype on [Figma](https://www.figma.com/file/xvSejF8fkLwDiYIA7gtpev/MovieFinder?node-id=0%3A1).
 
 ## 💾 Demo Code
 
-Limited by the thrid-party API key, we provide a demo version of code which is nearly a pure front end project except for the user authentication and search part. **The [website](https://master.d23pia6jygdo3l.amplifyapp.com/) is supported by the demo code.** You can find the code [here](https://github.com/peteryoungy/movie-finder-demo)
+Limited by the thrid-party API key, we provide a demo version of code which is nearly a pure front end project except for the user authentication and search part. **The [website](https://master.d23pia6jygdo3l.amplifyapp.com/) is supported by the demo code.** You can find the code [here](https://github.com/peteryoungy/movie-finder-demo).
 
 ## 👥 Our Team 
 

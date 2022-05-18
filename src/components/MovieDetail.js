@@ -69,7 +69,7 @@ function MovieDetail(props) {
     const { movie_id } = useParams();
     // console.log('movie_id', movie_id)
 
-    const { isLoading, setIsLoading } = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const user_pos = useSelector((state) => state.user_pos);
     const dispatch = useDispatch();
@@ -138,6 +138,9 @@ function MovieDetail(props) {
     }, [user_pos]);
 
     const apiPostMovie = () => {
+
+        setIsLoading(true);
+
         console.log("movie_id", movie_id);
         // let url = `${ENDPOINT}/movie/${movie_id}`;
         let url = `${process.env["REACT_APP_API_GATEWAY_ENDPOINT"]}/movie/${movie_id}`;
@@ -170,7 +173,7 @@ function MovieDetail(props) {
                     console.log("res.data", res.data);
 
                     setResponse(res.data);
-                    // setIsLoading(false);
+                    setIsLoading(false);
                 }
             })
             .catch((err) => {
@@ -178,7 +181,7 @@ function MovieDetail(props) {
                 console.log("Fetch movie info failed: ", err.message);
 
                 setResponse(defaultNull);
-                // setIsLoading(false);
+                setIsLoading(false);
             });
     };
 

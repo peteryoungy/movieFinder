@@ -332,7 +332,7 @@ function CinemaDetail(props) {
     }, []);
 
     const apiGetCinema = () => {
-        // setIsLoading(true);
+        setIsLoading(true);
 
         console.log("cinema_id", cinema_id);
         // let url = `${ENDPOINT}/cinema/${cinema_id}`;
@@ -354,7 +354,7 @@ function CinemaDetail(props) {
                     console.log("res.data", res.data);
 
                     setResponse(res.data);
-                    // setIsLoading(false);
+                    setIsLoading(false);
                 }
             })
             .catch((err) => {
@@ -362,7 +362,7 @@ function CinemaDetail(props) {
                 console.log("Fetch cinema info failed: ", err.message);
 
                 setResponse(defaultNull);
-                // setIsLoading(false);
+                setIsLoading(false);
             });
     };
 
