@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Col, Row, Input, Button, message} from "antd";
+import { Col, Row, Input, Button, message } from "antd";
 import SpeechRecognition, {
     useSpeechRecognition,
 } from "react-speech-recognition";
@@ -8,16 +8,14 @@ import { faMicrophoneLines } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
-import {ENDPOINT} from '../constants';
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchResult } from "../state/reducers/SearchResultSlice";
 
 const { Search } = Input;
 
 function SearchBar(props) {
-
-    const search_result = useSelector((state) => state.search_result)
-    const dispatch = useDispatch()
+    const search_result = useSelector((state) => state.search_result);
+    const dispatch = useDispatch();
 
     const { transcript, listening, browserSupportsSpeechRecognition } =
         useSpeechRecognition();
@@ -92,28 +90,25 @@ function SearchBar(props) {
         };
     }, [listening]);
 
-
     const onSearch = (e) => {
-
         // console.log('e', e)
         // console.log(e.target.defaultValue)
-        const keyword = e.target.defaultValue
+        const keyword = e.target.defaultValue;
 
         // clear search bar
-        let search_bar = document.getElementById('search-bar')
-        search_bar.value = ""
+        let search_bar = document.getElementById("search-bar");
+        search_bar.value = "";
 
         // todo: uncomment this when SearchLambda is READY
         apiGetSearch(keyword);
     };
 
-
     const apiGetSearch = (keyword) => {
         console.log("Search Keyword", keyword);
 
-        let url = `${ENDPOINT}/search?q=${keyword}`;
-
-        const API_KEY = process.env["REACT_APP_AWS_API_KEY"]
+        // let url = `${ENDPOINT}/search?q=${keyword}`;
+        let url = `${process.env["REACT_APP_API_GATEWAY_ENDPOINT"]}/search?q=${keyword}`;
+        const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
         // console.log('API KEY', API_KEY)
 
         const opt = {
@@ -129,15 +124,13 @@ function SearchBar(props) {
                 if (res.status === 200) {
                     console.log("Search request sent.");
 
-                    console.log('res.data', res.data);
+                    console.log("res.data", res.data);
 
                     // todo: set search result as state
-                    dispatch(
-                        setSearchResult(res.data)
-                    );
-                    
+                    dispatch(setSearchResult(res.data));
+
                     // todo：redirect to /search_result page
-                    window.location.href = '/search'
+                    window.location.href = "/search";
                 }
             })
             .catch((err) => {

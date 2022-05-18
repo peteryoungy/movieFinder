@@ -8,16 +8,15 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import Amplify from "aws-amplify";
-import config from "./config";
 import store from "./state/store";
 
 Amplify.configure({
     Auth: {
         mandatorySignIn: true,
-        region: config.cognito.REGION,
-        userPoolId: config.cognito.USER_POOL_ID,
-        userPoolWebClientId: config.cognito.APP_CLIENT_ID
-    }
+        region: process.env["REACT_APP_REGION"],
+        userPoolId: process.env["REACT_APP_USER_POOL_ID"],
+        userPoolWebClientId: process.env["REACT_APP_APP_CLIENT_ID"],
+    },
 });
 
 const persistor = persistStore(store);

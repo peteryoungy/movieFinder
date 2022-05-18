@@ -26,7 +26,6 @@ function Search(props) {
     }, [search_result]);
 
     const renderSearch = () => {
-
         if (search_result.films === null) {
             return <Empty />;
         }

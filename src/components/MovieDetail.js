@@ -21,7 +21,6 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { setUserPos } from "../state/reducers/UserPosSlice";
 import axios from "axios";
-import { ENDPOINT } from "../constants";
 
 const defaultResponse = {
     body: {
@@ -140,7 +139,8 @@ function MovieDetail(props) {
 
     const apiPostMovie = () => {
         console.log("movie_id", movie_id);
-        let url = `${ENDPOINT}/movie/${movie_id}`;
+        // let url = `${ENDPOINT}/movie/${movie_id}`;
+        let url = `${process.env["REACT_APP_API_GATEWAY_ENDPOINT"]}/movie/${movie_id}`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
 
         let formated_user_pos;
@@ -183,7 +183,8 @@ function MovieDetail(props) {
     };
 
     const apiPostLike = (islike) => {
-        let url = `${ENDPOINT}/like`;
+        // let url = `${ENDPOINT}/like`;
+        let url = `${process.env["REACT_APP_API_GATEWAY_ENDPOINT"]}/like`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
 
         const opt = {
