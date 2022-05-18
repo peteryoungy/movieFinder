@@ -56,7 +56,7 @@ function LikePage(props) {
     }, []);
 
     const apiGetLikes = () => {
-        // setIsLoading(true);
+        setIsLoading(true);
 
         // let url = `${ENDPOINT}/history`;
         let url = `${process.env["REACT_APP_API_GATEWAY_ENDPOINT"]}/history`;
@@ -79,7 +79,7 @@ function LikePage(props) {
                     console.log("res.data", res.data);
 
                     setResponse(res.data);
-                    // setIsLoading(false);
+                    setIsLoading(false);
                 }
             })
             .catch((err) => {
@@ -87,7 +87,7 @@ function LikePage(props) {
                 console.log("Fetch Favorite failed: ", err.message);
 
                 setResponse(defaultNull);
-                // setIsLoading(false);
+                setIsLoading(false);
             });
     };
 
