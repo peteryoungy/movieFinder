@@ -1,4 +1,4 @@
-import React, { useEffect, Component } from "react";
+import React, { useEffect, useContext } from "react";
 import { Layout, Input, Row, Col, Button, Menu, Dropdown, Space } from "antd";
 import {
     SearchOutlined,
@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import SearchBar from "./SearchBar";
 import { Auth } from "aws-amplify";
+import { authProps } from "./App";
 
 const { Header } = Layout;
 
@@ -33,7 +34,7 @@ const items = [
 ];
 
 function TopBar(props) {
-    const { auth } = props;
+    const { auth } = useContext(authProps);
 
     const handleLogOut = async (event) => {
         try {

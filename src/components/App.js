@@ -1,7 +1,6 @@
 import { Layout } from "antd";
 import TopBar from "./TopBar";
-// import Main from './Main';
-import React, { Component } from "react";
+import React, { Component, useEffect, useState, createContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import LikePage from "./LikePage";
 import Home from "./Home";
@@ -11,126 +10,54 @@ import MovieDetail from "./MovieDetail";
 import CinemeDetail from "./CinemaDetail";
 import { Auth } from "aws-amplify";
 import Search from "./Search";
+import Main from "./Main";
 
 const { Footer, Content } = Layout;
 
-class App extends Component {
-    // id: state.user.attributes.sub
-    state = {
-        isAuthenticated: false,
-        isAuthenticating: true,
-        user: null,
-    };
+export const authProps = createContext(null);
 
-    setAuthStatus = (authenticated) => {
-        this.setState({ isAuthenticated: authenticated });
-    };
+function App(props) {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticating, setIsAuthenticating] = useState(true);
+    const [user, setUser] = useState(null);
 
-    setUser = (user) => {
-        this.setState({ user: user });
-    };
+    useEffect(() => {
+        Auth.currentSession()
+            .then((res) => {
+                const session = res;
+                setIsAuthenticated(true);
+                // console.log(session);
+                // const user = await Auth.currentAuthenticatedUser();
+                // setUser(user);
+            })
+            .catch((error) => {
+                if (error !== "No current user") {
+                    console.log(error);
+                }
+            });
 
-    async componentDidMount() {
-        try {
-            const session = await Auth.currentSession();
-            this.setAuthStatus(true);
-            console.log(session);
-            const user = await Auth.currentAuthenticatedUser();
-            // todo: uncomment this
-            this.setUser(user);
-        } catch (error) {
-            if (error !== "No current user") {
-                console.log(error);
-            }
-        }
+        setIsAuthenticating(false);
+    }, []);
 
-        this.setState({ isAuthenticating: false });
-    }
-
-    render() {
-        const authProps = {
-            isAuthenticated: this.state.isAuthenticated,
-            user: this.state.user,
-            setAuthStatus: this.setAuthStatus,
-            setUser: this.setUser,
-        };
-        return (
-            !this.state.isAuthenticating && (
-                <Layout>
-                    <TopBar auth={authProps} />
-
-                    <Content className="content">
-                        {/*<Main/>*/}
-                        <Switch>
-                            <Route
-                                exact
-                                path="/"
-                                render={(props) => (
-                                    <Home {...props} auth={authProps} />
-                                )}
-                            />
-
-                            <Route
-                                exact
-                                path="/home"
-                                render={(props) => (
-                                    <Home {...props} auth={authProps} />
-                                )}
-                            />
-
-                            <Route
-                                exact
-                                path="/login"
-                                render={(props) => (
-                                    <Login {...props} auth={authProps} />
-                                )}
-                            />
-
-                            <Route
-                                exact
-                                path="/register"
-                                render={(props) => (
-                                    <Register {...props} auth={authProps} />
-                                )}
-                            />
-
-                            <Route
-                                exact
-                                path="/likes"
-                                render={(props) => (
-                                    <LikePage {...props} auth={authProps} />
-                                )}
-                            />
-                            <Route
-                                exact
-                                path="/movie/:movie_id"
-                                render={(props) => (
-                                    <MovieDetail {...props} auth={authProps} />
-                                )}
-                            />
-                            <Route
-                                exact
-                                path="/cinema/:cinema_id"
-                                render={(props) => (
-                                    <CinemeDetail {...props} auth={authProps} />
-                                )}
-                            />
-
-                            <Route
-                                exact
-                                path="/search"
-                                render={(props) => (
-                                    <Search {...props} auth={authProps} />
-                                )}
-                            />
-                        </Switch>
-                    </Content>
-
-                    {/* <Footer>Footer</Footer> */}
-                </Layout>
-            )
-        );
-    }
+    return isAuthenticating === false ? (
+        <authProps.Provider
+            value={{
+                auth: {
+                    isAuthenticated,
+                    user,
+                    setIsAuthenticated,
+                    setUser,
+                },
+            }}
+        >
+            <Layout>
+                <TopBar />
+                <Content className="content">
+                    {/* <Main /> */}
+                </Content>
+            </Layout>
+        </authProps.Provider>
+    ) : null;
 }
 
 export default App;
