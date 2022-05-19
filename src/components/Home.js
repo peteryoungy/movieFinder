@@ -12,7 +12,6 @@ import {
 } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { ENDPOINT } from "../constants";
 import { StarTwoTone } from "@ant-design/icons";
 import { auth0SignInButton, selectInput } from "aws-amplify";
 
@@ -137,7 +136,6 @@ function Home(props) {
     }, []);
 
     const apiGetHome = () => {
-
         // note: test code for isLoading
         // sleep(10000).then(() => {
         //     setResponse(defaultResponse);
@@ -148,7 +146,8 @@ function Home(props) {
 
         setIsLoading(true);
 
-        let url = `${ENDPOINT}/home`;
+        // let url = `${ENDPOINT}/home`;
+        let url = `${process.env["REACT_APP_API_GATEWAY_ENDPOINT"]}/home`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
         // console.log('API KEY', API_KEY)
 
@@ -166,7 +165,7 @@ function Home(props) {
             .then((res) => {
                 if (res.status === 200) {
                     console.log("Homepage request sent.");
-                    console.log('res.data', res.data);
+                    console.log("res.data", res.data);
 
                     setResponse(res.data);
                     setIsLoading(false);
@@ -177,10 +176,8 @@ function Home(props) {
                 console.log("Fetch Homepage failed: ", err.message);
 
                 setResponse(defaultNull);
-                setIsLoading(false)
+                setIsLoading(false);
             });
-
-        
     };
 
     const renderRecommendation = () => {
@@ -331,7 +328,7 @@ function Home(props) {
                 <div>
                     <Row justify="center">
                         <Col>
-                            <Spin size="large"/>
+                            <Spin size="large" />
                         </Col>
                     </Row>
                 </div>

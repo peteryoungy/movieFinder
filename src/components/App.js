@@ -52,9 +52,7 @@ function App(props) {
         >
             <Layout>
                 <TopBar />
-                <Content className="content">
-                    {/* <Main /> */}
-                </Content>
+                <Content className="content">{/* <Main /> */}</Content>
             </Layout>
         </authProps.Provider>
     ) : null;

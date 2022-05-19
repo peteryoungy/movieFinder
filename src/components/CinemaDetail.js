@@ -10,7 +10,8 @@ import {
     Drawer,
     message,
     Empty,
-    Spin
+    Spin,
+    Alert,
 } from "antd";
 import {
     EnvironmentOutlined,
@@ -30,7 +31,6 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { setUserPos } from "../state/reducers/UserPosSlice";
 import axios from "axios";
-import { ENDPOINT } from "../constants";
 
 const { TabPane } = Tabs;
 
@@ -335,7 +335,8 @@ function CinemaDetail(props) {
         setIsLoading(true);
 
         console.log("cinema_id", cinema_id);
-        let url = `${ENDPOINT}/cinema/${cinema_id}`;
+        // let url = `${ENDPOINT}/cinema/${cinema_id}`;
+        let url = `${process.env["REACT_APP_API_GATEWAY_ENDPOINT"]}/cinema/${cinema_id}`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
 
         const opt = {
@@ -587,7 +588,7 @@ function CinemaDetail(props) {
                                 <TabPane tab={getDateByOffset(2)} key="3">
                                     <div className="detail-movie-list">
                                         {renderContent(2)}
-                                    </div>
+                                    </div>  
                                 </TabPane>
                             </Tabs>
                         </div>
@@ -644,7 +645,17 @@ function CinemaDetail(props) {
                         }
                         className={"primary"}
                     >
-                        {renderMap()}
+                        {user_pos === null ? (
+                            <Alert
+                                message="Cannot get your current location"
+                                description="To get route suggestions, you must authorize
+                                location permissions."
+                                type="warning"
+                                showIcon
+                            />
+                        ) : (
+                            renderMap()
+                        )}
                     </Drawer>
                 </div>
             )}

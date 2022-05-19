@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { Row, Col, Space, Empty, message, Spin } from "antd";
 import { Typography } from "antd";
 import axios from "axios";
-import { ENDPOINT } from "../constants";
 
 const { Title } = Typography;
 
@@ -57,7 +56,8 @@ function LikePage(props) {
     const apiGetLikes = () => {
         setIsLoading(true);
 
-        let url = `${ENDPOINT}/history`;
+        // let url = `${ENDPOINT}/history`;
+        let url = `${process.env["REACT_APP_API_GATEWAY_ENDPOINT"]}/history`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
         // console.log('API KEY', API_KEY)
 

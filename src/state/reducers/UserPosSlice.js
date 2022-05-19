@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 //     lng: -73.9729092
 // }
 
-const initialState = {}
+const initialState = null
 
 const UserPosSlice = createSlice({
     name: "user_pos",
@@ -21,8 +21,10 @@ const UserPosSlice = createSlice({
             // const newState = action.payload;
             // state = newState
 
-            state.lat = action.payload.lat;
-            state.lng = action.payload.lng;
+            return {
+                lat: action.payload.lat,
+                lng: action.payload.lng
+            }
         }
     }
 })

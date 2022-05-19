@@ -21,7 +21,6 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { setUserPos } from "../state/reducers/UserPosSlice";
 import axios from "axios";
-import { ENDPOINT } from "../constants";
 
 const defaultResponse = {
     body: {
@@ -70,7 +69,7 @@ function MovieDetail(props) {
     const { movie_id } = useParams();
     // console.log('movie_id', movie_id)
 
-    const { isLoading, setIsLoading } = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const user_pos = useSelector((state) => state.user_pos);
     const dispatch = useDispatch();
@@ -101,11 +100,12 @@ function MovieDetail(props) {
                                     lng: position.coords.longitude,
                                 })
                             );
-
-                            console.log("user_pos after grant", user_pos);
+                            console.log("lat", position.coords.latitude);
+                            console.log("lng", position.coords.longitude);
                         });
                     } else if (result.state === "prompt") {
                         console.log(result.state);
+                        //If granted then you can directly call your function here
                         navigator.geolocation.getCurrentPosition(function (
                             position
                         ) {
@@ -142,7 +142,8 @@ function MovieDetail(props) {
         setIsLoading(true);
 
         console.log("movie_id", movie_id);
-        let url = `${ENDPOINT}/movie/${movie_id}`;
+        // let url = `${ENDPOINT}/movie/${movie_id}`;
+        let url = `${process.env["REACT_APP_API_GATEWAY_ENDPOINT"]}/movie/${movie_id}`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
 
         let formated_user_pos;
@@ -185,7 +186,8 @@ function MovieDetail(props) {
     };
 
     const apiPostLike = (islike) => {
-        let url = `${ENDPOINT}/like`;
+        // let url = `${ENDPOINT}/like`;
+        let url = `${process.env["REACT_APP_API_GATEWAY_ENDPOINT"]}/like`;
         const API_KEY = process.env["REACT_APP_AWS_API_KEY"];
 
         const opt = {
