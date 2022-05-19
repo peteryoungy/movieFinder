@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { Row, Col, Space, Empty, message, Spin } from "antd";
 import { Typography } from "antd";
 import axios from "axios";
+import { authContext } from "./App";
 
 const { Title } = Typography;
 
@@ -37,7 +38,7 @@ const defaultNull = {
 };
 
 function LikePage(props) {
-    const { auth } = props;
+    const { auth } = useContext(authContext);
 
     console.log("props", props);
 

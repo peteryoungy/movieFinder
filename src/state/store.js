@@ -5,10 +5,12 @@ import { persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import storage from "redux-persist/lib/storage";
 import SearchResultSlice from "./reducers/SearchResultSlice";
+import SearchKeywordSlice from "./reducers/SearchKeywordSlice";
 
 const reducers = combineReducers({
     user_pos: UserPosReducer,
-    search_result: SearchResultSlice
+    search_result: SearchResultSlice,
+    search_keyword: SearchKeywordSlice
 })
 
 const persistConfig = {

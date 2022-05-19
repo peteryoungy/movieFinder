@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
     Row,
     Col,
@@ -31,6 +31,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { setUserPos } from "../state/reducers/UserPosSlice";
 import axios from "axios";
+import { authContext } from "./App";
 
 const { TabPane } = Tabs;
 
@@ -299,13 +300,13 @@ const defaultResponse = {
 const defaultNull = null;
 
 function CinemaDetail(props) {
-    const { auth } = props;
+    const { auth } = useContext(authContext);
 
     const [visible, setVisible] = useState(false);
     const [diResponse, setdiResponse] = useState(null);
 
     // todo: set default as null
-    const [response, setResponse] = useState(defaultResponse)
+    const [response, setResponse] = useState(defaultResponse);
 
     // const [response, setResponse] = useState(defaultNull);
 
@@ -588,7 +589,7 @@ function CinemaDetail(props) {
                                 <TabPane tab={getDateByOffset(2)} key="3">
                                     <div className="detail-movie-list">
                                         {renderContent(2)}
-                                    </div>  
+                                    </div>
                                 </TabPane>
                             </Tabs>
                         </div>

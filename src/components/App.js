@@ -9,12 +9,12 @@ import Login from "./Login";
 import MovieDetail from "./MovieDetail";
 import CinemeDetail from "./CinemaDetail";
 import { Auth } from "aws-amplify";
-import Search from "./Search";
+import Search from "./SearchResult";
 import Main from "./Main";
 
 const { Footer, Content } = Layout;
 
-export const authProps = createContext(null);
+export const authContext = createContext(null);
 
 function App(props) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -24,23 +24,32 @@ function App(props) {
     useEffect(() => {
         Auth.currentSession()
             .then((res) => {
-                const session = res;
+                console.log("res_session", res);
                 setIsAuthenticated(true);
-                // console.log(session);
-                // const user = await Auth.currentAuthenticatedUser();
-                // setUser(user);
+
+                Auth.currentAuthenticatedUser()
+                    .then((res) => {
+                        console.log("res_user", res);
+                        const user = res;
+                        setUser(user);
+                    })
+                    .catch((error) => {
+                        console.log("error", error);
+                    });
             })
             .catch((error) => {
                 if (error !== "No current user") {
                     console.log(error);
                 }
+                console.log("error", error);
             });
 
         setIsAuthenticating(false);
+        console.log("did mount.");
     }, []);
 
     return isAuthenticating === false ? (
-        <authProps.Provider
+        <authContext.Provider
             value={{
                 auth: {
                     isAuthenticated,
@@ -52,9 +61,11 @@ function App(props) {
         >
             <Layout>
                 <TopBar />
-                <Content className="content">{/* <Main /> */}</Content>
+                <Content className="content">
+                    <Main />
+                </Content>
             </Layout>
-        </authProps.Provider>
+        </authContext.Provider>
     ) : null;
 }
 

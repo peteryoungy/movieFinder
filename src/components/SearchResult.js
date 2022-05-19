@@ -10,16 +10,19 @@ import {
     message,
     Spin,
 } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { StarTwoTone } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import { authContext } from "./App";
 
-function Search(props) {
+function SearchResult(props) {
     const { Meta } = Card;
 
     const search_result = useSelector((state) => state.search_result);
 
-    const { auth } = props;
+    const search_keyword = useSelector((state) => state.search_keyword);
+
+    const { auth } = useContext(authContext);
 
     useEffect(() => {
         console.log("search result", search_result);
@@ -93,7 +96,7 @@ function Search(props) {
             <br />
             <div className="detail-div">
                 <br />
-                <div className="home-title"> Search results for "bad"</div>
+                <div className="home-title"> Search results for "{search_keyword}"</div>
                 <div className="home-div">{renderSearch()}</div>
                 <br />
             </div>
@@ -101,4 +104,4 @@ function Search(props) {
     );
 }
 
-export default Search;
+export default SearchResult;

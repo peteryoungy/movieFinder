@@ -9,11 +9,13 @@ import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchResult } from "../state/reducers/SearchResultSlice";
+import { setSearchKeyword } from "../state/reducers/SearchKeywordSlice";
 
 const { Search } = Input;
 
 function SearchBar(props) {
-    const search_result = useSelector((state) => state.search_result);
+    const search_keyword = useSelector((state) => state.search_keyword);
+
     const dispatch = useDispatch();
 
     const { transcript, listening, browserSupportsSpeechRecognition } =
@@ -27,6 +29,10 @@ function SearchBar(props) {
             SpeechRecognition.stopListening();
         }
     };
+
+    useEffect(() => {
+        console.log('render.')
+    }, [])
 
     const suffix = (
         <FontAwesomeIcon
@@ -55,8 +61,12 @@ function SearchBar(props) {
             svg.style.color = "black";
             svg.classList.remove("fa-beat-fade");
 
+            let value = transcript;
+            console.log('transcript', transcript);
+
             // note: set voice text
-            document.getElementById("search-bar").value = transcript;
+            // document.getElementById("search-bar").value = value;
+            dispatch(setSearchKeyword(transcript))
         }
     }, [listening]);
 
@@ -65,6 +75,11 @@ function SearchBar(props) {
         // console.log(e.target.defaultValue)
         const keyword = e.target.defaultValue;
 
+        // addon: check the keyword
+        if (keyword.trim() === "") {
+            return;
+        }
+
         // clear search bar
         let search_bar = document.getElementById("search-bar");
         search_bar.value = "";
@@ -72,6 +87,12 @@ function SearchBar(props) {
         // todo: uncomment this when SearchLambda is READY
         apiGetSearch(keyword);
     };
+
+    
+    const onChange = (e) => {
+        dispatch(setSearchKeyword(e.target.value))
+    }
+
 
     const apiGetSearch = (keyword) => {
         console.log("Search Keyword", keyword);
@@ -119,7 +140,8 @@ function SearchBar(props) {
             suffix={suffix}
             prefix={<SearchOutlined />}
             onPressEnter={onSearch}
-            // value={transcript}
+            value={search_keyword}
+            onChange={onChange}
         />
     );
 }

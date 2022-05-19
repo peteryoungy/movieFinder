@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
     Row,
     Col,
@@ -21,6 +21,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { setUserPos } from "../state/reducers/UserPosSlice";
 import axios from "axios";
+import { authContext } from "./App";
 
 const defaultResponse = {
     body: {
@@ -64,7 +65,7 @@ const defaultNull = {
 };
 
 function MovieDetail(props) {
-    const { auth } = props;
+    const { auth } = useContext(authContext);
 
     const { movie_id } = useParams();
     // console.log('movie_id', movie_id)

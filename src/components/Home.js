@@ -10,10 +10,11 @@ import {
     message,
     Spin,
 } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import axios from "axios";
 import { StarTwoTone } from "@ant-design/icons";
 import { auth0SignInButton, selectInput } from "aws-amplify";
+import { authContext } from "./App";
 
 const defaultResponse = {
     recommendation: [
@@ -122,7 +123,7 @@ const defaultNull = null;
 function Home(props) {
     const { Meta } = Card;
 
-    const { auth } = props;
+    const { auth } = useContext(authContext);
 
     const [response, setResponse] = useState(defaultResponse);
 

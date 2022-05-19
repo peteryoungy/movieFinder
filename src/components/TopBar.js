@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import SearchBar from "./SearchBar";
 import { Auth } from "aws-amplify";
-import { authProps } from "./App";
+import { authContext } from "./App";
 
 const { Header } = Layout;
 
@@ -34,22 +34,36 @@ const items = [
 ];
 
 function TopBar(props) {
-    const { auth } = useContext(authProps);
+    const { auth } = useContext(authContext);
 
-    const handleLogOut = async (event) => {
-        try {
-            await Auth.signOut();
+    const handleLogout = () => {
+        Auth.signOut()
+            .then((res) => {
+                auth.setIsAuthenticated(false);
+                auth.setUser(null);
 
-            // reset
-            auth.setAuthStatus(false);
-            auth.setUser(null);
-
-            console.log(auth);
-            window.location.href = "/login";
-        } catch (error) {
-            console.log(error.message);
-        }
+                console.log("auth", auth);
+                window.location.href = "/login";
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
     };
+
+    // const handleLogOut = async (event) => {
+    //     try {
+    //         await Auth.signOut();
+
+    //         // reset
+    //         auth.setAuthStatus(false);
+    //         auth.setUser(null);
+
+    //         console.log(auth);
+    //         window.location.href = "/login";
+    //     } catch (error) {
+    //         console.log(error.message);
+    //     }
+    // };
 
     const handleMenuClick = (e) => {
         console.log("click", e);
@@ -64,7 +78,7 @@ function TopBar(props) {
         }
 
         if (e.key === "2") {
-            handleLogOut();
+            handleLogout();
         }
     };
 

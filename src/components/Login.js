@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { Form, Input, Button, Tabs, Row, Col } from "antd";
+import React, { Component, useContext, useState, useRef } from "react";
+import { Form, Input, Button, Tabs, Row, Col, message } from "antd";
 import { Auth } from "aws-amplify";
-
+import { authContext } from "./App";
 // var onFinish = function (values) {
 //   console.log('Received values of form: ', values);
 // };
@@ -15,124 +15,124 @@ const { TabPane } = Tabs;
 //   window.location.href = "/Home";
 // };
 
-class Login extends Component {
-    state = {
-        username: "",
-        password: "",
-        errors: {
-            cognito: null,
-            blankfield: false,
-        },
-    };
+function Login(props) {
+    const { auth } = useContext(authContext);
 
-    clearErrorState = () => {
-        this.setState({
-            errors: {
-                cognito: null,
-                blankfield: false,
-            },
-        });
-    };
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState({
+        cognito: null,
+        blankfield: false,
+    });
 
-    handleSubmit = async (event) => {
-        // AWS Cognito integration here
-        try {
-            const user = await Auth.signIn(
-                this.state.username,
-                this.state.password
-            );
-            console.log(user);
-            this.props.auth.setAuthStatus(true);
-            this.props.auth.setUser(user);
-            this.props.history.push("/");
-        } catch (error) {
-            let err = null;
-            !error.message ? (err = { message: error }) : (err = error);
-            this.setState({
-                errors: {
-                    ...this.state.errors,
+    const passwordRef = useRef();
+
+    const handleSubmit = () => {
+        Auth.signIn(username, password)
+            .then((res) => {
+                const user = res;
+                console.log("res_user", user);
+                auth.setIsAuthenticated(true);
+                auth.setUser(user);
+                window.location.href = "/";
+            })
+            .catch((error) => {
+                let err = null;
+                !error.message ? (err = { message: error }) : (err = error);
+                setErrors({
+                    ...errors,
                     cognito: err,
-                },
+                });
+                message.error({
+                    content: "Incorrect ID or password. Please re-enter.",
+                    style: {
+                        marginTop: "30vh"
+                    },
+                });
+
+                // focus
+                passwordRef.current.focus();
             });
-        }
     };
 
-    onInputChange = (event) => {
-        this.setState({
-            [event.target.id]: event.target.value,
-        });
+    const onUserNameChange = (event) => {
+        console.log("event.target", event.target);
+        // console.log("event.target.id", event.target.id);
+        setUsername(event.target.value);
     };
 
-    render() {
-        return (
-            <div className="bg">
-                <div className="login_card">
-                    <h1 className="login-title">Log in</h1>
-                    <h2 className="login-title2">
-                        Welcome to our MovieFinder!
-                    </h2>
-                    <Form
-                        name=""
-                        className="login-form"
-                        initialValues={{ remember: true }}
-                        onFinish={this.handleSubmit}
+    const onPasswordChange = (event) => {
+        console.log("event.target", event.target);
+        // console.log("event.target.id", event.target.id);
+        setPassword(event.target.value);
+    };
+
+    return (
+        <div className="bg">
+            <div className="login_card">
+                <h1 className="login-title">Log in</h1>
+                <h2 className="login-title2">Welcome to our MovieFinder!</h2>
+                <Form
+                    name=""
+                    className="login-form"
+                    initialValues={{ remember: true }}
+                    onFinish={handleSubmit}
+                >
+                    <Form.Item
+                        name="username"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please enter user name!",
+                            },
+                        ]}
+                        style={{ borderBottom: "1px solid #DCDCDC" }}
                     >
-                        <Form.Item
-                            name="username"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please enter user name!",
-                                },
-                            ]}
-                            style={{ borderBottom: "1px solid #DCDCDC" }}
-                        >
-                            <Input
-                                placeholder="User Name"
-                                bordered={false}
-                                value={this.state.username}
-                                onChange={this.onInputChange}
-                            />
-                        </Form.Item>
-                        <Form.Item
-                            name="password"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please enter your password!",
-                                },
-                            ]}
-                            style={{ borderBottom: "1px solid #DCDCDC" }}
-                        >
-                            <Input
-                                bordered={false}
-                                type="password"
-                                placeholder="Password"
-                                value={this.state.password}
-                                onChange={this.onInputChange}
-                            />
-                        </Form.Item>
+                        <Input
+                            placeholder="User Name"
+                            bordered={false}
+                            value={username}
+                            onChange={onUserNameChange}
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please enter your password!",
+                            },
+                        ]}
+                        style={{ borderBottom: "1px solid #DCDCDC" }}
+                    >
+                        <Input
+                            bordered={false}
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={onPasswordChange}
+                            ref={passwordRef}
+                        />
+                    </Form.Item>
 
-                        <Form.Item className="login-title2">
-                            Don't have an account?{" "}
-                            <a href="/Register">Sign up!</a>
-                        </Form.Item>
+                    <Form.Item className="login-title2">
+                        Don't have an account? <a href="/Register">Sign up!</a>
+                    </Form.Item>
 
-                        <Form.Item>
-                            <Button
-                                type="primary"
-                                htmlType="submit"
-                                block
-                                style={{ height: "56PX", borderRadius: "12PX" }}
-                            >
-                                Log in
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                </div>
+                    <Form.Item>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            block
+                            style={{ height: "56PX", borderRadius: "12PX" }}
+                        >
+                            Log in
+                        </Button>
+                    </Form.Item>
+                </Form>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default Login;

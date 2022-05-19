@@ -9,7 +9,9 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import Amplify from "aws-amplify";
 import store from "./state/store";
+import * as AWS from 'aws-sdk';
 
+//Amplify Cognito
 Amplify.configure({
     Auth: {
         mandatorySignIn: true,
@@ -19,6 +21,15 @@ Amplify.configure({
     },
 });
 
+// AWS connection
+const configuration = {
+    region: process.env["REACT_APP_REGION"],
+    secretAccessKey: process.env["REACT_APP_SECRET_ACCESS_KEY"],
+    accessKeyId: process.env["REACT_APP_ACCESS_KEY_ID"]
+}
+AWS.config.update(configuration)
+
+// persistor
 const persistor = persistStore(store);
 
 ReactDOM.render(
