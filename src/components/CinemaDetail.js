@@ -588,7 +588,7 @@ function CinemaDetail(props) {
                                 <TabPane tab={getDateByOffset(2)} key="3">
                                     <div className="detail-movie-list">
                                         {renderContent(2)}
-                                    </div>
+                                    </div>  
                                 </TabPane>
                             </Tabs>
                         </div>

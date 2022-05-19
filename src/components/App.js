@@ -60,7 +60,7 @@ class App extends Component {
                     <TopBar auth={authProps} />
 
                     <Content className="content">
-                        {/*<Main/>*/}
+                        {/*<Main auth={authProps}/>*/}
                         <Switch>
                             <Route
                                 exact
