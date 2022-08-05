@@ -1,16 +1,36 @@
+
+
 ## 🎥Introduction
 
 MovieFinder is a seamless web application that enables user to view the movies that are on showing, to elastically search the movie, to view the movie and cinema details and to navigate the user to the specific cinemas.
 
-## 🔨 Usage
+## 🎮Demo
 
 Visit our website via this [link](https://master.d23pia6jygdo3l.amplifyapp.com/). **For better experience, we recommend to use Chrome.**
 
 You can also watch the demo video on [youtube](https://youtu.be/plJfJyFgQwI).
 
+## ⚙️How To Use
+
+To clone and run this application, you'll need [Git](https://git-scm.com/) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com/)) installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+$ git clone git@github.com:peteryoungy/movieFinder.git
+
+# Go into the repository
+$ cd movieFinder
+
+# Install dependencies
+$ npm install
+
+# Run the app
+$ npm start
+```
+
 ## ✨ Features Implemented
 
-- Sign up and log in
+- **Sign up and log in**
 
 Users should register an account when they visit MovieFinder! for the first time and then log in with the new account.
 
@@ -20,7 +40,7 @@ Users should register an account when they visit MovieFinder! for the first time
     <img src='./pics/login.png' width=45%>
 </p>
 
--  Home Page
+-  **Home Page**
 
 Users will be shown the home page no matter whether they have logged in. Anonymous users will get films now showing while logged in users will get movie recommendation additionally. Anonymous users can still search movies. However, when they click on any of the movie card to get detail information, they are forced to log in first.
 
@@ -30,7 +50,7 @@ Users will be shown the home page no matter whether they have logged in. Anonymo
     <img src='./pics/home-rec.png' width=45%>
 </p>
 
-- Search
+- **Search**
 
 We support search function by movie name, genres, actors.
 
@@ -40,7 +60,7 @@ We support search function by movie name, genres, actors.
 
 
 
-- Movie Detail Page
+- **Movie Detail Page**
 
 Movie detail page lists all the information about that movie as well as 3 nearest cinemas that are showing the movie now. 
 
@@ -50,7 +70,7 @@ Users can mark a movie as "liked" when clicking the "heart" icon at the top righ
 	<img src='./pics/movie-tocinema.png' width=45%>
 </p>
 
-- View liked movies
+- **View Liked Movies**
 
 Users can also view their likes when clicking the "Likes" button below the Account menu.
 
@@ -58,7 +78,7 @@ Users can also view their likes when clicking the "Likes" button below the Accou
 	<img src='./pics/history.png' width=45%>
 </p>
 
-- Cinema Detail Page
+- **Cinema Detail Page**
 
 Users can view all the showtime of that cinema in future 3 days. 
 
