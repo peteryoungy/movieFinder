@@ -6,7 +6,7 @@ MovieFinder is a seamless web application that enables user to view the movies t
 
 ## 🎮Demo
 
-Visit our website via this [link](https://master.d23pia6jygdo3l.amplifyapp.com/). **For better experience, we recommend to use Chrome.**
+Visit our website via this [link](https://master.d2fd20rnpi2b28.amplifyapp.com/). **For better experience, we recommend to use Chrome.**
 
 You can also watch the demo video on [youtube](https://youtu.be/plJfJyFgQwI).
 
